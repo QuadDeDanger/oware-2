@@ -1,7 +1,6 @@
 
 /**
  * Main class
- *
  */
 
 public class MainApp {
