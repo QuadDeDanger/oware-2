@@ -1,6 +1,7 @@
 # Project Crawl #
 
 ##Tasks to complete##
+- Separate into packages
 - Game Logic
   - Board class
     - 2d array of pots
