@@ -1,3 +1,4 @@
+package view;
 
 /**
  * This class represents a Seed
