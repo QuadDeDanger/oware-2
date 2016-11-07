@@ -13,7 +13,7 @@ public class House {
 	private List<Seed> seedsInHouse;
 
 	/**
-	 * Creates list of of seeds
+	 * Creates list of seeds
 	 */
 	public House() {
 		seedsInHouse = new ArrayList<>();
@@ -30,6 +30,7 @@ public class House {
 
 	/**
 	 * Add a seed to the house
+	 * @param seed Seed to add to house list
 	 * 
 	 */
 	public void addSeed(Seed seed) {
