@@ -1,4 +1,4 @@
-package view;
+package functionality;
 
 /**
  * This class represents a Seed
