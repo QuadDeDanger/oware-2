@@ -18,6 +18,9 @@ public class Pot {
      */
     public Pot() {
         seedsInPot = new ArrayList<Seed>();
+        for (int i = 0; i < 4; i++) {
+            seedsInPot.add(new Seed());
+        }
     }
 
     /**
