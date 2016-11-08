@@ -35,41 +35,34 @@ public class Board {
 
 		House currentHouse = board[i][j];
 		for (int index = 0; index < toSow.size(); ++index) {
-			currentHouse.addSeedInPot(toSow.get(index));
 			currentHouse = getNextHouse(currentHouse);
-		}
-
-		int currentX = i;
-		int currentY = j;
-		for (int index = 0; index < toSow.size(); ++index) {
-
-			if (currentX == 0) {
-				if (currentY == 0) {
-					board[++currentX][currentY].addSeedInPot(toSow.get(index));
-				} else {
-					board[currentX][--currentY].addSeedInPot(toSow.get(index));
-				}
-
-			} else if (currentX == 1) {
-				if (currentY == 5) {
-					board[--currentX][currentY].addSeedInPot(toSow.get(index));
-				} else {
-					board[currentX][++currentY].addSeedInPot(toSow.get(index));
-				}
-
+			if (currentHouse == board[i][j]) { // the 12 seed rule
+				currentHouse = getNextHouse(currentHouse);
 			}
+			currentHouse.addSeedInPot(toSow.get(index));
+		}
+
+	}
+
+	private House getNextHouse(House house) {
+		int currentX = house.getXPos();
+		int currentY = house.getYPos();
+
+		if (currentX == 0) {
+			if (currentY == 0) {
+				return board[currentX + 1][currentY];
+			}
+			return board[currentX][currentY - 1];
+
+		} else {
+			if (currentY == 5) {
+				return board[currentX - 1][currentY];
+			}
+			return board[currentX][currentY + 1];
 
 		}
 
 	}
-	
-	
-	
-	private House getNextHouse(House house){
-		
-		return null;
-	}
-	
 
 	// For testing only
 	public void print() {

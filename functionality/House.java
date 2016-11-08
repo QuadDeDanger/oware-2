@@ -21,13 +21,14 @@ public class House {
 	 * Create house containing empty list of seeds
 	 */
 	public House(int xPos, int yPos) {
+		this.xPos = xPos;
+		this.yPos = yPos;
 		seedsInHouse = new ArrayList<Seed>();
 		initialiseHouse();
 	}
 
-	
 	private void initialiseHouse() {
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 4; i++) {
 			seedsInHouse.add(new Seed());
 		}
 	}
@@ -63,6 +64,25 @@ public class House {
 		// empties the pot
 		seedsInHouse.clear();
 		return temporaryListOfSeeds;
+	}
+
+	public int getXPos() {
+		return xPos;
+	}
+
+	public int getYPos() {
+		return yPos;
+	}
+
+	@Override
+	public String toString() {
+		return xPos + ", " + yPos;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		House otherHouse = (House) obj;
+		return (otherHouse.getXPos() == xPos && otherHouse.getYPos() == yPos);
 	}
 
 }
