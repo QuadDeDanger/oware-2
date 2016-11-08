@@ -5,6 +5,7 @@
   - Board class
     - All methods
       - capturing, letOpponentPlay, gameWon
+      - is a move playable
   - Player class 
     - Single player mode: random number generator, extension of player
   - JUnit tests!
@@ -12,8 +13,9 @@
  - Give the board an interface
     - Randomise starting player
     - Deciding whose turn it is after a turn (disable half the board etc)
-    - Updating player name
-    - Updating seed number in House (Score)
+    - Updating player name and display
+    - Updating score display
+    - Upadting seeds in house display
     - Animations
 
 - AI
