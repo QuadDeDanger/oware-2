@@ -3,16 +3,20 @@ package functionality;
 import java.util.List;
 
 /**
+ * This class represents a board.
  * Created by Haaris on 08/11/2016.
+ * @author Haaris Memon
+ * @author Aqib Rashid
+ * @author Jaydene Green-Stevens
  */
 public class Board {
 
-	private Pot[][] board;
+	private House[][] board;
 	private Player player1;
 	private Player player2;
 
 	public Board(Player player1, Player player2) {
-		board = new Pot[2][6];
+		board = new House[2][6];
 		this.player1 = player1;
 		this.player2 = player2;
 		initialiseBoard();
@@ -21,13 +25,13 @@ public class Board {
 	private void initialiseBoard() {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 6; j++) {
-				board[i][j] = new Pot();
+				board[i][j] = new House();
 			}
 		}
 	}
 
 	public void sow(int i, int j) {
-		List<Seed> toSow = board[i][j].emptyPot();
+		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
 		int currentX = i;
 		int currentY = j;
 		for (int index = 0; index < toSow.size(); ++index) {
@@ -50,6 +54,7 @@ public class Board {
 
 	}
 
+	// For testing only
 	public void print() {
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
@@ -59,23 +64,6 @@ public class Board {
 		}
 	}
 
-	// private Pot getNextPot(int i, int j) {
-	// if (i == 0) {
-	// if (j == 0) {
-	// return board[1][0];
-	// }
-	// return board[0][j - 1];
-	//
-	// } else if (i == 1) {
-	// if (j == 5) {
-	// return board[0][5];
-	// }
-	// return board[1][j + 1];
-	//
-	// }
-	//
-	// return board[i][j];
-	//
-	// }
+	
 
 }
