@@ -3,7 +3,6 @@ import functionality.Player;
 
 /**
  * Main class
- *
  */
 
 public class MainApp {
@@ -13,6 +12,9 @@ public class MainApp {
 		Player player1 = new Player("Player 1");
 		Player player2 = new Player("Player 2");
 		Board board = new Board(player1, player2);
+		
+		
+		
 		board.print();
 		System.out.println("after");
 		board.sow(0, 0);

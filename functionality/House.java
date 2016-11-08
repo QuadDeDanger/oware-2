@@ -66,19 +66,34 @@ public class House {
 		return temporaryListOfSeeds;
 	}
 
+	/**
+	 * Return the x position of this house
+	 * Added by Aqib Rashid
+	 * @return x position of house
+	 */
 	public int getXPos() {
 		return xPos;
 	}
-
+	
+	/**
+	 * Return the y position of this house
+	 * Added by Aqib Rashid
+	 * @return y position of house
+	 */
 	public int getYPos() {
 		return yPos;
 	}
 
+	// For debugging only
 	@Override
 	public String toString() {
 		return xPos + ", " + yPos;
 	}
 
+	/**
+	 * Check whether two houses are equal to each other
+	 * Added by Aqib Rashid
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		House otherHouse = (House) obj;

@@ -15,6 +15,11 @@ public class Board {
 	private Player player1;
 	private Player player2;
 
+	/**
+	 * Sets up a board and initialises it
+	 * @param player1 first player
+	 * @param player2 second player
+	 */
 	public Board(Player player1, Player player2) {
 		board = new House[2][6];
 		this.player1 = player1;
@@ -30,24 +35,33 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Performs the sowing action (a move)
+	 * @param i the x coordinate of the seed clicked on
+	 * @param j the y coordinate of the seed clicked on
+	 */
 	public void sow(int i, int j) {
-		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
+		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the list of seeds and clear that house
 
-		House currentHouse = board[i][j];
+		House currentHouse = board[i][j]; // get the current house
 		for (int index = 0; index < toSow.size(); ++index) {
-			currentHouse = getNextHouse(currentHouse);
-			if (currentHouse == board[i][j]) { // the 12 seed rule
-				currentHouse = getNextHouse(currentHouse);
+			currentHouse = getNextHouse(currentHouse); // get the next one
+			/*
+			 * 12-seed rule: if are sowing more than 12 seeds, we don't want to replant in the starting house
+			 */
+			if (currentHouse == board[i][j]) { 
+				currentHouse = getNextHouse(currentHouse); // so we skip
 			}
-			currentHouse.addSeedInPot(toSow.get(index));
+			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 		}
 
 	}
 
+	// Get next house by checking which row. If first, we go backwards, if second we go forwards
 	private House getNextHouse(House house) {
 		int currentX = house.getXPos();
 		int currentY = house.getYPos();
-
+	
 		if (currentX == 0) {
 			if (currentY == 0) {
 				return board[currentX + 1][currentY];
@@ -64,7 +78,19 @@ public class Board {
 
 	}
 
-	// For testing only
+	public void capture() {
+
+	}
+
+	public void letOpponentPlay() {
+
+	}
+
+	public void gameWonCheck() {
+
+	}
+
+	// For debugging only
 	public void print() {
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
