@@ -31,8 +31,8 @@ public class House {
 
 	/**
 	 * Add a seed to the house
-	 * @param seed Seed to add to house list
-	 * 
+	 *
+	 * @param seed to add to the house
 	 */
 	public void addSeed(Seed seed) {
 		seedsInHouse.add(seed);
