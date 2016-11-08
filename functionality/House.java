@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a House that contains a particular number of seeds on the board.
+ * This class represents a House that contains a particular number of seeds on
+ * the board.
  *
  * @author Haaris Memon
  *
@@ -13,13 +14,20 @@ public class House {
 
 	// list of seed objects that the pot contains
 	private List<Seed> seedsInHouse;
+	private int xPos;
+	private int yPos;
 
 	/**
 	 * Create house containing empty list of seeds
 	 */
-	public House() {
+	public House(int xPos, int yPos) {
 		seedsInHouse = new ArrayList<Seed>();
-		for (int i = 0; i < 4; i++) {
+		initialiseHouse();
+	}
+
+	
+	private void initialiseHouse() {
+		for (int i = 0; i < 12; i++) {
 			seedsInHouse.add(new Seed());
 		}
 	}

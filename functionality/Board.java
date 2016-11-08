@@ -3,8 +3,8 @@ package functionality;
 import java.util.List;
 
 /**
- * This class represents a board.
- * Created by Haaris on 08/11/2016.
+ * This class represents a board. Created by Haaris on 08/11/2016.
+ * 
  * @author Haaris Memon
  * @author Aqib Rashid
  * @author Jaydene Green-Stevens
@@ -25,16 +25,24 @@ public class Board {
 	private void initialiseBoard() {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 6; j++) {
-				board[i][j] = new House();
+				board[i][j] = new House(i, j);
 			}
 		}
 	}
 
 	public void sow(int i, int j) {
 		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
+
+		House currentHouse = board[i][j];
+		for (int index = 0; index < toSow.size(); ++index) {
+			currentHouse.addSeedInPot(toSow.get(index));
+			currentHouse = getNextHouse(currentHouse);
+		}
+
 		int currentX = i;
 		int currentY = j;
 		for (int index = 0; index < toSow.size(); ++index) {
+
 			if (currentX == 0) {
 				if (currentY == 0) {
 					board[++currentX][currentY].addSeedInPot(toSow.get(index));
@@ -50,9 +58,18 @@ public class Board {
 				}
 
 			}
+
 		}
 
 	}
+	
+	
+	
+	private House getNextHouse(House house){
+		
+		return null;
+	}
+	
 
 	// For testing only
 	public void print() {
@@ -63,7 +80,5 @@ public class Board {
 			System.out.println("\n");
 		}
 	}
-
-	
 
 }
