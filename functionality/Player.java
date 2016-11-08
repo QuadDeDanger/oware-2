@@ -6,11 +6,11 @@ package functionality;
 public class Player {
 
     private String name;
-    private House house;
+    private ScoreHouse scoreHouse;
 
     public Player(String name) {
         this.name = name;
-        house = new House();
+        scoreHouse = new ScoreHouse();
     }
 
     public void setName(String name) {
@@ -21,16 +21,16 @@ public class Player {
         return name;
     }
 
-    public House getHouse() {
-        return house;
+    public ScoreHouse getHouse() {
+        return scoreHouse;
     }
 
     public int getScore() {
-        return house.getCount();
+        return scoreHouse.getCount();
     }
 
     public void addSeedToHouse(Seed seed) {
-        house.addSeed(seed);
+        scoreHouse.addSeed(seed);
     }
 
 
