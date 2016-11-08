@@ -39,7 +39,7 @@ public class Pot {
 	 *
 	 * @return size of the list of Seeds
 	 */
-	public int howManySeeds() {
+	public int getCount() {
 		return seedsInPot.size();
 	}
 
@@ -51,7 +51,7 @@ public class Pot {
 	 */
 	public List<Seed> emptyPot() {
 		// stores the seeds in the pot
-		List<Seed> temporaryListOfSeeds = new ArrayList(seedsInPot);
+		List<Seed> temporaryListOfSeeds = new ArrayList<>(seedsInPot);
 		// empties the pot
 		seedsInPot.clear();
 		return temporaryListOfSeeds;
