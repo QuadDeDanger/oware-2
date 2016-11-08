@@ -13,6 +13,7 @@
   - Player class 
     - necessary attributes: house, name (optional, if none then use Player 1 or Player 2) etc
     - single player mode: random number generator
+  - JUnit
 - UI
  - Give the board an interface
     - updating player name
