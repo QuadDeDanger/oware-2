@@ -22,17 +22,6 @@
   - To be discussed later
 
 
-##Task distribution##
-**Logic**
-- Aqib
-- Haaris
-- Jay
-
-**GUI**
-- Ajeya
-- Federico
-
-
 ##Project Brief##
 
 https://keats.kcl.ac.uk/mod/page/view.php?id=1530390
