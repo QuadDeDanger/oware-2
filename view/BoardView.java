@@ -31,6 +31,10 @@ public class BoardView extends BorderPane{
 		this.setLeft(playerView1);
 		this.setRight(playerView2);
 		
+		if(board.isPlayingComputer()){
+			updateBoard();
+		}
+		
 	}
 	
 	private void makeGrid() {

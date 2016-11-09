@@ -14,9 +14,10 @@ import java.util.Random;
 public class Board {
 
 	private House[][] board;
-	private Player player1;
+	private Player player1; // will be the computer
 	private Player player2;
-	private boolean isComputer;
+	private boolean isPlayingComputer;
+	private ComputerPlayer computerPlayer;
 
 	/**
 	 * Sets up a board and initialises it
@@ -39,10 +40,21 @@ public class Board {
 		board = new House[2][6];
 		this.player1 = player1;
 		this.player2 = player2;
-		this.isComputer = isComputer;
+		this.isPlayingComputer = isComputer;
 		setFirstTurn();
-
 		initialiseBoard();
+
+		if (isPlayingComputer) {
+			computerPlayer = (ComputerPlayer) player1;
+			if (getPlayerTurn() == 0) {
+				sow(0, computerPlayer.makeMove());
+			}
+		}
+
+	}
+
+	public boolean isPlayingComputer() {
+		return isPlayingComputer;
 	}
 
 	private void setFirstTurn() {
@@ -151,35 +163,39 @@ public class Board {
 	 */
 	public void sow(int i, int j) {
 		if (board[i][j].getCount() != 0) {
-		// if (canSow(i, j)) {
-		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
-																// list
-																// of seeds
-																// and
-																// clear
-																// that
-																// house
+			// if (canSow(i, j)) {
+			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
+																	// list
+																	// of seeds
+																	// and
+																	// clear
+																	// that
+																	// house
 
-		House currentHouse = board[i][j]; // get the current house
-		for (int index = 0; index < toSow.size(); ++index) {
-			currentHouse = getNextHouse(currentHouse); // get the next one
-			/*
-			 * 12-seed rule: if are sowing more than 12 seeds, we don't want to
-			 * replant in the starting house
-			 */
-			if (currentHouse.equals(board[i][j])) {
-				currentHouse = getNextHouse(currentHouse); // so we skip
+			House currentHouse = board[i][j]; // get the current house
+			for (int index = 0; index < toSow.size(); ++index) {
+				currentHouse = getNextHouse(currentHouse); // get the next one
+				/*
+				 * 12-seed rule: if are sowing more than 12 seeds, we don't want
+				 * to replant in the starting house
+				 */
+				if (currentHouse.equals(board[i][j])) {
+					currentHouse = getNextHouse(currentHouse); // so we skip
+				}
+				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 			}
-			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
-		}
 
-		// start capture from the last house
-		capture(currentHouse.getXPos(), currentHouse.getYPos());
+			// start capture from the last house
+			capture(currentHouse.getXPos(), currentHouse.getYPos());
 
-		// switches the players turns
-		
+			// switches the players turns
+
 			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
 			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+
+			if (isPlayingComputer && getPlayerTurn() == 0) {
+				sow(0, computerPlayer.makeMove());
+			}
 		}
 		// }
 
