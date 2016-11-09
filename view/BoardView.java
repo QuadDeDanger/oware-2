@@ -16,8 +16,6 @@ public class BoardView extends BorderPane{
 	private PlayerView playerView1;
 	private PlayerView playerView2;
 	
-	private int playerTurn; //0 = player 1, 1=player2
-	
 	public BoardView(Board board) {
 		super();
 		
@@ -28,8 +26,8 @@ public class BoardView extends BorderPane{
 		makeGrid();
 		this.setCenter(housesGrid);
 		//
-		playerView1 = new PlayerView(1, board.getPlayer1Name());
-		playerView2 = new PlayerView(2, board.getPlayer2Name());
+		playerView1 = new PlayerView(0, board.getPlayer1Name(), board.getPlayerTurn());
+		playerView2 = new PlayerView(1, board.getPlayer2Name(), board.getPlayerTurn());
 		this.setLeft(playerView1);
 		this.setRight(playerView2);
 		
@@ -37,7 +35,7 @@ public class BoardView extends BorderPane{
 	
 	private void makeGrid() {
 		houses = new HouseView[2][6];
-		
+		System.out.println(board.getPlayerTurn());
 		for(int i=0; i<2; ++i) {
 			for(int j=0; j<6; ++j) {
 				houses[i][j] = new HouseView();
@@ -48,9 +46,10 @@ public class BoardView extends BorderPane{
 
 					@Override
 					public void handle(MouseEvent arg0) {
-						
-						board.sow(x,y);
-						updateBoard();
+						if(board.getPlayerTurn() == x) {
+							board.sow(x,y);
+							updateBoard();
+						}
 					}
 					
 				});
@@ -66,8 +65,8 @@ public class BoardView extends BorderPane{
 				
 			}
 		}
-		playerView1.updateScore(board.getPlayer1Score());
-		playerView2.updateScore(board.getPlayer2Score());
+		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
+		playerView2.update(board.getPlayer2Score(), board.getPlayerTurn());
 	}
 	
 	
