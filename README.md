@@ -29,8 +29,8 @@
 | The application must be able to display the initial board. | |
 | The game must display the number of seeds in each house, either using images or numbers. It is not required to hide the number of seeds in a house from an opponent. |  |
 | The application must be able to redistribute seeks according to the rules of the game. When selecting a house with 12 or more seeds, the starting house should be skipped as specified in the rules. | Yes |
-| The application must implement the capture rule correctly, including the prohibition on capturing all of the opponent's seeds. Capture moves are not applicable to the player's own houses. |  |
-| The application must recognise when one player has won the game. |  |
+| The application must implement the capture rule correctly, including the prohibition on capturing all of the opponent's seeds. Capture moves are not applicable to the player's own houses. | Yes, needs testing |
+| The application must recognise when one player has won the game. | Yes, needs testing (also for draw) |
 | The application must implement the rule that if the opponent has no seeds, and one or more moves is/are possible that gives the opponent seeds, then only such moves are permitted. | | |
 |The application should include a graphical user interface that visualises the board, perhaps using sprites or other visual representations of the board.
 |The application should include a basic single player mode. A basic single player mode is very easy to implement: just get the computer player to make random moves.| | |
