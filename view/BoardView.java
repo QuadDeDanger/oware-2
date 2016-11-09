@@ -16,6 +16,8 @@ public class BoardView extends BorderPane{
 	private PlayerView playerView1;
 	private PlayerView playerView2;
 	
+	private int playerTurn; //0 = player 1, 1=player2
+	
 	public BoardView(Board board) {
 		super();
 		
