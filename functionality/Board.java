@@ -139,36 +139,43 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		//if (canSow(i, j)) {
-			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
-																	// list
-																	// of seeds
-																	// and
-																	// clear
-																	// that
-																	// house
+		// if (canSow(i, j)) {
+		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
+																// list
+																// of seeds
+																// and
+																// clear
+																// that
+																// house
 
-			House currentHouse = board[i][j]; // get the current house
-			for (int index = 0; index < toSow.size(); ++index) {
-				currentHouse = getNextHouse(currentHouse); // get the next one
-				/*
-				 * 12-seed rule: if are sowing more than 12 seeds, we don't want
-				 * to replant in the starting house
-				 */
-				if (currentHouse.equals(board[i][j])) {
-					currentHouse = getNextHouse(currentHouse); // so we skip
-				}
-				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
+		House currentHouse = board[i][j]; // get the current house
+		for (int index = 0; index < toSow.size(); ++index) {
+			currentHouse = getNextHouse(currentHouse); // get the next one
+			/*
+			 * 12-seed rule: if are sowing more than 12 seeds, we don't want to
+			 * replant in the starting house
+			 */
+			if (currentHouse.equals(board[i][j])) {
+				currentHouse = getNextHouse(currentHouse); // so we skip
 			}
+			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
+		}
 
-			// start capture from the last house
-			capture(currentHouse.getXPos(), currentHouse.getYPos());
+		// start capture from the last house
+		capture(currentHouse.getXPos(), currentHouse.getYPos());
 
-			// switches the players turns
-			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
-			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
-	//	}
+		// switches the players turns
+		player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+		player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+		// }
 
+	}
+
+	public int getPlayerTurn() {
+		if (player1.getIsPlayersTurn()) {
+			return 0;
+		}
+		return 1;
 	}
 
 	// Get next house by checking which row. If first, we go backwards, if
