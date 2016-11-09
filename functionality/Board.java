@@ -65,7 +65,8 @@ public class Board {
 			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 		}
 
-		capture();
+		// start capture from the last house
+		capture(currentHouse.getXPos(), currentHouse.getYPos());
 
 	}
 
@@ -91,9 +92,23 @@ public class Board {
 
 	}
 
-	private void capture() {
+	// Start from the last house and work backwards/forwards depending on row
+	private void capture(int x, int y) {
 
+		House currentHouse = board[x][y];
 		// capture logic goes here
+
+		if (x == 0) { // player 2 made the last move
+
+			// if house contains 2 or 3
+			// capture
+			// check previous house for 2 or 3, if so repeat
+
+			// if the opponent now has no more seeds, then forfeit capture
+
+		} else { // player 1 made the last move
+
+		}
 
 	}
 
