@@ -23,7 +23,7 @@ public class MainApp {
 		board.strictlyTestMakeMove(player2, 1, 4);
 		board.strictlyTestMakeMove(player1, 0, 0);
 		board.strictlyTestMakeMove(player2, 1, 2);
-		System.out.println("Player 2 should have score 2 and house (0,4) should be empty");
+		board.strictlyTestMakeMove(player1, 0, 3);
 
 	}
 
