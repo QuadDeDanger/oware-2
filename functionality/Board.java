@@ -131,7 +131,7 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		if (canSow(i, j)){
+		//if (canSow(i, j)){
 			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the list
 																	// of seeds and
 																	// clear that
@@ -148,7 +148,7 @@ public class Board {
 					currentHouse = getNextHouse(currentHouse); // so we skip
 				}
 				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
-			}
+		//	}
 
 			// start capture from the last house
 			capture(currentHouse.getXPos(), currentHouse.getYPos());
