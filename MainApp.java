@@ -1,30 +1,26 @@
 import functionality.Board;
 import functionality.Player;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import view.BoardView;
 
 /**
  * Main class
  */
 
-public class MainApp {
+public class MainApp extends Application {
 
-	public static void main(String[] args) {
-
+	@Override
+	public void start(Stage primaryStage) {
+		
 		Player player1 = new Player("Player 1");
 		Player player2 = new Player("Player 2");
 		Board board = new Board(player1, player2);
-		System.out.println("Initial");
-		board.print();
-		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
-				+ player2.getScore());
-
-		board.strictlyTestMakeMove(0, 0);
-		board.strictlyTestMakeMove(1, 5);
-		board.strictlyTestMakeMove(0, 4);
-		board.strictlyTestMakeMove(1, 4);
-		board.strictlyTestMakeMove(0, 0);
-		board.strictlyTestMakeMove(1, 2);
-		board.strictlyTestMakeMove(0, 3);
-
+		
+		Scene scene = new Scene(new BoardView(board), 500, 500);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 	}
 
 }
