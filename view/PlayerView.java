@@ -68,5 +68,9 @@ public class PlayerView extends BorderPane {
 		updateScore(newScore);
 		updatePlayerTurn(turnPlayer);
 	}
+	
+	public void updatePlayerName(String name){
+		nameLabel.setText(name);
+	}
 
 }
