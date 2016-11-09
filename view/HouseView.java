@@ -18,7 +18,8 @@ public class HouseView extends GridPane {
 		setAlignment(Pos.CENTER);
 		setVgap(20);
 		setHgap(20);
-		label = new Label();
+		label = new Label(Integer.toString(counter));
+		this.add(label, 0, 0);
 		
 	}
 	
