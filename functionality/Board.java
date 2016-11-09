@@ -40,6 +40,17 @@ public class Board {
 	}
 
 	/**
+	 * Gets the House at the coordinate (i,j)
+	 *
+	 * @param i coordinate
+	 * @param j coordinate
+	 * @return House at the coordinate
+	 */
+	public House getHouseOnBoard(int i, int j) {
+		return board[i][j];
+	}
+
+	/**
 	 * Performs the sowing action (a move)
 	 * 
 	 * @param i
