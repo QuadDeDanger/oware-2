@@ -2,6 +2,7 @@ package functionality;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This class represents a board. Created by Haaris on 08/11/2016.
@@ -28,7 +29,22 @@ public class Board {
 		board = new House[2][6];
 		this.player1 = player1;
 		this.player2 = player2;
+		setFirstTurn();
+
 		initialiseBoard();
+	}
+
+	private void setFirstTurn() {
+		Random rand = new Random();
+		int whichPlayer = rand.nextInt(2);
+
+		if(whichPlayer == 0) {
+			player1.setIsPlayersTurn(true);
+			player2.setIsPlayersTurn(false);
+		} else if (whichPlayer == 1) {
+			player1.setIsPlayersTurn(false);
+			player2.setIsPlayersTurn(true);
+		}
 	}
 
 	private void initialiseBoard() {
@@ -180,7 +196,7 @@ public class Board {
 			}
 		}
 	}
-
+	
 	public boolean gameWonCheck() {
 
 		if (player1.getScore() >= 25 || player2.getScore() >= 25) {
