@@ -54,6 +54,62 @@ public class Board {
 			}
 		}
 	}
+	
+	/**
+	 * Method to ensure, that if the opponent has no seeds, only moves which would increase...
+	 * ...the number of opponents seeds are allowed.
+	 * 
+	 * @param x - x coordinate of the house
+	 * @param y - y coordinate of the house
+	 * @return boolean - Shows whether or not this house's seeds can be collected and sewn 
+	 * @author Jay
+	 */
+	public boolean canSow(int x, int y){
+		// if opponent has no seeds - then check to see which of the players
+		// houses would fill the opponents
+		// with seeds, and only allow these houses to be collected - dont allow
+		// collection of other houses
+		// if no move is possible which gives the opponent seed then end the
+		// game
+		int opponentRow;
+		if (x == 0) {
+			// top row is players row
+			opponentRow = 1;
+		} else {
+			// bottom row is players row (x == 1)
+			opponentRow = 0;
+		}
+		
+		//checks the number of seeds on the opponents row
+		int totalSeeds = 0;
+		for (int col = 0; col < 6; col++) {
+			totalSeeds += board[opponentRow][col].getCount();
+		}
+		
+		/*
+		//Method for checking all of players row
+		if (!(totalSeeds < 0)) {
+			// check player moves to see if any give the opponent seeds
+			int numHouses = 6; // keeps a count of the number of seeds the house must have
+			for (int col = 0; col < 6; col++) {
+				if (board[x][col].getCount() >= numHouses) {
+					return true;
+				}
+				numHouses--; 
+			}
+		}
+		*/
+		
+		//Method for checking specific house
+		if (!(totalSeeds < 0)){
+			int numSeedsNeeded = (6 - y);
+			if (board[x][y].getCount() >= numSeedsNeeded){
+				return true;
+			}
+		}
+		System.out.println("TESTING: cannot use this house - not enough seeds");
+		return false;
+	}
 
 	/**
 	 * Performs the sowing action (a move)
@@ -64,30 +120,32 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the list
-																// of seeds and
-																// clear that
-																// house
+		if (canSow(i, j)){
+			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the list
+																	// of seeds and
+																	// clear that
+																	// house
 
-		House currentHouse = board[i][j]; // get the current house
-		for (int index = 0; index < toSow.size(); ++index) {
-			currentHouse = getNextHouse(currentHouse); // get the next one
-			/*
-			 * 12-seed rule: if are sowing more than 12 seeds, we don't want to
-			 * replant in the starting house
-			 */
-			if (currentHouse.equals(board[i][j])) {
-				currentHouse = getNextHouse(currentHouse); // so we skip
+			House currentHouse = board[i][j]; // get the current house
+			for (int index = 0; index < toSow.size(); ++index) {
+				currentHouse = getNextHouse(currentHouse); // get the next one
+				/*
+				 * 12-seed rule: if are sowing more than 12 seeds, we don't want
+				 * to replant in the starting house
+				 */
+				if (currentHouse.equals(board[i][j])) {
+					currentHouse = getNextHouse(currentHouse); // so we skip
+				}
+				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 			}
-			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
+
+			// start capture from the last house
+			capture(currentHouse.getXPos(), currentHouse.getYPos());
+
+			// switches the players turns
+			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 		}
-
-		// start capture from the last house
-		capture(currentHouse.getXPos(), currentHouse.getYPos());
-
-		//switches the players turns
-		player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
-		player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
 	}
 
