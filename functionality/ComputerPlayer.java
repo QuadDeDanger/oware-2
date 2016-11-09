@@ -12,8 +12,7 @@ public class ComputerPlayer extends Player {
 	// Assuming the computer will always be row 0
 	public int makeMove() {
 
-		Random rnd = new Random();
-		return rnd.nextInt(6);
+		return new Random().nextInt(6);
 
 	}
 
