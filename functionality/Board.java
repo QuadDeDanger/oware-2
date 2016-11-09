@@ -16,6 +16,7 @@ public class Board {
 	private House[][] board;
 	private Player player1;
 	private Player player2;
+	private boolean isComputer;
 
 	/**
 	 * Sets up a board and initialises it
@@ -29,6 +30,16 @@ public class Board {
 		board = new House[2][6];
 		this.player1 = player1;
 		this.player2 = player2;
+		setFirstTurn();
+
+		initialiseBoard();
+	}
+	
+	public Board(Player player1, Player player2, boolean isComputer) {
+		board = new House[2][6];
+		this.player1 = player1;
+		this.player2 = player2;
+		this.isComputer = isComputer;
 		setFirstTurn();
 
 		initialiseBoard();
