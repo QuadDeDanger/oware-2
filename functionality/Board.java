@@ -38,7 +38,7 @@ public class Board {
 		Random rand = new Random();
 		int whichPlayer = rand.nextInt(2);
 
-		if(whichPlayer == 0) {
+		if (whichPlayer == 0) {
 			player1.setIsPlayersTurn(true);
 			player2.setIsPlayersTurn(false);
 		} else if (whichPlayer == 1) {
@@ -54,23 +54,20 @@ public class Board {
 			}
 		}
 	}
-	
+
 	/**
-	 * Method to ensure, that if the opponent has no seeds, only moves which would increase...
-	 * ...the number of opponents seeds are allowed.
+	 * Method to ensure, that if the opponent has no seeds, only moves which
+	 * would increase... ...the number of opponents seeds are allowed.
 	 * 
-	 * @param x - x coordinate of the house
-	 * @param y - y coordinate of the house
-	 * @return boolean - Shows whether or not this house's seeds can be collected and sewn 
+	 * @param x
+	 *            - x coordinate of the house
+	 * @param y
+	 *            - y coordinate of the house
+	 * @return boolean - Shows whether or not this house's seeds can be
+	 *         collected and sewn
 	 * @author Jay
 	 */
-	public boolean canSow(int x, int y){
-		// if opponent has no seeds - then check to see which of the players
-		// houses would fill the opponents
-		// with seeds, and only allow these houses to be collected - dont allow
-		// collection of other houses
-		// if no move is possible which gives the opponent seed then end the
-		// game
+	public boolean canSow(int x, int y) {
 		int opponentRow;
 		if (x == 0) {
 			// top row is players row
@@ -79,43 +76,54 @@ public class Board {
 			// bottom row is players row (x == 1)
 			opponentRow = 0;
 		}
-		
-		//checks the number of seeds on the opponents row
+
+		// checks the number of seeds on the opponents row
 		int totalSeeds = 0;
 		for (int col = 0; col < 6; col++) {
 			totalSeeds += board[opponentRow][col].getCount();
 		}
-		
-		/*
-		//Method for checking all of players row
-		if (!(totalSeeds < 0)) {
-			// check player moves to see if any give the opponent seeds
-			int numHouses = 6; // keeps a count of the number of seeds the house must have
+
+		if (totalSeeds > 0) {
+			return true;
+		} else {
+			boolean canGiveSeeds = true; // checks all player moves to see if
+											// any give the opponent seeds
+			int numHousesAway = 6; // keeps a count of the number of seeds the
+									// house must have
 			for (int col = 0; col < 6; col++) {
-				if (board[x][col].getCount() >= numHouses) {
+				if (!(board[x][col].getCount() >= numHousesAway)) {
+					canGiveSeeds = false;
+				}
+				numHousesAway--;
+			}
+
+			if (canGiveSeeds) { // if the seeds can be given - you need to check
+								// this specific move
+				int numSeedsNeeded = (6 - y);
+				if (board[x][y].getCount() >= numSeedsNeeded) {
 					return true;
 				}
-				numHouses--; 
+			} else {
+				// no players move will result in the opponent getting more
+				// seeds
+				// collect own seeds and see who has won the game
+				for (int yCoord = 0; yCoord < 6; yCoord++) {
+					capture(x, yCoord);
+				}
 			}
+
 		}
-		*/
-		
-		//Method for checking specific house
-		if (!(totalSeeds < 0)){
-			int numSeedsNeeded = (6 - y);
-			if (board[x][y].getCount() >= numSeedsNeeded){
-				return true;
-			}
-		}
-		System.out.println("TESTING: cannot use this house - not enough seeds");
 		return false;
+
 	}
 
 	/**
 	 * Gets the House at the coordinate (i,j)
 	 *
-	 * @param i coordinate
-	 * @param j coordinate
+	 * @param i
+	 *            coordinate
+	 * @param j
+	 *            coordinate
 	 * @return House at the coordinate
 	 */
 	public House getHouseOnBoard(int i, int j) {
@@ -131,10 +139,13 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		if (canSow(i, j)){
-			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the list
-																	// of seeds and
-																	// clear that
+		if (canSow(i, j)) {
+			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
+																	// list
+																	// of seeds
+																	// and
+																	// clear
+																	// that
 																	// house
 
 			House currentHouse = board[i][j]; // get the current house
@@ -295,16 +306,36 @@ public class Board {
 		return false;
 	}
 
+	public int getHouseCount(int i, int j) {
+		return board[i][j].getCount();
+	}
+
+	public String getPlayer1Name() {
+		return player1.getName();
+	}
+
+	public String getPlayer2Name() {
+		return player2.getName();
+	}
+
+	public int getPlayer1Score() {
+		return player1.getScore();
+	}
+
+	public int getPlayer2Score() {
+		return player2.getScore();
+	}
+
 	// Strictly for debugging. This mustn't be used in the game. Remove soon!
 	public void strictlyTestMakeMove(int i, int j) {
 		System.out.println(" ");
 		sow(i, j);
-		if(player1.getIsPlayersTurn()) {
+		if (player1.getIsPlayersTurn()) {
 			System.out.print(player1.getName());
 		} else {
 			System.out.print(player2.getName());
 		}
-		System.out.print(":  After sowing (" + i + "," + j + ")");
+		System.out.print(":  After sowing (" + i + "," + j + ") \n");
 		print();
 		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
 				+ player2.getScore());
