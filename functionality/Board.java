@@ -139,7 +139,7 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		if (canSow(i, j)) {
+		//if (canSow(i, j)) {
 			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
 																	// list
 																	// of seeds
@@ -167,7 +167,7 @@ public class Board {
 			// switches the players turns
 			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
 			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
-		}
+	//	}
 
 	}
 
