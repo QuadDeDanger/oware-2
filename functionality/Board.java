@@ -34,7 +34,7 @@ public class Board {
 
 		initialiseBoard();
 	}
-	
+
 	public Board(Player player1, Player player2, boolean isComputer) {
 		board = new House[2][6];
 		this.player1 = player1;
@@ -150,6 +150,7 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
+		if (board[i][j].getCount() != 0) {
 		// if (canSow(i, j)) {
 		List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
 																// list
@@ -176,8 +177,10 @@ public class Board {
 		capture(currentHouse.getXPos(), currentHouse.getYPos());
 
 		// switches the players turns
-		player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
-		player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+		
+			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+		}
 		// }
 
 	}
