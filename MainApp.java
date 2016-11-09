@@ -17,13 +17,13 @@ public class MainApp {
 		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
 				+ player2.getScore());
 
-		board.strictlyTestMakeMove(player1, 0, 0);
-		board.strictlyTestMakeMove(player2, 1, 5);
-		board.strictlyTestMakeMove(player1, 0, 4);
-		board.strictlyTestMakeMove(player2, 1, 4);
-		board.strictlyTestMakeMove(player1, 0, 0);
-		board.strictlyTestMakeMove(player2, 1, 2);
-		board.strictlyTestMakeMove(player1, 0, 3);
+		board.strictlyTestMakeMove(0, 0);
+		board.strictlyTestMakeMove(1, 5);
+		board.strictlyTestMakeMove(0, 4);
+		board.strictlyTestMakeMove(1, 4);
+		board.strictlyTestMakeMove(0, 0);
+		board.strictlyTestMakeMove(1, 2);
+		board.strictlyTestMakeMove(0, 3);
 
 	}
 

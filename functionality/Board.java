@@ -2,6 +2,7 @@ package functionality;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This class represents a board. Created by Haaris on 08/11/2016.
@@ -28,7 +29,22 @@ public class Board {
 		board = new House[2][6];
 		this.player1 = player1;
 		this.player2 = player2;
+		setFirstTurn();
+
 		initialiseBoard();
+	}
+
+	private void setFirstTurn() {
+		Random rand = new Random();
+		int whichPlayer = rand.nextInt(2);
+
+		if(whichPlayer == 0) {
+			player1.setIsPlayersTurn(true);
+			player2.setIsPlayersTurn(false);
+		} else if (whichPlayer == 1) {
+			player1.setIsPlayersTurn(false);
+			player2.setIsPlayersTurn(true);
+		}
 	}
 
 	private void initialiseBoard() {
@@ -68,6 +84,10 @@ public class Board {
 
 		// start capture from the last house
 		capture(currentHouse.getXPos(), currentHouse.getYPos());
+
+		//switches the players turns
+		player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+		player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
 	}
 
@@ -181,14 +201,24 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Check to see if game has won
+	 *
+	 * @return true if game has won
+	 */
 	public boolean gameWonCheck() {
 
-		if (player1.getScore() >= 25 || player2.getScore() >= 25) {
+		if (player1.getScore() > 24 || player2.getScore() > 24) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Check to see if the game was a draw
+	 *
+	 * @return true if the game was a draw
+	 */
 	public boolean gameDrawCheck() {
 		if (player1.getScore() == 24 && player2.getScore() == 24) {
 			return true;
@@ -197,10 +227,15 @@ public class Board {
 	}
 
 	// Strictly for debugging. This mustn't be used in the game. Remove soon!
-	public void strictlyTestMakeMove(Player player, int i, int j) {
+	public void strictlyTestMakeMove(int i, int j) {
 		System.out.println(" ");
 		sow(i, j);
-		System.out.println(player.getName() + ":  After sowing (" + i + "," + j + ")");
+		if(player1.getIsPlayersTurn()) {
+			System.out.print(player1.getName());
+		} else {
+			System.out.print(player2.getName());
+		}
+		System.out.print(":  After sowing (" + i + "," + j + ")");
 		print();
 		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
 				+ player2.getScore());
