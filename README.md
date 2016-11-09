@@ -1,31 +1,11 @@
 # Project Crawl #
 
-##Tasks to complete##
-- Game Logic
-  - Board class
-    - All methods
-      - capturing, letOpponentPlay, gameWon
-      - is a move playable
-  - Player class 
-    - Single player mode: random number generator, extension of player
-  - JUnit tests!
-- UI
- - Give the board an interface
-    - Randomise starting player
-    - Deciding whose turn it is after a turn (disable half the board etc)
-    - Updating player name and display
-    - Updating score display
-    - Upadting seeds in house display
-    - Animations
-
-- AI
-  - To be discussed later
-
 ##Requirements##
 
 | Requirement                | Met?           |
 | -------------------------- |:--------------:| 
 | JUnit !| |
+| Commenting/javadoc ! | |
 | In two player mode, the game selects a random player to make the first move.  | Yes |
 | The application must be able to display the initial board. | Yes |
 | The game must display the number of seeds in each house, either using images or numbers. It is not required to hide the number of seeds in a house from an opponent. | Yes |
