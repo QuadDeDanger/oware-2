@@ -9,6 +9,7 @@ public class Player {
 
     private String name;
     private ScoreHouse scoreHouse;
+    private boolean isPlayersTurn;
 
     /**
      * Create Player with a name and initialised score house
@@ -63,6 +64,24 @@ public class Player {
      */
     public void addSeedToHouse(Seed seed) {
         scoreHouse.addSeed(seed);
+    }
+
+    /**
+     * Returns if it is Player's turn
+     *
+     * @return true if it is Player's turn
+     */
+    public boolean getIsPlayersTurn() {
+        return isPlayersTurn;
+    }
+
+    /**
+     * Set if it is Player's turn
+     *
+     * @param isTurn of the Player
+     */
+    public void setIsPlayersTurn(boolean isTurn) {
+        isPlayersTurn = isTurn;
     }
 
 
