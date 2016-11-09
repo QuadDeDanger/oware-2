@@ -201,14 +201,24 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Check to see if game has won
+	 *
+	 * @return true if game has won
+	 */
 	public boolean gameWonCheck() {
 
-		if (player1.getScore() >= 25 || player2.getScore() >= 25) {
+		if (player1.getScore() > 24 || player2.getScore() > 24) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Check to see if the game was a draw
+	 *
+	 * @return true if the game was a draw
+	 */
 	public boolean gameDrawCheck() {
 		if (player1.getScore() == 24 && player2.getScore() == 24) {
 			return true;
