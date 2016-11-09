@@ -50,7 +50,7 @@ public class MainApp extends Application {
 				stage.setTitle("Oware");
 
 				ComputerPlayer player1 = new ComputerPlayer();
-				Player player2 = new Player("Player 2");
+				Player player2 = new Player("Player");
 				Board board = new Board(player1, player2, true); // isComputer
 
 				Scene scene = new Scene(new BoardView(board), 500, 500);
