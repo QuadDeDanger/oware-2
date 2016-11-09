@@ -107,14 +107,52 @@ public class Board {
 
 	}
 
+	// Get next house by checking which row. If first, we go backwards, if
+	// second we go forwards
+	private House getPreviousHouse(House house) {
+		int currentX = house.getXPos();
+		int currentY = house.getYPos();
+
+		if (currentX == 0) {
+			if (currentY == 5) {
+				return board[currentX + 1][currentY];
+			}
+			return board[currentX][currentY + 1];
+
+		} else {
+			if (currentY == 0) {
+				return board[currentX - 1][currentY];
+			}
+			return board[currentX][currentY - 1];
+
+		}
+
+	}
+
 	private void captureHelper(Player player, House lastHouse) {
-		if (lastHouse.getCount() == 2 || lastHouse.getCount() == 3) { // capture
-			List<House> toCapture = new ArrayList<>();
+		List<House> toCapture = new ArrayList<>();
+		// capture only if 2 or 3
+		if (lastHouse.getCount() == 2 || lastHouse.getCount() == 3) {
 
 			toCapture.add(lastHouse); // add house to list of houses for now
 
-			// TODO check previous house for 2 or 3, if so repeat
+			House previousHouse = getPreviousHouse(lastHouse); // get previous
+																// house
+			for (int j = 0; j < 6; j++) {
+				// if on same row and has size 2 or 3
+				if (previousHouse.getXPos() == lastHouse.getXPos()
+						&& (previousHouse.getCount() == 2 || previousHouse.getCount() == 3)) {
+					toCapture.add(previousHouse); // add to capture
+					previousHouse = getPreviousHouse(previousHouse);
+				} else { // quit the loop
+					break;
+				}
+			}
 
+		}
+
+		if (toCapture.size() > 0) { // Only go through if we have something to
+									// capture
 			int capturedSeedTotal = 0;
 			for (House capturedHouse : toCapture) {
 				capturedSeedTotal += capturedHouse.getCount();
@@ -126,18 +164,20 @@ public class Board {
 				totalOnRow += board[lastHouse.getXPos()][j].getCount();
 			}
 
-			if (capturedSeedTotal != totalOnRow) { // if the opponent now has no more seeds, then forfeit capture
-				
-				for(House house : toCapture){
-					List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse(); // get seeds and empty house
-					for(Seed seed : toAddToScoreHouse){ // add each to the score house
+			if (capturedSeedTotal != totalOnRow) { // if the opponent now has no
+													// more seeds, then forfeit
+													// capture
+
+				for (House house : toCapture) {
+					List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse();
+					for (Seed seed : toAddToScoreHouse) { // add each to the
+															// score
+															// house
 						player.addSeedToHouse(seed);
 					}
 				}
-				
+
 			}
-
-
 		}
 	}
 
