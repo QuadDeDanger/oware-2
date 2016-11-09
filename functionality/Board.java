@@ -65,12 +65,6 @@ public class Board {
 	 * @author Jay
 	 */
 	public boolean canSow(int x, int y){
-		// if opponent has no seeds - then check to see which of the players
-		// houses would fill the opponents
-		// with seeds, and only allow these houses to be collected - dont allow
-		// collection of other houses
-		// if no move is possible which gives the opponent seed then end the
-		// game
 		int opponentRow;
 		if (x == 0) {
 			// top row is players row
@@ -86,29 +80,36 @@ public class Board {
 			totalSeeds += board[opponentRow][col].getCount();
 		}
 		
-		/*
-		//Method for checking all of players row
-		if (!(totalSeeds < 0)) {
-			// check player moves to see if any give the opponent seeds
-			int numHouses = 6; // keeps a count of the number of seeds the house must have
+		
+		
+		if (totalSeeds > 0){
+			return true;
+		} else {
+			boolean canGiveSeeds = true;		// checks all player moves to see if any give the opponent seeds
+			int numHousesAway = 6; 				// keeps a count of the number of seeds the house must have
 			for (int col = 0; col < 6; col++) {
-				if (board[x][col].getCount() >= numHouses) {
+				if (!(board[x][col].getCount() >= numHousesAway)) {
+					canGiveSeeds = false;
+				}
+				numHousesAway--;
+			}
+			
+			if (canGiveSeeds){							//if the seeds can be given - you need to check this specific move
+				int numSeedsNeeded = (6 - y);
+				if (board[x][y].getCount() >= numSeedsNeeded){
 					return true;
 				}
-				numHouses--; 
+			} else {
+				//no players move will result in the opponent getting more seeds
+				//collect own seeds and see who has won the game
+				for (int yCoord = 0; yCoord < 6; yCoord++){
+					capture(x, yCoord);
+				}
 			}
+			
 		}
-		*/
-		
-		//Method for checking specific house
-		if (!(totalSeeds < 0)){
-			int numSeedsNeeded = (6 - y);
-			if (board[x][y].getCount() >= numSeedsNeeded){
-				return true;
-			}
-		}
-		System.out.println("TESTING: cannot use this house - not enough seeds");
 		return false;
+	
 	}
 
 	/**
@@ -293,7 +294,7 @@ public class Board {
 		} else {
 			System.out.print(player2.getName());
 		}
-		System.out.print(":  After sowing (" + i + "," + j + ")");
+		System.out.print(":  After sowing (" + i + "," + j + ") \n");
 		print();
 		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
 				+ player2.getScore());
