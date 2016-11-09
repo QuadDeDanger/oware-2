@@ -1,5 +1,6 @@
 package functionality;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,20 +97,48 @@ public class Board {
 	private void capture(int x, int y) {
 
 		House currentHouse = board[x][y];
-		// capture logic goes here
 
 		if (x == 0) { // player 2 made the last move
-
-			// if house contains 2 or 3
-			// capture
-			// check previous house for 2 or 3, if so repeat
-
-			// if the opponent now has no more seeds, then forfeit capture
-
+			captureHelper(player2, currentHouse);
 		} else { // player 1 made the last move
+			captureHelper(player1, currentHouse);
 
 		}
 
+	}
+
+	private void captureHelper(Player player, House lastHouse) {
+		if (lastHouse.getCount() == 2 || lastHouse.getCount() == 3) { // capture
+			List<House> toCapture = new ArrayList<>();
+
+			toCapture.add(lastHouse); // add house to list of houses for now
+
+			// TODO check previous house for 2 or 3, if so repeat
+
+			int capturedSeedTotal = 0;
+			for (House capturedHouse : toCapture) {
+				capturedSeedTotal += capturedHouse.getCount();
+			}
+
+			int totalOnRow = 0;
+
+			for (int j = 0; j < 6; j++) {
+				totalOnRow += board[lastHouse.getXPos()][j].getCount();
+			}
+
+			if (capturedSeedTotal != totalOnRow) { // if the opponent now has no more seeds, then forfeit capture
+				
+				for(House house : toCapture){
+					List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse(); // get seeds and empty house
+					for(Seed seed : toAddToScoreHouse){ // add each to the score house
+						player.addSeedToHouse(seed);
+					}
+				}
+				
+			}
+
+
+		}
 	}
 
 	public boolean gameWonCheck() {
