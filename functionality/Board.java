@@ -190,7 +190,7 @@ public class Board {
 	}
 
 	public boolean gameDrawCheck() {
-		if (player1.getScore() == 25 && player2.getScore() == 25) {
+		if (player1.getScore() == 24 && player2.getScore() == 24) {
 			return true;
 		}
 		return false;
