@@ -31,7 +31,6 @@ public class HouseView extends GridPane {
 			this.add(label, 0, 0);
 			
 		}
-		System.out.println(counter);
 	}
 
 }
