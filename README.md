@@ -2,12 +2,12 @@
 
 ##Requirements/ to do##
 
-| To do                | Met?           |
+| To do                | Met/done?           |
 | -------------------------- |:--------------:| 
 | JUnit !| |
 | Commenting/javadoc ! | |
 | Player won/draw detect | |
-| Computer choosing 0 bug | |
+| Computer choosing 0 bug | Think so, need to test with Jay's stuff |
 | In two player mode, the game selects a random player to make the first move.  | Yes |
 | The application must be able to display the initial board. | Yes |
 | The game must display the number of seeds in each house, either using images or numbers. It is not required to hide the number of seeds in a house from an opponent. | Yes |
