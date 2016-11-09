@@ -196,6 +196,8 @@ public class Board {
 			if (isPlayingComputer && getPlayerTurn() == 0) {
 				sow(0, computerPlayer.makeMove());
 			}
+		} else if (isPlayingComputer && getPlayerTurn() == 0) {
+			sow(0, computerPlayer.makeMove());
 		}
 		// }
 
@@ -363,31 +365,19 @@ public class Board {
 		return player2.getScore();
 	}
 
-	
 	/**
-	// Strictly for debugging. This mustn't be used in the game. Remove soon!
-	public void strictlyTestMakeMove(int i, int j) {
-		System.out.println(" ");
-		sow(i, j);
-		if (player1.getIsPlayersTurn()) {
-			System.out.print(player1.getName());
-		} else {
-			System.out.print(player2.getName());
-		}
-		System.out.print(":  After sowing (" + i + "," + j + ") \n");
-		print();
-		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
-				+ player2.getScore());
-	}
-
-	// For debugging only
-	public void print() {
-		for (int i = 0; i < 2; ++i) {
-			for (int j = 0; j < 6; ++j) {
-				System.out.print(board[i][j].getCount() + " ");
-			}
-			System.out.println(" ");
-		}
-	}**/
+	 * // Strictly for debugging. This mustn't be used in the game. Remove soon!
+	 * public void strictlyTestMakeMove(int i, int j) { System.out.println(" ");
+	 * sow(i, j); if (player1.getIsPlayersTurn()) {
+	 * System.out.print(player1.getName()); } else {
+	 * System.out.print(player2.getName()); } System.out.print(
+	 * ":  After sowing (" + i + "," + j + ") \n"); print();
+	 * System.out.println(player1.getName() + " score: " + player1.getScore() +
+	 * ", " + player2.getName() + " score: " + player2.getScore()); }
+	 * 
+	 * // For debugging only public void print() { for (int i = 0; i < 2; ++i) {
+	 * for (int j = 0; j < 6; ++j) { System.out.print(board[i][j].getCount() +
+	 * " "); } System.out.println(" "); } }
+	 **/
 
 }
