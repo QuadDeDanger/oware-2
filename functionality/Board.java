@@ -65,6 +65,8 @@ public class Board {
 			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 		}
 
+		capture();
+
 	}
 
 	// Get next house by checking which row. If first, we go backwards, if
@@ -89,16 +91,25 @@ public class Board {
 
 	}
 
-	public void capture() {
+	private void capture() {
+
+		// capture logic goes here
 
 	}
 
-	public void letOpponentPlay() {
+	public boolean gameWonCheck() {
 
+		if (player1.getScore() >= 25 || player2.getScore() >= 25) {
+			return true;
+		}
+		return false;
 	}
 
-	public void gameWonCheck() {
-
+	public boolean gameDrawCheck() {
+		if (player1.getScore() == 25 && player2.getScore() == 25) {
+			return true;
+		}
+		return false;
 	}
 
 	// Strictly for debugging. This mustn't be used in the game. Remove soon!
