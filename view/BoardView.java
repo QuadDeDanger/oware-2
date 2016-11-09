@@ -17,16 +17,14 @@ public class BoardView extends BorderPane{
 	public BoardView(Board board) {
 		super();
 		
+		//
 		this.board = board;
-		
 		housesGrid = new GridPane();
 		housesGrid.setAlignment(Pos.CENTER);
-//		housesGrid.setVgap(20);
-//		housesGrid.setHgap(20);
-//		housesGrid.setStyle("-fx-border: 2px solid; -fx-border-color: black;");
-		
 		makeGrid();
 		this.setCenter(housesGrid);
+		//
+		
 		
 	}
 	
