@@ -1,5 +1,6 @@
 package functionality;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,6 +66,9 @@ public class Board {
 			currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 		}
 
+		// start capture from the last house
+		capture(currentHouse.getXPos(), currentHouse.getYPos());
+
 	}
 
 	// Get next house by checking which row. If first, we go backwards, if
@@ -89,16 +93,107 @@ public class Board {
 
 	}
 
-	public void capture() {
+	// Start from the last house and work backwards/forwards depending on row
+	private void capture(int x, int y) {
+
+		House currentHouse = board[x][y];
+
+		if (x == 0) { // player 2 made the last move
+			captureHelper(player2, currentHouse);
+		} else { // player 1 made the last move
+			captureHelper(player1, currentHouse);
+
+		}
 
 	}
 
-	public void letOpponentPlay() {
+	// Get next house by checking which row. If first, we go backwards, if
+	// second we go forwards
+	private House getPreviousHouse(House house) {
+		int currentX = house.getXPos();
+		int currentY = house.getYPos();
+
+		if (currentX == 0) {
+			if (currentY == 5) {
+				return board[currentX + 1][currentY];
+			}
+			return board[currentX][currentY + 1];
+
+		} else {
+			if (currentY == 0) {
+				return board[currentX - 1][currentY];
+			}
+			return board[currentX][currentY - 1];
+
+		}
 
 	}
 
-	public void gameWonCheck() {
+	private void captureHelper(Player player, House lastHouse) {
+		List<House> toCapture = new ArrayList<>();
+		// capture only if 2 or 3
+		if (lastHouse.getCount() == 2 || lastHouse.getCount() == 3) {
 
+			toCapture.add(lastHouse); // add house to list of houses for now
+
+			House previousHouse = getPreviousHouse(lastHouse); // get previous
+																// house
+			for (int j = 0; j < 6; j++) {
+				// if on same row and has size 2 or 3
+				if (previousHouse.getXPos() == lastHouse.getXPos()
+						&& (previousHouse.getCount() == 2 || previousHouse.getCount() == 3)) {
+					toCapture.add(previousHouse); // add to capture
+					previousHouse = getPreviousHouse(previousHouse);
+				} else { // quit the loop
+					break;
+				}
+			}
+
+		}
+
+		if (toCapture.size() > 0) { // Only go through if we have something to
+									// capture
+			int capturedSeedTotal = 0;
+			for (House capturedHouse : toCapture) {
+				capturedSeedTotal += capturedHouse.getCount();
+			}
+
+			int totalOnRow = 0;
+
+			for (int j = 0; j < 6; j++) {
+				totalOnRow += board[lastHouse.getXPos()][j].getCount();
+			}
+
+			if (capturedSeedTotal != totalOnRow) { // if the opponent now has no
+													// more seeds, then forfeit
+													// capture
+
+				for (House house : toCapture) {
+					List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse();
+					for (Seed seed : toAddToScoreHouse) { // add each to the
+															// score
+															// house
+						player.addSeedToHouse(seed);
+					}
+				}
+
+			}
+		}
+	}
+
+	public boolean gameWonCheck() {
+
+		if (player1.getScore() >= 25 || player2.getScore() >= 25) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean gameDrawCheck() {
+		if (player1.getScore() == 25 && player2.getScore() == 25) {
+			return true;
+		}
+		return false;
 	}
 
 	// Strictly for debugging. This mustn't be used in the game. Remove soon!
