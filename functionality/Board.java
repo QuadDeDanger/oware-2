@@ -363,6 +363,8 @@ public class Board {
 		return player2.getScore();
 	}
 
+	
+	/**
 	// Strictly for debugging. This mustn't be used in the game. Remove soon!
 	public void strictlyTestMakeMove(int i, int j) {
 		System.out.println(" ");
@@ -386,6 +388,6 @@ public class Board {
 			}
 			System.out.println(" ");
 		}
-	}
+	}**/
 
 }
