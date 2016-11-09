@@ -85,6 +85,10 @@ public class Board {
 		// start capture from the last house
 		capture(currentHouse.getXPos(), currentHouse.getYPos());
 
+		//switches the players turns
+		player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+		player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+
 	}
 
 	// Get next house by checking which row. If first, we go backwards, if
@@ -196,7 +200,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	public boolean gameWonCheck() {
 
 		if (player1.getScore() >= 25 || player2.getScore() >= 25) {
@@ -213,10 +217,15 @@ public class Board {
 	}
 
 	// Strictly for debugging. This mustn't be used in the game. Remove soon!
-	public void strictlyTestMakeMove(Player player, int i, int j) {
+	public void strictlyTestMakeMove(int i, int j) {
 		System.out.println(" ");
 		sow(i, j);
-		System.out.println(player.getName() + ":  After sowing (" + i + "," + j + ")");
+		if(player1.getIsPlayersTurn()) {
+			System.out.print(player1.getName());
+		} else {
+			System.out.print(player2.getName());
+		}
+		System.out.print(":  After sowing (" + i + "," + j + ")");
 		print();
 		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
 				+ player2.getScore());
