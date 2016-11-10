@@ -5,8 +5,6 @@ import view.WelcomeView;
 
 public class MainApp extends Application {
 
-	// Add background image
-
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Oware");
