@@ -41,6 +41,8 @@ public class BoardView extends BorderPane {
 	private PlayerView playerView1;
 	private PlayerView playerView2;
 	private Button newGame;
+	private Button forceEnd;
+	private Label gameStatus;
 
 	public BoardView(Board board) {
 		super();
@@ -48,7 +50,7 @@ public class BoardView extends BorderPane {
 		setPadding(new Insets(20, 20, 20, 20));
 
 		setUpTop();
-		
+		gameStatus = new Label();
 		centerPane = new VBox(20);
 		centerPane.setPadding(new Insets(20, 0, 0, 0));
 		//
@@ -101,7 +103,8 @@ public class BoardView extends BorderPane {
 		newGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
+				gameStatus.setText("");
+				forceEnd.setDisable(false);
 				board.resetBoard();
 				updateBoard();
 
@@ -127,7 +130,7 @@ public class BoardView extends BorderPane {
 			}
 		});
 
-		Button forceEnd = new Button("Force end");
+		forceEnd = new Button("Force end");
 		forceEnd.setFocusTraversable(false);
 
 		forceEnd.setOnAction(new EventHandler<ActionEvent>() {
@@ -202,8 +205,7 @@ public class BoardView extends BorderPane {
 	private void updateBoard() {
 		if (board.isGameStarted()) {
 			newGame.setDisable(false);
-		}
-		else {
+		} else {
 			newGame.setDisable(true);
 		}
 		for (int i = 0; i < 2; ++i) {
@@ -287,12 +289,19 @@ public class BoardView extends BorderPane {
 	private void checkGameFinished() {
 		if (board.gameWonCheck()) {
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
-				this.setBottom(new Label("Game won by " + board.getPlayer1Name()));
+				gameStatus.setText("Game won by " + board.getPlayer1Name());
+				this.setBottom(gameStatus);
 			} else {
-				this.setBottom(new Label("Game won by " + board.getPlayer2Name()));
+				gameStatus.setText("Game won by " + board.getPlayer1Name());
+				this.setBottom(gameStatus);
 			}
+			newGame.setDisable(false);
+			forceEnd.setDisable(true);
 		} else if (board.gameDrawCheck()) {
-			this.setBottom(new Label("Game drawn"));
+			gameStatus.setText("Game drawn");
+			this.setBottom(gameStatus);
+			newGame.setDisable(false);
+			forceEnd.setDisable(true);
 		}
 	}
 
