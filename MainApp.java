@@ -11,9 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import view.Background;
 import view.BoardView;
 
 public class MainApp extends Application {
@@ -53,7 +55,11 @@ public class MainApp extends Application {
 				Player player2 = new Player("Player");
 				Board board = new Board(player1, player2, true); // isComputer
 
-				Scene scene = new Scene(new BoardView(board), 500, 500);
+				StackPane stack = new StackPane();
+				stack.getChildren().add(new Background());
+				stack.getChildren().add(new BoardView(board));
+
+				Scene scene = new Scene(stack, 800, 400);
 				stage.setScene(scene);
 				stage.show();
 
@@ -72,7 +78,11 @@ public class MainApp extends Application {
 				Player player2 = new Player("Player 2");
 				Board board = new Board(player1, player2);
 
-				Scene scene = new Scene(new BoardView(board), 500, 500);
+				StackPane stack = new StackPane();
+				stack.getChildren().add(new Background());
+				stack.getChildren().add(new BoardView(board));
+				
+				Scene scene = new Scene(stack, 800, 400);
 				stage.setScene(scene);
 				stage.show();
 
