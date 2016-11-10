@@ -390,25 +390,23 @@ public class Board {
 	}
 
 	public void captureOwnSeeds() {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 6; j++) {
 
-				if (i == 0) {
-					List<Seed> toAdd = new ArrayList<>(board[i][j].getSeedsAndEmptyHouse());
-					for (Seed seed : toAdd) {
-						seed.setIsCaptured(true);
-						player1.addSeedToHouse(seed);
-					}
-				} else if (i == 1) {
-					List<Seed> toAdd = new ArrayList<>(board[i][j].getSeedsAndEmptyHouse());
-					for (Seed seed : toAdd) {
-						seed.setIsCaptured(true);
-						player2.addSeedToHouse(seed);
-					}
-				}
+		for (int j = 0; j < 6; j++) {
 
+			List<Seed> toAddToPlayer1 = new ArrayList<>(board[0][j].getSeedsAndEmptyHouse());
+			for (Seed seed : toAddToPlayer1) {
+				seed.setIsCaptured(true);
+				player1.addSeedToHouse(seed);
 			}
+
+			List<Seed> toAddToPlayer2 = new ArrayList<>(board[1][j].getSeedsAndEmptyHouse());
+			for (Seed seed : toAddToPlayer2) {
+				seed.setIsCaptured(true);
+				player2.addSeedToHouse(seed);
+			}
+
 		}
+
 	}
 
 }
