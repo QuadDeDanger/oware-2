@@ -8,7 +8,7 @@ public class Background extends Label {
 
 	public Background() {
 		super();
-		Image backgroundImage = new Image("background.jpg");
+		//Image backgroundImage = new Image("background.jpg");
 		//this.setGraphic(new ImageView(backgroundImage));
 	}
 

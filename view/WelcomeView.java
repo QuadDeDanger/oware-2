@@ -53,6 +53,8 @@ public class WelcomeView extends BorderPane {
 			}
 		});
 
+		Button singePlayerAdvancedButton = new Button("Play single player (advanced)");
+
 		Button twoPlayerButton = new Button("Play two-player");
 		twoPlayerButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -77,9 +79,15 @@ public class WelcomeView extends BorderPane {
 		});
 
 		singlePlayerButton.setMaxWidth(Double.MAX_VALUE);
-		twoPlayerButton.setMaxWidth(Double.MAX_VALUE);
+		singlePlayerButton.setPadding(new Insets(15, 0, 15, 0));
 
-		vbButtons.getChildren().addAll(singlePlayerButton, twoPlayerButton);
+		singePlayerAdvancedButton.setMaxWidth(Double.MAX_VALUE);
+		singePlayerAdvancedButton.setPadding(new Insets(15, 0, 15, 0));
+		
+		twoPlayerButton.setMaxWidth(Double.MAX_VALUE);
+		twoPlayerButton.setPadding(new Insets(15, 0, 15, 0));
+
+		vbButtons.getChildren().addAll(singlePlayerButton, singePlayerAdvancedButton, twoPlayerButton);
 
 		Label welcomeLabel = new Label("Oware");
 		welcomeLabel.setFont(new Font("Arial", 30));

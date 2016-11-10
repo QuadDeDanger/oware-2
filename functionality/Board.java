@@ -19,7 +19,7 @@ public class Board {
 	private boolean isPlayingComputer;
 	private ComputerPlayer computerPlayer;
 	private boolean gameStarted;
-	private boolean gameOver;
+	private boolean gameOverNoMovesPossible;
 
 	/**
 	 * Sets up a board and initialises it
@@ -150,7 +150,7 @@ public class Board {
 			} else {
 				// System.out.println("No moves possible - END GAME");
 				// end game
-				gameOver = true;
+				gameOverNoMovesPossible = true;
 			}
 		}
 		return false;
@@ -356,7 +356,6 @@ public class Board {
 	public boolean gameWonCheck() {
 
 		if (player1.getScore() > 24 || player2.getScore() > 24) {
-			gameOver = true;
 			return true;
 		}
 		return false;
@@ -369,7 +368,6 @@ public class Board {
 	 */
 	public boolean gameDrawCheck() {
 		if (player1.getScore() == 24 && player2.getScore() == 24) {
-			gameOver = true;
 			return true;
 		}
 		return false;
@@ -423,8 +421,8 @@ public class Board {
 
 	}
 
-	public boolean gameOver() {
-		return gameOver;
+	public boolean gameOverNoMovesPossible() {
+		return gameOverNoMovesPossible;
 	}
 
 	public void resetBoard() {
@@ -436,7 +434,7 @@ public class Board {
 		player1.clearScoreHouse();
 		player2.clearScoreHouse();
 		gameStarted = false;
-		gameOver = false;
+		gameOverNoMovesPossible = false;
 		setFirstTurn();
 		playingComputer();
 	}

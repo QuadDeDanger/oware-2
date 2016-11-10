@@ -190,7 +190,7 @@ public class BoardView extends BorderPane {
 
 					@Override
 					public void handle(MouseEvent arg0) {
-						if (!board.gameOver() && board.getPlayerTurn() == x) {
+						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x) {
 							board.sow(x, y);
 							updateBoard();
 						}
@@ -216,8 +216,15 @@ public class BoardView extends BorderPane {
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
 		playerView2.update(board.getPlayer2Score(), board.getPlayerTurn());
 		checkGameFinished();
-		if(board.gameOver()){ // required for Jay's part
+		if (board.gameOverNoMovesPossible()) { // required for Jay's part
+			board.captureOwnSeeds();
+			for (int i = 0; i < 2; ++i) {
+				for (int j = 0; j < 6; ++j) {
+					houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
+				}
+			}
 			checkGameFinished();
+
 		}
 
 	}
