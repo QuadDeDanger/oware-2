@@ -8,7 +8,7 @@
 | Commenting/javadoc ! | |
 | Computer choosing 0 bug | Yes  |
 | Design (houses, seeds, player won/lost) | In progress |
-| Player turn | |
+| Player turn GUI | |
 | Force end | |
 | In two player mode, the game selects a random player to make the first move.  | Yes |
 | The application must be able to display the initial board. | Yes |
