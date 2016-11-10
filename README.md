@@ -6,7 +6,6 @@
 | -------------------------- |:--------------:| 
 | JUnit !| |
 | Commenting/javadoc ! | |
-| Player won/draw detect | |
 | Computer choosing 0 bug | Yes  |
 | Design (houses, seeds, player won/lost) | In progress |
 | Force end | |
