@@ -108,6 +108,7 @@ public class BoardView extends BorderPane {
 		}
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
 		playerView2.update(board.getPlayer2Score(), board.getPlayerTurn());
+		checkGameFinished();
 	}
 
 	private void nameDialogue() {
@@ -175,6 +176,18 @@ public class BoardView extends BorderPane {
 	private void updatePlayerNames() {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
+	}
+	
+	private void checkGameFinished() {
+		if(board.gameWonCheck()) {
+			if(board.getPlayer1Score()>board.getPlayer2Score()) {
+				this.setBottom(new Label("Game won by "+board.getPlayer1Name()));
+			} else {
+				this.setBottom(new Label("Game won by "+board.getPlayer2Name()));
+			}
+		} else if(board.gameDrawCheck()) {
+			this.setBottom(new Label("Game drawn"));
+		}
 	}
 
 }
