@@ -18,6 +18,7 @@ public class Board {
 	private Player player2;
 	private boolean isPlayingComputer;
 	private ComputerPlayer computerPlayer;
+	private boolean gameStarted;
 
 	/**
 	 * Sets up a board and initialises it
@@ -43,16 +44,19 @@ public class Board {
 		this.isPlayingComputer = isComputer;
 		setFirstTurn();
 		initialiseBoard();
+		playingComputer();
 
+	}
+
+	private void playingComputer(){
 		if (isPlayingComputer) {
 			computerPlayer = (ComputerPlayer) player1;
 			if (getPlayerTurn() == 0) {
 				sow(0, computerPlayer.makeMove());
 			}
 		}
-
 	}
-
+	
 	public boolean isPlayingComputer() {
 		return isPlayingComputer;
 	}
@@ -136,14 +140,14 @@ public class Board {
 					numSeedsNeeded = (6 - y);
 				}
 				if (board[x][y].getCount() >= numSeedsNeeded) {
-					System.out.println("valid move");
+					//System.out.println("valid move");
 					return true;
 				} else {
-					System.out.println("choose another seed");
+					//System.out.println("choose another seed");
 				}
 
 			} else {
-				System.out.println("No moves possible - END GAME");
+				//System.out.println("No moves possible - END GAME");
 				// end game
 			}
 		}
@@ -173,9 +177,10 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		System.out.println(i + " " + j);
+		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0) {
 			if (canSow(i, j)) {
+				gameStarted = true;
 
 				// Get list of seeds and clear house
 				List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
@@ -214,6 +219,10 @@ public class Board {
 
 	}
 
+	public boolean isGameStarted(){
+		return gameStarted;
+	}
+	
 	// Start from the last house and work backwards/forwards depending on row
 	private void capture(int x, int y, int playerTurn) {
 
@@ -233,7 +242,7 @@ public class Board {
 		List<House> toCapture = new ArrayList<>();
 		// capture only if 2 or 3
 
-		System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber);
+		// System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber);
 
 		if (lastHouse.getXPos() != playerNumber && (lastHouse.getCount() == 2 || lastHouse.getCount() == 3)) {
 
@@ -407,6 +416,19 @@ public class Board {
 
 		}
 
+	}
+
+	public void resetBoard() {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 6; j++) {
+				board[i][j].resetHouse();
+			}
+		}
+		player1.clearScoreHouse();
+		player2.clearScoreHouse();
+		gameStarted = false;
+		setFirstTurn();
+		playingComputer();
 	}
 
 }

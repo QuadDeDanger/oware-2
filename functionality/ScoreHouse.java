@@ -37,4 +37,9 @@ public class ScoreHouse {
 	public void addSeed(Seed seed) {
 		seedsInHouse.add(seed);
 	}
+	
+	public void reset(){
+		seedsInHouse.clear();
+	}
+	
 }
