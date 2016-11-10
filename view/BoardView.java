@@ -20,6 +20,7 @@ import javafx.util.Pair;
 
 public class BoardView extends BorderPane {
 
+	private BorderPane centerPane;
 	private GridPane housesGrid;
 	private Board board;
 	private HouseView[][] houses;
@@ -28,24 +29,32 @@ public class BoardView extends BorderPane {
 
 	public BoardView(Board board) {
 		super();
-
+		
+		centerPane = new BorderPane();
 		//
 		this.board = board;
 		housesGrid = new GridPane();
 		housesGrid.setAlignment(Pos.CENTER);
 		makeGrid();
-		this.setCenter(housesGrid);
+		centerPane.setCenter(housesGrid);
 		//
 		playerView1 = new PlayerView(0, board.getPlayer1Name(), board.getPlayerTurn());
 		playerView2 = new PlayerView(1, board.getPlayer2Name(), board.getPlayerTurn());
-		this.setLeft(playerView1);
-		this.setRight(playerView2);
+		centerPane.setTop(playerView1);
+		centerPane.setBottom(playerView2);
 
 		nameDialogue();
 
 		if (board.isPlayingComputer()) {
 			updateBoard();
 		}
+		//
+		this.setCenter(centerPane);
+		this.setTop(new Label("TEST\n\n\n\n"));
+		this.setBottom(new Label("TEST\n\n\n\n"));
+		
+		
+		
 	}
 
 	private void makeGrid() {
