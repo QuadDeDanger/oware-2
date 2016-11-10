@@ -216,6 +216,9 @@ public class BoardView extends BorderPane {
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
 		playerView2.update(board.getPlayer2Score(), board.getPlayerTurn());
 		checkGameFinished();
+		if(board.gameOver()){ // required for Jay's part
+			checkGameFinished();
+		}
 
 	}
 

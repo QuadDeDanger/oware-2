@@ -150,6 +150,7 @@ public class Board {
 			} else {
 				// System.out.println("No moves possible - END GAME");
 				// end game
+				gameOver = true;
 			}
 		}
 		return false;
