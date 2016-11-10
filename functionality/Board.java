@@ -109,33 +109,42 @@ public class Board {
 		if (totalSeeds > 0) {
 			return true;
 		} else {
-			boolean canGiveSeeds = true; // checks all player moves to see if
+			//boolean canGiveSeeSds = true; // checks all player moves to see if
+			int numHousesCanGiveSeeds = 0;
 											// any give the opponent seeds
 			int numHousesAway = 6; // keeps a count of the number of seeds the
 									// house must have
 			for (int col = 0; col < 6; col++) {
-				if (!(board[x][col].getCount() >= numHousesAway)) {
-					canGiveSeeds = false;
+				if ((board[x][col].getCount() >= numHousesAway)) {
+					//canGiveSeeds = false;
+					numHousesCanGiveSeeds++;
 				}
 				numHousesAway--;
 			}
 
-			if (canGiveSeeds) { // if the seeds can be given - you need to check
+			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you need to check
 								// this specific move
-				int numSeedsNeeded = (6 - y);
+				
+				int numSeedsNeeded;
+				if (opponentRow == 1){
+					//number of seeds needs to be +1 of column index
+					numSeedsNeeded = (y + 1);
+				}else {
+					//opponent row is bottom
+					numSeedsNeeded = (6 - y);					
+				}
 				if (board[x][y].getCount() >= numSeedsNeeded) {
+					System.out.println("valid move");
 					return true;
+				}else {
+					System.out.println("choose another seed");
 				}
+		
 			} else {
-				// no players move will result in the opponent getting more
-				// seeds
-				// collect own seeds and see who has won the game
-				for (int yCoord = 0; yCoord < 6; yCoord++) {
-					capture(x, yCoord);
-				}
+				System.out.println("No moves possible - END GAME");
+				//end game
 			}
-
-		}
+		}		
 		return false;
 
 	}
