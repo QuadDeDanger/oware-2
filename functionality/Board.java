@@ -18,6 +18,8 @@ public class Board {
 	private Player player2;
 	private boolean isPlayingComputer;
 	private ComputerPlayer computerPlayer;
+	private boolean gameStarted;
+	private boolean gameOver;
 
 	/**
 	 * Sets up a board and initialises it
@@ -43,14 +45,17 @@ public class Board {
 		this.isPlayingComputer = isComputer;
 		setFirstTurn();
 		initialiseBoard();
+		playingComputer();
 
+	}
+
+	private void playingComputer() {
 		if (isPlayingComputer) {
 			computerPlayer = (ComputerPlayer) player1;
 			if (getPlayerTurn() == 0) {
 				sow(0, computerPlayer.makeMove());
 			}
 		}
-
 	}
 
 	public boolean isPlayingComputer() {
@@ -136,15 +141,16 @@ public class Board {
 					numSeedsNeeded = (6 - y);
 				}
 				if (board[x][y].getCount() >= numSeedsNeeded) {
-					System.out.println("valid move");
+					// System.out.println("valid move");
 					return true;
 				} else {
-					System.out.println("choose another seed");
+					// System.out.println("choose another seed");
 				}
 
 			} else {
-				System.out.println("No moves possible - END GAME");
+				// System.out.println("No moves possible - END GAME");
 				// end game
+				gameOver = true;
 			}
 		}
 		return false;
@@ -173,9 +179,10 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		System.out.println(i + " " + j);
+		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0) {
 			if (canSow(i, j)) {
+				gameStarted = true;
 
 				// Get list of seeds and clear house
 				List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
@@ -214,7 +221,9 @@ public class Board {
 
 	}
 
-
+	public boolean isGameStarted() {
+		return gameStarted;
+	}
 
 	// Start from the last house and work backwards/forwards depending on row
 	private void capture(int x, int y, int playerTurn) {
@@ -235,7 +244,8 @@ public class Board {
 		List<House> toCapture = new ArrayList<>();
 		// capture only if 2 or 3
 
-		System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber );
+		// System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer
+		// " + playerNumber);
 
 		if (lastHouse.getXPos() != playerNumber && (lastHouse.getCount() == 2 || lastHouse.getCount() == 3)) {
 
@@ -286,7 +296,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	public int getPlayerTurn() {
 		if (player1.getIsPlayersTurn()) {
 			return 0;
@@ -346,6 +356,7 @@ public class Board {
 	public boolean gameWonCheck() {
 
 		if (player1.getScore() > 24 || player2.getScore() > 24) {
+			gameOver = true;
 			return true;
 		}
 		return false;
@@ -358,6 +369,7 @@ public class Board {
 	 */
 	public boolean gameDrawCheck() {
 		if (player1.getScore() == 24 && player2.getScore() == 24) {
+			gameOver = true;
 			return true;
 		}
 		return false;
@@ -389,6 +401,44 @@ public class Board {
 
 	public int getPlayer2Score() {
 		return player2.getScore();
+	}
+
+	public void captureOwnSeeds() {
+
+		for (int j = 0; j < 6; j++) {
+
+			List<Seed> toAddToPlayer1 = new ArrayList<>(board[0][j].getSeedsAndEmptyHouse());
+			for (Seed seed : toAddToPlayer1) {
+				seed.setIsCaptured(true);
+				player1.addSeedToHouse(seed);
+			}
+
+			List<Seed> toAddToPlayer2 = new ArrayList<>(board[1][j].getSeedsAndEmptyHouse());
+			for (Seed seed : toAddToPlayer2) {
+				seed.setIsCaptured(true);
+				player2.addSeedToHouse(seed);
+			}
+
+		}
+
+	}
+
+	public boolean gameOver() {
+		return gameOver;
+	}
+
+	public void resetBoard() {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 6; j++) {
+				board[i][j].resetHouse();
+			}
+		}
+		player1.clearScoreHouse();
+		player2.clearScoreHouse();
+		gameStarted = false;
+		gameOver = false;
+		setFirstTurn();
+		playingComputer();
 	}
 
 }

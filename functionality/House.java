@@ -51,6 +51,11 @@ public class House {
 	public int getCount() {
 		return seedsInHouse.size();
 	}
+	
+	public void resetHouse(){
+		seedsInHouse.clear();
+		initialiseHouse();
+	}
 
 	/**
 	 * Stores and returns the list of Seeds, and empties the list that the Pot

@@ -84,6 +84,9 @@ public class Player {
         isPlayersTurn = isTurn;
     }
 
+    public void clearScoreHouse(){
+    	scoreHouse.reset();
+    }
     
     @Override
     public String toString(){
