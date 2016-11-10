@@ -10,6 +10,7 @@
 | Package cleanup (images | |
 | Computer choosing 0 bug | Aqib will fix  |
 | Player turn GUI | |
+| Set maximum sizes of frames | |
 |The application should include animations visualising the process of redistribution. Be careful if you decide to attempt this as developing animations can potentially be very time consuming if you are not experienced with this. Also note that this would not affect your mark much.| |
 |The application should include a graphical user interface that visualises the board, perhaps using sprites or other visual representations of the board. | In progress |
 | Design (houses, seeds, player won/lost) | In progress |
