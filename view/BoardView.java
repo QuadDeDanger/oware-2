@@ -15,8 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
@@ -31,11 +32,32 @@ public class BoardView extends BorderPane {
 
 	public BoardView(Board board) {
 		super();
-		
-		centerPane = new VBox();
+
+	   	setPadding(new Insets(20,20,20,20));
+		centerPane = new VBox(20);
 		//
 		this.board = board;
 		housesGrid = new GridPane();
+		
+		
+		housesGrid.setPadding(new Insets(10, 10, 10, 10));
+		housesGrid.setHgap(2);
+		housesGrid.setVgap(100);
+		
+		
+		for (int row = 0; row < 2; row++) {
+			RowConstraints rowConstraints = new RowConstraints();
+			rowConstraints.setPercentHeight(100.0 / 2);
+			housesGrid.getRowConstraints().add(rowConstraints);
+		}
+		for (int col = 0; col < 6; col++) {
+			ColumnConstraints columnConstraints = new ColumnConstraints();
+			columnConstraints.setPercentWidth(100.0 / 6);
+			housesGrid.getColumnConstraints().add(columnConstraints);
+		}
+		
+		
+		
 		housesGrid.setAlignment(Pos.CENTER);
 		makeGrid();
 		//

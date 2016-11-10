@@ -26,7 +26,7 @@ public class PlayerView extends BorderPane {
 	
 	private void makeLabels(int turnPlayer, String playerName) {
 		nameLabel = new Label(playerName);
-		scoreLabel = new Label(" = 0");
+		scoreLabel = new Label("Captured seeds: 0");
 		playerTurn = new Label();
 		
 		setLeft(nameLabel);
@@ -36,7 +36,11 @@ public class PlayerView extends BorderPane {
 	}
 	
 	private void updateScore(int newScore) {
+<<<<<<< HEAD
 		scoreLabel.setText("= "+newScore);
+=======
+		scoreLabel.setText("Captured seeds: "+newScore);
+>>>>>>> master
 	}
 	
 //	private void updatePlayerTurn(int turnPlayer) {
