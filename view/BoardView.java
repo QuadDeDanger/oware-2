@@ -190,7 +190,7 @@ public class BoardView extends BorderPane {
 
 					@Override
 					public void handle(MouseEvent arg0) {
-						if (board.getPlayerTurn() == x) {
+						if (!board.gameOver() && board.getPlayerTurn() == x) {
 							board.sow(x, y);
 							updateBoard();
 						}
@@ -292,7 +292,7 @@ public class BoardView extends BorderPane {
 				gameStatus.setText("Game won by " + board.getPlayer1Name());
 				this.setBottom(gameStatus);
 			} else {
-				gameStatus.setText("Game won by " + board.getPlayer1Name());
+				gameStatus.setText("Game won by " + board.getPlayer2Name());
 				this.setBottom(gameStatus);
 			}
 			newGame.setDisable(false);
