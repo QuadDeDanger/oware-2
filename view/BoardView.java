@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -17,8 +18,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 public class BoardView extends BorderPane {
@@ -33,18 +36,16 @@ public class BoardView extends BorderPane {
 	public BoardView(Board board) {
 		super();
 
-	   	setPadding(new Insets(20,20,20,20));
+		setPadding(new Insets(20, 20, 20, 20));
 		centerPane = new VBox(20);
 		//
 		this.board = board;
 		housesGrid = new GridPane();
-		
-		
+
 		housesGrid.setPadding(new Insets(10, 10, 10, 10));
 		housesGrid.setHgap(2);
 		housesGrid.setVgap(100);
-		
-		
+
 		for (int row = 0; row < 2; row++) {
 			RowConstraints rowConstraints = new RowConstraints();
 			rowConstraints.setPercentHeight(100.0 / 2);
@@ -55,9 +56,7 @@ public class BoardView extends BorderPane {
 			columnConstraints.setPercentWidth(100.0 / 6);
 			housesGrid.getColumnConstraints().add(columnConstraints);
 		}
-		
-		
-		
+
 		housesGrid.setAlignment(Pos.CENTER);
 		makeGrid();
 		//
@@ -71,8 +70,27 @@ public class BoardView extends BorderPane {
 		}
 		//
 		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
-		
+
 		this.setCenter(centerPane);
+
+		Label welcomeLabel = new Label("Oware");
+		welcomeLabel.setFont(new Font("Arial", 30));
+		welcomeLabel.setMaxWidth(Double.MAX_VALUE);
+		welcomeLabel.setAlignment(Pos.CENTER);
+		welcomeLabel.setPadding(new Insets(20, 0, 20, 20));
+
+		HBox buttons = new HBox(10);
+	
+		Button newGame = new Button("New Game");
+		Button forceEnd = new Button("Force end");
+		Button quitGame = new Button("Quit Game");
+		buttons.getChildren().addAll(newGame, forceEnd, quitGame);
+
+		VBox topBox = new VBox();
+		topBox.getChildren().addAll(welcomeLabel, buttons);
+
+		this.setTop(topBox);
+
 	}
 
 	private void makeGrid() {
