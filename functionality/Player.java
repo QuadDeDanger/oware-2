@@ -83,9 +83,11 @@ public class Player {
     public void setIsPlayersTurn(boolean isTurn) {
         isPlayersTurn = isTurn;
     }
-//
-//    public void togglePlayersTurn() {
-//        return !isPlayersTurn;
-//    }
+
+    
+    @Override
+    public String toString(){
+    	return name;
+    }
 
 }

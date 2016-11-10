@@ -109,42 +109,44 @@ public class Board {
 		if (totalSeeds > 0) {
 			return true;
 		} else {
-			//boolean canGiveSeeSds = true; // checks all player moves to see if
+			// boolean canGiveSeeSds = true; // checks all player moves to see
+			// if
 			int numHousesCanGiveSeeds = 0;
-											// any give the opponent seeds
+			// any give the opponent seeds
 			int numHousesAway = 6; // keeps a count of the number of seeds the
 									// house must have
 			for (int col = 0; col < 6; col++) {
 				if ((board[x][col].getCount() >= numHousesAway)) {
-					//canGiveSeeds = false;
+					// canGiveSeeds = false;
 					numHousesCanGiveSeeds++;
 				}
 				numHousesAway--;
 			}
 
-			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you need to check
-								// this specific move
-				
+			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you
+												// need to check
+				// this specific move
+
 				int numSeedsNeeded;
-				if (opponentRow == 1){
-					//number of seeds needs to be +1 of column index
+				if (opponentRow == 1) {
+					// number of seeds needs to be +1 of column index
 					numSeedsNeeded = (y + 1);
-				}else {
-					//opponent row is bottom
-					numSeedsNeeded = (6 - y);					
+				} else {
+					// opponent row is bottom
+					numSeedsNeeded = (6 - y);
 				}
 				if (board[x][y].getCount() >= numSeedsNeeded) {
 					System.out.println("valid move");
 					return true;
-				}else {
+				} else {
 					System.out.println("choose another seed");
 				}
-		
+
 			} else {
 				System.out.println("No moves possible - END GAME");
-				//end game
+				// end game
 			}
-		}		
+		}
 		return false;
 
 	}
@@ -171,114 +173,71 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
+		System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0) {
-			// if (canSow(i, j)) {
-			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse(); // get the
-																	// list
-																	// of seeds
-																	// and
-																	// clear
-																	// that
-																	// house
+			if (canSow(i, j)) {
 
-			House currentHouse = board[i][j]; // get the current house
-			for (int index = 0; index < toSow.size(); ++index) {
-				currentHouse = getNextHouse(currentHouse); // get the next one
-				/*
-				 * 12-seed rule: if are sowing more than 12 seeds, we don't want
-				 * to replant in the starting house
-				 */
-				if (currentHouse.equals(board[i][j])) {
-					currentHouse = getNextHouse(currentHouse); // so we skip
+				// Get list of seeds and clear house
+				List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
+
+				House currentHouse = board[i][j]; // get the current house
+				for (int index = 0; index < toSow.size(); ++index) {
+					currentHouse = getNextHouse(currentHouse); // get the next
+																// one
+					/*
+					 * 12-seed rule: if are sowing more than 12 seeds, we don't
+					 * want to replant in the starting house
+					 */
+					if (currentHouse.equals(board[i][j])) {
+						currentHouse = getNextHouse(currentHouse); // so we skip
+					}
+					currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 				}
-				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
+
+				// start capture from the last house
+				capture(currentHouse.getXPos(), currentHouse.getYPos(), getPlayerTurn());
+
+				// switches the players turns
+
+				player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+				player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+
+				if (isPlayingComputer && getPlayerTurn() == 0) {
+					int computerMove = computerPlayer.makeMove();
+					if (board[0][computerMove].getCount() == 0 && canSow(0, computerMove)) {
+						computerMove = computerPlayer.makeMove();
+					}
+					sow(0, computerMove);
+				}
 			}
-
-			// start capture from the last house
-			capture(currentHouse.getXPos(), currentHouse.getYPos());
-
-			// switches the players turns
-
-			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
-			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
-
-			if (isPlayingComputer && getPlayerTurn() == 0) {
-				sow(0, computerPlayer.makeMove());
-			}
-		}
-		// }
-
-	}
-
-	public int getPlayerTurn() {
-		if (player1.getIsPlayersTurn()) {
-			return 0;
-		}
-		return 1;
-	}
-
-	// Get next house by checking which row. If first, we go backwards, if
-	// second we go forwards
-	private House getNextHouse(House house) {
-		int currentX = house.getXPos();
-		int currentY = house.getYPos();
-
-		if (currentX == 0) {
-			if (currentY == 0) {
-				return board[currentX + 1][currentY];
-			}
-			return board[currentX][currentY - 1];
-
-		} else {
-			if (currentY == 5) {
-				return board[currentX - 1][currentY];
-			}
-			return board[currentX][currentY + 1];
-
 		}
 
 	}
+
+
 
 	// Start from the last house and work backwards/forwards depending on row
-	private void capture(int x, int y) {
+	private void capture(int x, int y, int playerTurn) {
 
 		House currentHouse = board[x][y];
 
-		if (x == 0) { // player 2 made the last move
-			captureHelper(player2, currentHouse);
+		if (playerTurn == 1) { // player 2 made the last move
+			captureHelper(player2, currentHouse, 1);
+
 		} else { // player 1 made the last move
-			captureHelper(player1, currentHouse);
+			captureHelper(player1, currentHouse, 0);
 
 		}
 
 	}
 
-	// Get next house by checking which row. If first, we go backwards, if
-	// second we go forwards
-	private House getPreviousHouse(House house) {
-		int currentX = house.getXPos();
-		int currentY = house.getYPos();
-
-		if (currentX == 0) {
-			if (currentY == 5) {
-				return board[currentX + 1][currentY];
-			}
-			return board[currentX][currentY + 1];
-
-		} else {
-			if (currentY == 0) {
-				return board[currentX - 1][currentY];
-			}
-			return board[currentX][currentY - 1];
-
-		}
-
-	}
-
-	private void captureHelper(Player player, House lastHouse) {
+	private void captureHelper(Player lastPlayer, House lastHouse, int playerNumber) {
 		List<House> toCapture = new ArrayList<>();
 		// capture only if 2 or 3
-		if (lastHouse.getCount() == 2 || lastHouse.getCount() == 3) {
+
+		System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber );
+
+		if (lastHouse.getXPos() != playerNumber && (lastHouse.getCount() == 2 || lastHouse.getCount() == 3)) {
 
 			toCapture.add(lastHouse); // add house to list of houses for now
 
@@ -319,12 +278,64 @@ public class Board {
 					for (Seed seed : toAddToScoreHouse) { // add each to the
 															// score
 															// house
-						player.addSeedToHouse(seed);
+						seed.setIsCaptured(true);
+						lastPlayer.addSeedToHouse(seed);
 					}
 				}
 
 			}
 		}
+	}
+	
+	public int getPlayerTurn() {
+		if (player1.getIsPlayersTurn()) {
+			return 0;
+		}
+		return 1;
+	}
+
+	// Get next house by checking which row. If first, we go backwards, if
+	// second we go forwards
+	private House getNextHouse(House house) {
+		int currentX = house.getXPos();
+		int currentY = house.getYPos();
+
+		if (currentX == 0) {
+			if (currentY == 0) {
+				return board[currentX + 1][currentY];
+			}
+			return board[currentX][currentY - 1];
+
+		} else {
+			if (currentY == 5) {
+				return board[currentX - 1][currentY];
+			}
+			return board[currentX][currentY + 1];
+
+		}
+
+	}
+
+	// Get next house by checking which row. If first, we go backwards, if
+	// second we go forwards
+	private House getPreviousHouse(House house) {
+		int currentX = house.getXPos();
+		int currentY = house.getYPos();
+
+		if (currentX == 0) {
+			if (currentY == 5) {
+				return board[currentX + 1][currentY];
+			}
+			return board[currentX][currentY + 1];
+
+		} else {
+			if (currentY == 0) {
+				return board[currentX - 1][currentY];
+			}
+			return board[currentX][currentY - 1];
+
+		}
+
 	}
 
 	/**
@@ -371,7 +382,7 @@ public class Board {
 	public void setPlayer2Name(String name) {
 		player2.setName(name);
 	}
-	
+
 	public int getPlayer1Score() {
 		return player1.getScore();
 	}
@@ -379,32 +390,5 @@ public class Board {
 	public int getPlayer2Score() {
 		return player2.getScore();
 	}
-
-	
-	/**
-	// Strictly for debugging. This mustn't be used in the game. Remove soon!
-	public void strictlyTestMakeMove(int i, int j) {
-		System.out.println(" ");
-		sow(i, j);
-		if (player1.getIsPlayersTurn()) {
-			System.out.print(player1.getName());
-		} else {
-			System.out.print(player2.getName());
-		}
-		System.out.print(":  After sowing (" + i + "," + j + ") \n");
-		print();
-		System.out.println(player1.getName() + " score: " + player1.getScore() + ", " + player2.getName() + " score: "
-				+ player2.getScore());
-	}
-
-	// For debugging only
-	public void print() {
-		for (int i = 0; i < 2; ++i) {
-			for (int j = 0; j < 6; ++j) {
-				System.out.print(board[i][j].getCount() + " ");
-			}
-			System.out.println(" ");
-		}
-	}**/
 
 }

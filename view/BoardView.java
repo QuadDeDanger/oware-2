@@ -3,11 +3,15 @@ package view;
 import java.util.Optional;
 
 import functionality.Board;
+import functionality.ComputerPlayer;
+import functionality.Player;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -20,8 +24,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class BoardView extends BorderPane {
@@ -38,6 +44,7 @@ public class BoardView extends BorderPane {
 
 		setPadding(new Insets(20, 20, 20, 20));
 		centerPane = new VBox(20);
+		centerPane.setPadding(new Insets(20, 0, 0, 0));
 		//
 		this.board = board;
 		housesGrid = new GridPane();
@@ -80,10 +87,39 @@ public class BoardView extends BorderPane {
 		welcomeLabel.setPadding(new Insets(20, 0, 20, 20));
 
 		HBox buttons = new HBox(10);
-	
+		buttons.setMaxWidth(Double.MAX_VALUE);
+		buttons.setAlignment(Pos.CENTER);
 		Button newGame = new Button("New Game");
+
+		newGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+
+				Stage stage = new Stage();
+				stage.setTitle("Oware");
+
+				Scene scene = new Scene(new WelcomeView(), 500, 300);
+				stage.setScene(scene);
+				stage.show();
+
+				((Node) event.getSource()).getScene().getWindow().hide();
+
+			}
+		});
+
 		Button forceEnd = new Button("Force end");
-		Button quitGame = new Button("Quit Game");
+		forceEnd.setDisable(true);
+		Button quitGame = new Button("Exit Game");
+
+		quitGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Stage stage = (Stage) quitGame.getScene().getWindow();
+				// do what you have to do
+				stage.close();
+			}
+		});
+
 		buttons.getChildren().addAll(newGame, forceEnd, quitGame);
 
 		VBox topBox = new VBox();
@@ -195,15 +231,15 @@ public class BoardView extends BorderPane {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
 	}
-	
+
 	private void checkGameFinished() {
-		if(board.gameWonCheck()) {
-			if(board.getPlayer1Score()>board.getPlayer2Score()) {
-				this.setBottom(new Label("Game won by "+board.getPlayer1Name()));
+		if (board.gameWonCheck()) {
+			if (board.getPlayer1Score() > board.getPlayer2Score()) {
+				this.setBottom(new Label("Game won by " + board.getPlayer1Name()));
 			} else {
-				this.setBottom(new Label("Game won by "+board.getPlayer2Name()));
+				this.setBottom(new Label("Game won by " + board.getPlayer2Name()));
 			}
-		} else if(board.gameDrawCheck()) {
+		} else if (board.gameDrawCheck()) {
 			this.setBottom(new Label("Game drawn"));
 		}
 	}
