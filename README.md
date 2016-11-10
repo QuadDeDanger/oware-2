@@ -20,7 +20,7 @@
 |The application should include a graphical user interface that visualises the board, perhaps using sprites or other visual representations of the board. | In progress |
 |The application should include a basic single player mode. A basic single player mode is very easy to implement: just get the computer player to make random moves.| Yes |
 |The application should include animations visualising the process of redistribution. Be careful if you decide to attempt this as developing animations can potentially be very time consuming if you are not experienced with this. Also note that this would not affect your mark much.| |
-|The application may include an AI player, using a basic search algorithm that explores all combinations of possible future moves up to a very limited number of moves, and identifies the best possible move for the AI player assuming the opponent also makes optimal moves for the opponent. It is extremely challenging to add this to the project in a single week and it does not affect your mark by much.| |
+|The application may include an AI player, using a basic search algorithm that explores all combinations of possible future moves up to a very limited number of moves, and identifies the best possible move for the AI player assuming the opponent also makes optimal moves for the opponent. It is extremely challenging to add this to the project in a single week and it does not affect your mark by much.| In progress |
 
 ##Project Brief##
 
