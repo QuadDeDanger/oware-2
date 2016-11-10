@@ -109,42 +109,44 @@ public class Board {
 		if (totalSeeds > 0) {
 			return true;
 		} else {
-			//boolean canGiveSeeSds = true; // checks all player moves to see if
+			// boolean canGiveSeeSds = true; // checks all player moves to see
+			// if
 			int numHousesCanGiveSeeds = 0;
-											// any give the opponent seeds
+			// any give the opponent seeds
 			int numHousesAway = 6; // keeps a count of the number of seeds the
 									// house must have
 			for (int col = 0; col < 6; col++) {
 				if ((board[x][col].getCount() >= numHousesAway)) {
-					//canGiveSeeds = false;
+					// canGiveSeeds = false;
 					numHousesCanGiveSeeds++;
 				}
 				numHousesAway--;
 			}
 
-			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you need to check
-								// this specific move
-				
+			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you
+												// need to check
+				// this specific move
+
 				int numSeedsNeeded;
-				if (opponentRow == 1){
-					//number of seeds needs to be +1 of column index
+				if (opponentRow == 1) {
+					// number of seeds needs to be +1 of column index
 					numSeedsNeeded = (y + 1);
-				}else {
-					//opponent row is bottom
-					numSeedsNeeded = (6 - y);					
+				} else {
+					// opponent row is bottom
+					numSeedsNeeded = (6 - y);
 				}
 				if (board[x][y].getCount() >= numSeedsNeeded) {
 					System.out.println("valid move");
 					return true;
-				}else {
+				} else {
 					System.out.println("choose another seed");
 				}
-		
+
 			} else {
 				System.out.println("No moves possible - END GAME");
-				//end game
+				// end game
 			}
-		}		
+		}
 		return false;
 
 	}
@@ -193,7 +195,7 @@ public class Board {
 				}
 
 				// start capture from the last house
-				capture(currentHouse.getXPos(), currentHouse.getYPos());
+				capture(currentHouse.getXPos(), currentHouse.getYPos(), getPlayerTurn());
 
 				// switches the players turns
 
@@ -202,7 +204,7 @@ public class Board {
 
 				if (isPlayingComputer && getPlayerTurn() == 0) {
 					int computerMove = computerPlayer.makeMove();
-					if (board[0][computerMove].getCount() == 0) {
+					if (board[0][computerMove].getCount() == 0 && canSow(0, computerMove)) {
 						computerMove = computerPlayer.makeMove();
 					}
 					sow(0, computerMove);
@@ -212,6 +214,79 @@ public class Board {
 
 	}
 
+
+
+	// Start from the last house and work backwards/forwards depending on row
+	private void capture(int x, int y, int playerTurn) {
+
+		House currentHouse = board[x][y];
+
+		if (playerTurn == 1) { // player 2 made the last move
+			captureHelper(player2, currentHouse, 1);
+
+		} else { // player 1 made the last move
+			captureHelper(player1, currentHouse, 0);
+
+		}
+
+	}
+
+	private void captureHelper(Player lastPlayer, House lastHouse, int playerNumber) {
+		List<House> toCapture = new ArrayList<>();
+		// capture only if 2 or 3
+
+		System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber );
+
+		if (lastHouse.getXPos() != playerNumber && (lastHouse.getCount() == 2 || lastHouse.getCount() == 3)) {
+
+			toCapture.add(lastHouse); // add house to list of houses for now
+
+			House previousHouse = getPreviousHouse(lastHouse); // get previous
+																// house
+			for (int j = 0; j < 6; j++) {
+				// if on same row and has size 2 or 3
+				if (previousHouse.getXPos() == lastHouse.getXPos()
+						&& (previousHouse.getCount() == 2 || previousHouse.getCount() == 3)) {
+					toCapture.add(previousHouse); // add to capture
+					previousHouse = getPreviousHouse(previousHouse);
+				} else { // quit the loop
+					break;
+				}
+			}
+
+		}
+
+		if (toCapture.size() > 0) { // Only go through if we have something to
+									// capture
+			int capturedSeedTotal = 0;
+			for (House capturedHouse : toCapture) {
+				capturedSeedTotal += capturedHouse.getCount();
+			}
+
+			int totalOnRow = 0;
+
+			for (int j = 0; j < 6; j++) {
+				totalOnRow += board[lastHouse.getXPos()][j].getCount();
+			}
+
+			if (capturedSeedTotal != totalOnRow) { // if the opponent now has no
+													// more seeds, then forfeit
+													// capture
+
+				for (House house : toCapture) {
+					List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse();
+					for (Seed seed : toAddToScoreHouse) { // add each to the
+															// score
+															// house
+						seed.setIsCaptured(true);
+						lastPlayer.addSeedToHouse(seed);
+					}
+				}
+
+			}
+		}
+	}
+	
 	public int getPlayerTurn() {
 		if (player1.getIsPlayersTurn()) {
 			return 0;
@@ -261,73 +336,6 @@ public class Board {
 
 		}
 
-	}
-
-	// Start from the last house and work backwards/forwards depending on row
-	private void capture(int x, int y) {
-
-		House currentHouse = board[x][y];
-
-		if (x == 0) { // player 2 made the last move
-			captureHelper(player2, currentHouse);
-		} else { // player 1 made the last move
-			captureHelper(player1, currentHouse);
-
-		}
-
-	}
-
-	private void captureHelper(Player player, House lastHouse) {
-		List<House> toCapture = new ArrayList<>();
-		// capture only if 2 or 3
-		if (lastHouse.getCount() == 2 || lastHouse.getCount() == 3) {
-
-			toCapture.add(lastHouse); // add house to list of houses for now
-
-			House previousHouse = getPreviousHouse(lastHouse); // get previous
-																// house
-			for (int j = 0; j < 6; j++) {
-				// if on same row and has size 2 or 3
-				if (previousHouse.getXPos() == lastHouse.getXPos()
-						&& (previousHouse.getCount() == 2 || previousHouse.getCount() == 3)) {
-					toCapture.add(previousHouse); // add to capture
-					previousHouse = getPreviousHouse(previousHouse);
-				} else { // quit the loop
-					break;
-				}
-			}
-
-		}
-
-		if (toCapture.size() > 0) { // Only go through if we have something to
-									// capture
-			int capturedSeedTotal = 0;
-			for (House capturedHouse : toCapture) {
-				capturedSeedTotal += capturedHouse.getCount();
-			}
-
-			int totalOnRow = 0;
-
-			for (int j = 0; j < 6; j++) {
-				totalOnRow += board[lastHouse.getXPos()][j].getCount();
-			}
-
-			if (capturedSeedTotal != totalOnRow) { // if the opponent now has no
-													// more seeds, then forfeit
-													// capture
-
-				for (House house : toCapture) {
-					List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse();
-					for (Seed seed : toAddToScoreHouse) { // add each to the
-															// score
-															// house
-						seed.setIsCaptured(true);
-						player.addSeedToHouse(seed);
-					}
-				}
-
-			}
-		}
 	}
 
 	/**
