@@ -12,43 +12,34 @@ public class PlayerView extends BorderPane {
 	
 	private int playerNumber;
 	
-	private HouseView scoreHouse;
-	
 	public PlayerView(int playerNumber, String playerName, int turnPlayer) {
 		super();
 		this.playerNumber = playerNumber;
 		
-		makeLabels(turnPlayer, playerName);
+				// border pane
+		//left: name		//right: score
 		
-		makeScoreHouse();
+		
+		
+		makeLabels(turnPlayer, playerName);
 	}
 	
 	private void makeLabels(int turnPlayer, String playerName) {
-		HBox labels = new HBox();
 		nameLabel = new Label(playerName);
-		scoreLabel = new Label(" = 0");
+		scoreLabel = new Label("Captured seeds: 0");
 		playerTurn = new Label();
-		labels.getChildren().addAll(nameLabel, scoreLabel);
 		
-		if(playerNumber == 0) {
-			setTop(labels);
-		} else {
-			setBottom(labels);
-		}
-		updatePlayerTurn(turnPlayer);
-	}
-	
-	private void makeScoreHouse() {
-		scoreHouse = new HouseView();
-		setCenter(scoreHouse);
+		setLeft(nameLabel);
+		setRight(scoreLabel);
+		
+		//updatePlayerTurn(turnPlayer);
 	}
 	
 	private void updateScore(int newScore) {
-		scoreLabel.setText("= "+newScore);
-		scoreHouse.setSeeds(newScore);
+		scoreLabel.setText("Captured seeds: "+newScore);
 	}
 	
-	private void updatePlayerTurn(int turnPlayer) {
+//	private void updatePlayerTurn(int turnPlayer) {
 		/*
 		if(turnPlayer == playerNumber && playerNumber == 0) {
 			playerTurn.setText("Your Turn");
@@ -62,11 +53,11 @@ public class PlayerView extends BorderPane {
 			setBottom(playerTurn);
 		}
 		*/
-	}
+	//}
 	
 	public void update(int newScore, int turnPlayer) {
 		updateScore(newScore);
-		updatePlayerTurn(turnPlayer);
+		//updatePlayerTurn(turnPlayer);
 	}
 	
 	public void updatePlayerName(String name){

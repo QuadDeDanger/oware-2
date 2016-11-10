@@ -15,11 +15,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 public class BoardView extends BorderPane {
 
+	private VBox centerPane;
 	private GridPane housesGrid;
 	private Board board;
 	private HouseView[][] houses;
@@ -29,23 +34,46 @@ public class BoardView extends BorderPane {
 	public BoardView(Board board) {
 		super();
 
+	   setPadding(new Insets(20,20,20,20));
+		centerPane = new VBox(20);
 		//
 		this.board = board;
 		housesGrid = new GridPane();
+		
+		
+		housesGrid.setPadding(new Insets(10, 10, 10, 10));
+		housesGrid.setHgap(2);
+		housesGrid.setVgap(100);
+		
+		
+		for (int row = 0; row < 2; row++) {
+			RowConstraints rowConstraints = new RowConstraints();
+			rowConstraints.setPercentHeight(100.0 / 2);
+			housesGrid.getRowConstraints().add(rowConstraints);
+		}
+		for (int col = 0; col < 6; col++) {
+			ColumnConstraints columnConstraints = new ColumnConstraints();
+			columnConstraints.setPercentWidth(100.0 / 6);
+			housesGrid.getColumnConstraints().add(columnConstraints);
+		}
+		
+		
+		
 		housesGrid.setAlignment(Pos.CENTER);
 		makeGrid();
-		this.setCenter(housesGrid);
 		//
 		playerView1 = new PlayerView(0, board.getPlayer1Name(), board.getPlayerTurn());
 		playerView2 = new PlayerView(1, board.getPlayer2Name(), board.getPlayerTurn());
-		this.setLeft(playerView1);
-		this.setRight(playerView2);
 
 		nameDialogue();
 
 		if (board.isPlayingComputer()) {
 			updateBoard();
 		}
+		//
+		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
+		
+		this.setCenter(centerPane);
 	}
 
 	private void makeGrid() {
@@ -54,10 +82,7 @@ public class BoardView extends BorderPane {
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
 				houses[i][j] = new HouseView();
-				houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount()); // change
-																				// to
-																				// one
-																				// getter
+				houses[i][j].setSeeds(board.getHouseCount(i, j));
 				int x = i;
 				int y = j;
 				houses[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -80,7 +105,6 @@ public class BoardView extends BorderPane {
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
 				houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
-
 			}
 		}
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
