@@ -214,8 +214,6 @@ public class Board {
 
 	}
 
-
-
 	// Start from the last house and work backwards/forwards depending on row
 	private void capture(int x, int y, int playerTurn) {
 
@@ -235,7 +233,7 @@ public class Board {
 		List<House> toCapture = new ArrayList<>();
 		// capture only if 2 or 3
 
-		System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber );
+		System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer " + playerNumber);
 
 		if (lastHouse.getXPos() != playerNumber && (lastHouse.getCount() == 2 || lastHouse.getCount() == 3)) {
 
@@ -286,7 +284,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	public int getPlayerTurn() {
 		if (player1.getIsPlayersTurn()) {
 			return 0;
@@ -389,6 +387,28 @@ public class Board {
 
 	public int getPlayer2Score() {
 		return player2.getScore();
+	}
+
+	public void captureOwnSeeds() {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 6; j++) {
+
+				if (i == 0) {
+					List<Seed> toAdd = new ArrayList<>(board[i][j].getSeedsAndEmptyHouse());
+					for (Seed seed : toAdd) {
+						seed.setIsCaptured(true);
+						player1.addSeedToHouse(seed);
+					}
+				} else if (i == 1) {
+					List<Seed> toAdd = new ArrayList<>(board[i][j].getSeedsAndEmptyHouse());
+					for (Seed seed : toAdd) {
+						seed.setIsCaptured(true);
+						player2.addSeedToHouse(seed);
+					}
+				}
+
+			}
+		}
 	}
 
 }
