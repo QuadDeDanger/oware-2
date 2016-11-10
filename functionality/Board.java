@@ -47,7 +47,7 @@ public class Board {
 		if (isPlayingComputer) {
 			computerPlayer = (ComputerPlayer) player1;
 			if (getPlayerTurn() == 0) {
-				sow(0, computerPlayer.makeMove());
+				computerPlayer.makeMove();
 			}
 		}
 
@@ -194,7 +194,7 @@ public class Board {
 			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
 			if (isPlayingComputer && getPlayerTurn() == 0) {
-				sow(0, computerPlayer.makeMove());
+				computerPlayer.makeMove();
 			}
 		}
 		// }

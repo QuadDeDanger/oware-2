@@ -10,23 +10,23 @@ import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
+	private Board board;
+
 	/**
 	 * Creates a new Player with name Computer
 	 */
-	public ComputerPlayer() {
+	public ComputerPlayer(Board board) {
 		super("Computer");
-		// TODO Auto-generated constructor stub
+		this.board = board;
 	}
 
 	/**
-	 * Makes the random move
+	 * Makes move to sow at random place
 	 * @return the random house clicked on the first row
 	 */
-	// Assuming the computer will always be row 0
-	public int makeMove() {
-
-		return new Random().nextInt(6);
-
+	public void makeMove() {
+		// Assuming the computer will always be row 0
+		board.sow(0, new Random().nextInt(6));
 	}
 
 }
