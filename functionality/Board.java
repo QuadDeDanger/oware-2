@@ -307,9 +307,13 @@ public class Board {
 		return 1;
 	}
 
-	// Get next house by checking which row. If first, we go backwards, if
-	// second we go forwards
-	private House getNextHouse(House house) {
+	/**
+	 * Get next house by checking which row. If first, we go backwards, if second we go forwards
+	 *
+	 * @param house to find next house of
+	 * @return next house
+	 */
+	public House getNextHouse(House house) {
 		int currentX = house.getXPos();
 		int currentY = house.getYPos();
 
@@ -331,7 +335,7 @@ public class Board {
 
 	// Get next house by checking which row. If first, we go backwards, if
 	// second we go forwards
-	private House getPreviousHouse(House house) {
+	public House getPreviousHouse(House house) {
 		int currentX = house.getXPos();
 		int currentY = house.getYPos();
 
