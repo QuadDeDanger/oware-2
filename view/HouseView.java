@@ -1,36 +1,51 @@
 package view;
 
+import javafx.scene.Group;
 import java.util.ArrayList;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+public class HouseView extends Group {
+	//Used to store seeds that exist in this house
+	private int count;
+	/*Location stored to for seeds that need to move to this house.
+	Location sent with getX and getY methods*/
+	private int x;
+	private int y;
 
-public class HouseView extends GridPane {
-	private int counter;
-	private Label label;
-	
-	
-	public HouseView() {
+	/*
+	Creates house group that can store seeds inside
+	*/
+	public HouseView(int x, int y) {
 		super();
-		setAlignment(Pos.CENTER);
-		setVgap(20);
-		setHgap(20);
-		label = new Label(Integer.toString(counter));
-		this.add(label, 0, 0);
-		
+		this.x = x;
+		this.y = y;
+		this.count = 0;
 	}
-	
-	public void setSeeds(int i) {
-		if(i != counter) {
-			this.getChildren().clear();
-			counter = i;
-			label.setText(Integer.toString(counter));
-			this.add(label, 0, 0);
-			
+
+	/*
+	Adds seed to the house group to make it easy to display
+	*/
+	public void addSeeds(SeedView s) {
+		getChildren().add(s);
+	}
+
+	public void addSeeds(int s){
+		for(int i=0;i<s;i++){
+			SeedView seed = new SeedView((int) (x+(Math.random()*30)),(int) (y+(Math.random()*30)),10);
+            getChildren().add(seed);
 		}
+	}
+
+	//Removes seeds from the group
+	public void removeSeeds(SeedView s){
+		getChildren().remove(s);
+	}
+
+	public int getX(){
+		return x;
+	}
+
+	public int getY(){
+		return y;
 	}
 
 }

@@ -4,6 +4,7 @@ import functionality.AIComputerPlayer;
 import functionality.Board;
 import functionality.BasicComputerPlayer;
 import functionality.Player;
+import view.BoardView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -43,7 +44,6 @@ public class WelcomeView extends BorderPane {
 				Board board = new Board(player1, player2); // isComputer
 
 				StackPane stack = new StackPane();
-				stack.getChildren().add(new Background());
 				stack.getChildren().add(new BoardView(board));
 
 				Scene scene = new Scene(stack, 800, 400);
@@ -67,8 +67,7 @@ public class WelcomeView extends BorderPane {
 				Board board = new Board(player1, player2); // isComputer
 
 				StackPane stack = new StackPane();
-				stack.getChildren().add(new Background());
-				stack.getChildren().add(new BoardView(board));
+				stack.getChildren().add(new view.BoardView(board));
 
 				Scene scene = new Scene(stack, 800, 400);
 				stage.setScene(scene);
@@ -90,8 +89,7 @@ public class WelcomeView extends BorderPane {
 				Board board = new Board(player1, player2);
 
 				StackPane stack = new StackPane();
-				stack.getChildren().add(new Background());
-				stack.getChildren().add(new BoardView(board));
+				stack.getChildren().add(new view.BoardView(board));
 
 				Scene scene = new Scene(stack, 800, 400);
 				stage.setScene(scene);

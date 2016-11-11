@@ -19,18 +19,15 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class BoardView extends BorderPane {
 
+//Remove things not needed now
 	private VBox centerPane;
 	private GridPane housesGrid;
 	private Board board;
@@ -41,10 +38,12 @@ public class BoardView extends BorderPane {
 	private Button forceEnd;
 	private Label gameStatus;
 
+//affected
 	public BoardView(Board board) {
 		super();
 
 		setPadding(new Insets(20, 20, 20, 20));
+        setStyle("-fx-background-color: #363338");
 
 		setUpTop();
 		gameStatus = new Label();
@@ -84,9 +83,8 @@ public class BoardView extends BorderPane {
 		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
 
 		this.setCenter(centerPane);
-
 	}
-
+//Not affected afaik
 	private void setUpTop() {
 		BorderPane borderTop = new BorderPane();
 
@@ -178,22 +176,26 @@ public class BoardView extends BorderPane {
 		houses = new HouseView[2][6];
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				houses[i][j] = new HouseView();
-				houses[i][j].setSeeds(board.getHouseCount(i, j));
-				int x = i;
-				int y = j;
+				StackPane stack = new StackPane();
+				stack.setAlignment(Pos.CENTER);
+				Circle circle = new Circle(55*(j+(6*i)), 55+(105*i),50);
+				houses[i][j] = new HouseView(55*(j+(6*i)), 55+(105*i));
+				houses[i][j].addSeeds(board.getHouseCount(i,j));
+                int x =i;
+                int y=j;
 				houses[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 					@Override
 					public void handle(MouseEvent arg0) {
 						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x) {
-							board.sow(x, y);
+							board.sow(x,y);
 							updateBoard();
 						}
 					}
 
 				});
-				housesGrid.add(houses[i][j], j, i);
+                stack.getChildren().add(circle);
+                stack.getChildren().add(houses[i][j]);
+				housesGrid.add(stack, j, i);
 			}
 		}
 	}
@@ -206,7 +208,7 @@ public class BoardView extends BorderPane {
 		}
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
+				houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
 			}
 		}
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
@@ -216,7 +218,7 @@ public class BoardView extends BorderPane {
 			board.captureOwnSeeds();
 			for (int i = 0; i < 2; ++i) {
 				for (int j = 0; j < 6; ++j) {
-					houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
+					houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
 				}
 			}
 			checkGameFinished();
@@ -225,6 +227,7 @@ public class BoardView extends BorderPane {
 
 	}
 
+	//Probably affected
 	private void nameDialogue() {
 		// Create the custom dialog.
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -286,11 +289,13 @@ public class BoardView extends BorderPane {
 		}
 	}
 
+	//Shouldn't be affected by change
 	private void updatePlayerNames() {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
 	}
 
+	//Checks whether the game has finished or not
 	private void checkGameFinished() {
 		if (board.gameWonCheck()) {
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {

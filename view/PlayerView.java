@@ -2,7 +2,6 @@ package view;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 
 public class PlayerView extends BorderPane {
 	
