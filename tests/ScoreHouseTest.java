@@ -7,8 +7,8 @@ import org.junit.Test;
 import functionality.*;
 
 /**
- * 
- * @author Aqib
+ * This class contains unit tests for the ScoreHouse class.
+ * @author Aqib Rashid
  *
  */
 
@@ -28,7 +28,7 @@ public class ScoreHouseTest {
 	}
 
 	@Test
-	public void addOneToScoreHouseIsSize20() {
+	public void addTwentyToScoreHouseIsSize20() {
 		ScoreHouse scoreHouse = new ScoreHouse();
 		for (int i = 0; i < 20; i++) {
 			scoreHouse.addSeed(new Seed());

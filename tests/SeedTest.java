@@ -7,10 +7,10 @@ import org.junit.Test;
 import functionality.*;
 
 /**
- * 
- * @author Aqib
+ * This class contains unit tests for the Seed class.
+ * @author Aqib Rashid
  *
- */
+ */ 
 
 public class SeedTest {
 

@@ -7,8 +7,9 @@ import org.junit.Test;
 import functionality.*;
 
 /**
+ * This class contains unit tests for the Player class.
  * 
- * @author Aqib
+ * @author Aqib Rashid
  *
  */
 
@@ -18,6 +19,8 @@ public class PlayerTest {
 	public void playerNameIsCorrectWhenSet() {
 		Player player = new Player("Aqib");
 		assertEquals("Player name is Aqib", "Aqib", player.getName());
+		Player player2 = new Player("");
+		assertEquals("Player2 name is blank", "", player2.getName());
 	}
 
 	@Test
@@ -46,6 +49,8 @@ public class PlayerTest {
 			player.addSeedToHouse(new Seed());
 		}
 		assertEquals("Player score is 20 ", player.getHouse().getCount(), player.getScore());
+		player.addSeedToHouse(new Seed());
+		assertEquals("Player score is 21 ", player.getHouse().getCount(), player.getScore());
 	}
 
 	@Test
