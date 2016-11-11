@@ -39,6 +39,8 @@ public class Board {
 		if(player1 instanceof BasicComputerPlayer) {
 			playingComputer();
 		}
+
+		System.out.println("isPlayingComputer: " + isPlayingComputer());
 	}
 
 	private void playingComputer() {

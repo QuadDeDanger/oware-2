@@ -1,5 +1,6 @@
 package view;
 
+import functionality.AIComputerPlayer;
 import functionality.Board;
 import functionality.BasicComputerPlayer;
 import functionality.Player;
@@ -54,6 +55,30 @@ public class WelcomeView extends BorderPane {
 		});
 
 		Button singePlayerAdvancedButton = new Button("Play single player (advanced)");
+		singePlayerAdvancedButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+
+				Stage stage = new Stage();
+				stage.setTitle("Oware");
+
+				System.out.println("generate start");
+				AIComputerPlayer player1 = new AIComputerPlayer();
+				System.out.println("generate end");
+				Player player2 = new Player("Player");
+				Board board = new Board(player1, player2); // isComputer
+
+				StackPane stack = new StackPane();
+				stack.getChildren().add(new Background());
+				stack.getChildren().add(new BoardView(board));
+
+				Scene scene = new Scene(stack, 800, 400);
+				stage.setScene(scene);
+				stage.show();
+
+				((Node) event.getSource()).getScene().getWindow().hide();
+			}
+		});
 
 		Button twoPlayerButton = new Button("Play two-player");
 		twoPlayerButton.setOnAction(new EventHandler<ActionEvent>() {
