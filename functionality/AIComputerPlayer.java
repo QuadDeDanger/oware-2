@@ -13,7 +13,7 @@ public class AIComputerPlayer extends BasicComputerPlayer {
 
     HashMap<House, Integer> houseSeedMap;
     private int bestSeedsCaptured = 0;
-    private House bestHouseToMakeMove = null;
+    private House bestHouseToMakeMove;
 
     public AIComputerPlayer() {
         setName("AI Computer");
@@ -22,6 +22,7 @@ public class AIComputerPlayer extends BasicComputerPlayer {
 
     @Override
     public void makeMove() {
+        bestHouseToMakeMove = null;
         for(int i = 0; i < 6; ++i) {
             House startHouse = getBoard().getHouseOnBoard(0, i);
             House lastHouse = checkSow(startHouse);
