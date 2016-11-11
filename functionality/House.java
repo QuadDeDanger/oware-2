@@ -70,6 +70,16 @@ public class House {
 		seedsInHouse.clear();
 		return temporaryListOfSeeds;
 	}
+	
+	/**
+	 * Method to return the list of Seeds stored in the house, without emptying
+	 * the list
+	 * 
+	 * @return the list of seeds that the pot contains
+	 */
+	public List<Seed> getSeeds(){
+		return seedsInHouse;
+	}
 
 	/**
 	 * Return the x position of this house
