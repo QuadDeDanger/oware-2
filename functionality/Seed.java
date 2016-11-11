@@ -23,7 +23,7 @@ public class Seed {
 	 * @return the captured status of the seed
 	 */
 	public boolean isCaptured(){
-		return isCaptured();
+		return isCaptured;
 	}
 	
 }
