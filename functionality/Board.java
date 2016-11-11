@@ -17,7 +17,6 @@ public class Board {
 	private Player player1; // will be the computer
 	private Player player2;
 	private boolean isPlayingComputer;
-	private BasicComputerPlayer basicComputerPlayer;
 	private boolean gameStarted;
 	private boolean gameOverNoMovesPossible;
 
@@ -36,25 +35,18 @@ public class Board {
 		setFirstTurn();
 
 		initialiseBoard();
-	}
 
-	public Board(Player player1, Player player2, boolean isComputer) {
-		board = new House[2][6];
-		this.player1 = player1;
-		this.player2 = player2;
-		this.isPlayingComputer = isComputer;
-		setFirstTurn();
-		initialiseBoard();
-		playingComputer();
-
+		if(player1 instanceof BasicComputerPlayer) {
+			playingComputer();
+		}
 	}
 
 	private void playingComputer() {
-		if (isPlayingComputer) {
-			basicComputerPlayer = (BasicComputerPlayer) player1;
-			basicComputerPlayer.setBoard(this);
+		if (player1 instanceof BasicComputerPlayer) {
+			isPlayingComputer = true;
+			((BasicComputerPlayer) player1).setBoard(this);
 			if (getPlayerTurn() == 0) {
-				basicComputerPlayer.makeMove();
+				((BasicComputerPlayer) player1).makeMove();
 			}
 		}
 	}
@@ -210,14 +202,12 @@ public class Board {
 				player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
 				player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
-				if (isPlayingComputer && getPlayerTurn() == 0) {
-					if (isPlayingComputer && getPlayerTurn() == 0) {
-						int computerMove = basicComputerPlayer.generateAndStoreRandomPosition();
-						if (board[0][computerMove].getCount() == 0 && canSow(0, computerMove)) {
-							computerMove = basicComputerPlayer.generateAndStoreRandomPosition();
-						}
-						basicComputerPlayer.makeMove();
+				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
+					int computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
+					if (board[0][computerMove].getCount() == 0 && canSow(0, computerMove)) {
+						computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
 					}
+					((BasicComputerPlayer) player1).makeMove();
 				}
 			}
 		}

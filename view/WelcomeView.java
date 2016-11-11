@@ -39,7 +39,7 @@ public class WelcomeView extends BorderPane {
 
 				BasicComputerPlayer player1 = new BasicComputerPlayer();
 				Player player2 = new Player("Player");
-				Board board = new Board(player1, player2, true); // isComputer
+				Board board = new Board(player1, player2); // isComputer
 
 				StackPane stack = new StackPane();
 				stack.getChildren().add(new Background());
