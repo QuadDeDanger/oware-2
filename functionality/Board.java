@@ -77,70 +77,88 @@ public class Board {
 	}
 
 	/**
-	 * Method to ensure, that if the opponent has no seeds, only moves which
-	 * would increase... ...the number of opponents seeds are allowed.
+	 * Method which checks that opponent will have some seeds at end
 	 * 
-	 * @param x
-	 *            - x coordinate of the house
-	 * @param y
-	 *            - y coordinate of the house
-	 * @return boolean - Shows whether or not this house's seeds can be
-	 *         collected and sewn
+	 * @author Aqib
 	 * @author Jay
+	 * @param i
+	 * @param j
+	 * @return
 	 */
-	public boolean canSow(int x, int y) {
-		int opponentRow;
-		if (x == 0) {
-			// top row is players row
-			opponentRow = 1;
-		} else {
-			// bottom row is players row (x == 1)
-			opponentRow = 0;
-		}
-
-		// checks the number of seeds on the opponents row
-		if (getNumSeedsOnRow(opponentRow) > 0) {
+	public boolean willGiveOpponentSeeds(int i, int j) {
+		if (getNumSeedsOnRow(i) > 0) {
 			return true;
 		} else {
-			int numHousesCanGiveSeeds = 0; // counts the number of houses that
-											// give the opponent seeds
-			int numHousesAway = 6; // keeps a count of the number of seeds the
-									// house must have
-			for (int col = 0; col < 6; col++) {
-				if ((board[x][col].getCount() >= numHousesAway)) {
-					// if this house can give the opponent seeds increase the
-					// counter
-					numHousesCanGiveSeeds++;
+
+			int numberToDistribute = board[i][j].getCount();
+			House targetHouse = board[i][j];
+			for (int index = 0; index < numberToDistribute; index++) {
+				targetHouse = getNextHouse(targetHouse);
+			}
+			if (targetHouse.getXPos() != i) {
+				return true;
+			}
+			gameOverNoMovesPossible = true;
+			return false;
+
+		}
+
+	}
+
+	public void setGameIsOver(boolean gameOver) {
+		gameOverNoMovesPossible = gameOver;
+	}
+
+	/**
+	 * Performs the sowing action (a move)
+	 * 
+	 * @param i
+	 *            the x coordinate of the seed clicked on
+	 * @param j
+	 *            the y coordinate of the seed clicked on
+	 */
+	public void sow(int i, int j) {
+
+		System.out.println("Last move by " + getPlayerTurn());
+		// System.out.println(i + " " + j);
+		if (board[i][j].getCount() != 0 && willGiveOpponentSeeds(i, j)) {
+			// only allow the move if it gives the user seeds and doesnt remove
+			// all of their seeds
+			gameStarted = true;
+
+			// Get list of seeds and clear house
+			List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
+
+			House currentHouse = board[i][j]; // get the current house
+			for (int index = 0; index < toSow.size(); ++index) {
+				currentHouse = getNextHouse(currentHouse); // get the next
+															// one
+				/*
+				 * 12-seed rule: if are sowing more than 12 seeds, we don't want
+				 * to replant in the starting house
+				 */
+				if (currentHouse.equals(board[i][j])) {
+					currentHouse = getNextHouse(currentHouse); // so we skip
 				}
-				numHousesAway--;
+				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 			}
 
-			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you
-												// need to check this specific
-												// move
-				int numSeedsNeeded;
-				if (opponentRow == 1) {
-					// number of seeds needs to be +1 of column index
-					numSeedsNeeded = (y + 1);
-				} else {
-					// opponent row is bottom
-					numSeedsNeeded = (6 - y);
-				}
-				if (board[x][y].getCount() >= numSeedsNeeded) {
-					// System.out.println("valid move");
-					return true;
-				} else {
-					// System.out.println("choose another seed");
-				}
+			// start capture from the last house
+			capture(currentHouse.getXPos(), currentHouse.getYPos(), getPlayerTurn());
 
-			} else {
-				// System.out.println("No moves possible - END GAME");
-				// end game
-				gameOverNoMovesPossible = true;
+			// switches the players turns
+
+			player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
+			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
+
+			if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
+				if (player1 instanceof AIComputerPlayer) {
+					((AIComputerPlayer) player1).makeMove();
+				} else {
+					((BasicComputerPlayer) player1).makeMove();
+				}
 			}
 		}
-		return false;
-
 	}
 
 	/**
@@ -152,10 +170,8 @@ public class Board {
 	 */
 	public int getNumSeedsOnRow(int row) {
 		int totalSeeds = 0;
-		if (row == 1 || row == 0) {
-			for (int col = 0; col < 6; col++) {
-				totalSeeds += board[row][col].getCount();
-			}
+		for (int col = 0; col < 6; col++) {
+			totalSeeds += board[row][col].getCount();
 		}
 		return totalSeeds;
 	}
@@ -171,58 +187,6 @@ public class Board {
 	 */
 	public House getHouseOnBoard(int i, int j) {
 		return board[i][j];
-	}
-
-	/**
-	 * Performs the sowing action (a move)
-	 * 
-	 * @param i
-	 *            the x coordinate of the seed clicked on
-	 * @param j
-	 *            the y coordinate of the seed clicked on
-	 */
-	public void sow(int i, int j) {
-		// System.out.println(i + " " + j);
-		if (board[i][j].getCount() != 0) {
-			// only allow the move if it gives the user seeds and doesnt remove
-			// all of their seeds
-			if (canSow(i, j)) {
-				gameStarted = true;
-
-				// Get list of seeds and clear house
-				List<Seed> toSow = board[i][j].getSeedsAndEmptyHouse();
-
-				House currentHouse = board[i][j]; // get the current house
-				for (int index = 0; index < toSow.size(); ++index) {
-					currentHouse = getNextHouse(currentHouse); // get the next
-																// one
-					/*
-					 * 12-seed rule: if are sowing more than 12 seeds, we don't
-					 * want to replant in the starting house
-					 */
-					if (currentHouse.equals(board[i][j])) {
-						currentHouse = getNextHouse(currentHouse); // so we skip
-					}
-					currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
-				}
-
-				// start capture from the last house
-				capture(currentHouse.getXPos(), currentHouse.getYPos(), getPlayerTurn());
-
-				// switches the players turns
-
-				player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
-				player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
-
-				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
-					if (player1 instanceof AIComputerPlayer) {
-						((AIComputerPlayer) player1).makeMove();
-					} else {
-						((BasicComputerPlayer) player1).makeMove();
-					}
-				}
-			}
-		}
 	}
 
 	public boolean isGameStarted() {
