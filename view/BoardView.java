@@ -4,10 +4,15 @@ import java.util.Optional;
 
 import functionality.Board;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -16,10 +21,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class BoardView extends BorderPane {
@@ -30,22 +37,27 @@ public class BoardView extends BorderPane {
 	private HouseView[][] houses;
 	private PlayerView playerView1;
 	private PlayerView playerView2;
+	private Button newGame;
+	private Button forceEnd;
+	private Label gameStatus;
 
 	public BoardView(Board board) {
 		super();
 
-	   setPadding(new Insets(20,20,20,20));
+		setPadding(new Insets(20, 20, 20, 20));
+
+		setUpTop();
+		gameStatus = new Label();
 		centerPane = new VBox(20);
+		centerPane.setPadding(new Insets(20, 0, 0, 0));
 		//
 		this.board = board;
 		housesGrid = new GridPane();
-		
-		
+
 		housesGrid.setPadding(new Insets(10, 10, 10, 10));
 		housesGrid.setHgap(2);
 		housesGrid.setVgap(100);
-		
-		
+
 		for (int row = 0; row < 2; row++) {
 			RowConstraints rowConstraints = new RowConstraints();
 			rowConstraints.setPercentHeight(100.0 / 2);
@@ -56,9 +68,7 @@ public class BoardView extends BorderPane {
 			columnConstraints.setPercentWidth(100.0 / 6);
 			housesGrid.getColumnConstraints().add(columnConstraints);
 		}
-		
-		
-		
+
 		housesGrid.setAlignment(Pos.CENTER);
 		makeGrid();
 		//
@@ -72,8 +82,96 @@ public class BoardView extends BorderPane {
 		}
 		//
 		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
-		
+
 		this.setCenter(centerPane);
+
+	}
+
+	private void setUpTop() {
+		BorderPane borderTop = new BorderPane();
+
+		Label welcomeLabel = new Label("Oware");
+		welcomeLabel.setFont(new Font("Arial", 30));
+		welcomeLabel.setMaxWidth(Double.MAX_VALUE);
+		welcomeLabel.setAlignment(Pos.CENTER);
+
+		newGame = new Button("New Game");
+		newGame.setFocusTraversable(false);
+		newGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				gameStatus.setText("");
+				forceEnd.setDisable(false);
+				board.resetBoard();
+				updateBoard();
+
+			}
+		});
+		newGame.setDisable(true);
+
+		Button mainScreen = new Button("Main screen");
+		mainScreen.setFocusTraversable(false);
+		mainScreen.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+
+				Stage stage = new Stage();
+				stage.setTitle("Oware");
+
+				Scene scene = new Scene(new WelcomeView(), 500, 300);
+				stage.setScene(scene);
+				stage.show();
+
+				((Node) event.getSource()).getScene().getWindow().hide();
+
+			}
+		});
+
+		forceEnd = new Button("Force end");
+		forceEnd.setFocusTraversable(false);
+
+		forceEnd.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Force end game");
+				alert.setHeaderText("Game stuck in a loop?");
+				alert.setContentText(
+						"If both players agree that the game is an endless cycle, each player will capture the seeds on their side of the board.");
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					board.captureOwnSeeds();
+					updateBoard();
+				}
+
+			}
+		});
+
+		Button endGame = new Button("Exit game");
+		endGame.setFocusTraversable(false);
+
+		endGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Stage stage = (Stage) endGame.getScene().getWindow();
+				// do what you have to do
+				stage.close();
+			}
+		});
+
+		HBox leftHBox = new HBox(10);
+		leftHBox.getChildren().addAll(newGame, mainScreen);
+
+		HBox rightHBox = new HBox(10);
+		rightHBox.getChildren().addAll(forceEnd, endGame);
+
+		borderTop.setLeft(leftHBox);
+		borderTop.setCenter(welcomeLabel);
+		borderTop.setRight(rightHBox);
+
+		this.setTop(borderTop);
 	}
 
 	private void makeGrid() {
@@ -89,7 +187,7 @@ public class BoardView extends BorderPane {
 
 					@Override
 					public void handle(MouseEvent arg0) {
-						if (board.getPlayerTurn() == x) {
+						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x) {
 							board.sow(x, y);
 							updateBoard();
 						}
@@ -102,6 +200,11 @@ public class BoardView extends BorderPane {
 	}
 
 	private void updateBoard() {
+		if (board.isGameStarted()) {
+			newGame.setDisable(false);
+		} else {
+			newGame.setDisable(true);
+		}
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
 				houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
@@ -109,6 +212,18 @@ public class BoardView extends BorderPane {
 		}
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
 		playerView2.update(board.getPlayer2Score(), board.getPlayerTurn());
+		checkGameFinished();
+		if (board.gameOverNoMovesPossible()) { // required for Jay's part
+			board.captureOwnSeeds();
+			for (int i = 0; i < 2; ++i) {
+				for (int j = 0; j < 6; ++j) {
+					houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
+				}
+			}
+			checkGameFinished();
+
+		}
+
 	}
 
 	private void nameDialogue() {
@@ -176,6 +291,25 @@ public class BoardView extends BorderPane {
 	private void updatePlayerNames() {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
+	}
+
+	private void checkGameFinished() {
+		if (board.gameWonCheck()) {
+			if (board.getPlayer1Score() > board.getPlayer2Score()) {
+				gameStatus.setText("Game won by " + board.getPlayer1Name());
+				this.setBottom(gameStatus);
+			} else {
+				gameStatus.setText("Game won by " + board.getPlayer2Name());
+				this.setBottom(gameStatus);
+			}
+			newGame.setDisable(false);
+			forceEnd.setDisable(true);
+		} else if (board.gameDrawCheck()) {
+			gameStatus.setText("Game drawn");
+			this.setBottom(gameStatus);
+			newGame.setDisable(false);
+			forceEnd.setDisable(true);
+		}
 	}
 
 }

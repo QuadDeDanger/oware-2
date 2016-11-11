@@ -83,9 +83,14 @@ public class Player {
     public void setIsPlayersTurn(boolean isTurn) {
         isPlayersTurn = isTurn;
     }
-//
-//    public void togglePlayersTurn() {
-//        return !isPlayersTurn;
-//    }
+
+    public void clearScoreHouse(){
+    	scoreHouse.reset();
+    }
+    
+    @Override
+    public String toString(){
+    	return name;
+    }
 
 }
