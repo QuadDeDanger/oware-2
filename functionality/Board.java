@@ -40,7 +40,6 @@ public class Board {
 			playingComputer();
 		}
 
-		System.out.println("isPlayingComputer: " + isPlayingComputer());
 	}
 
 	private void playingComputer() {
@@ -174,7 +173,6 @@ public class Board {
 	 *            the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0) {
 			if (canSow(i, j)) {
 				gameStarted = true;
@@ -206,7 +204,7 @@ public class Board {
 
 				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
 					int computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
-					if (board[0][computerMove].getCount() == 0 && canSow(0, computerMove)) {
+					if (board[0][computerMove].getCount() == 0 || !canSow(0, computerMove)) {
 						computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
 					}
 					((BasicComputerPlayer) player1).makeMove();

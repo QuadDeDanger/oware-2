@@ -176,7 +176,6 @@ public class BoardView extends BorderPane {
 
 	private void makeGrid() {
 		houses = new HouseView[2][6];
-		System.out.println(board.getPlayerTurn());
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
 				houses[i][j] = new HouseView();
@@ -248,7 +247,6 @@ public class BoardView extends BorderPane {
 			player1.setDisable(true);
 			player1.setText("Computer");
 		} else {
-
 			player1.setPromptText("Player 1");
 		}
 

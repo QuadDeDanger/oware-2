@@ -62,9 +62,7 @@ public class WelcomeView extends BorderPane {
 				Stage stage = new Stage();
 				stage.setTitle("Oware");
 
-				System.out.println("generate start");
 				AIComputerPlayer player1 = new AIComputerPlayer();
-				System.out.println("generate end");
 				Player player2 = new Player("Player");
 				Board board = new Board(player1, player2); // isComputer
 
