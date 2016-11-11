@@ -3,8 +3,6 @@ package view;
 import java.util.Optional;
 
 import functionality.Board;
-import functionality.ComputerPlayer;
-import functionality.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +24,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -179,7 +176,6 @@ public class BoardView extends BorderPane {
 
 	private void makeGrid() {
 		houses = new HouseView[2][6];
-		System.out.println(board.getPlayerTurn());
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
 				houses[i][j] = new HouseView();
@@ -251,7 +247,6 @@ public class BoardView extends BorderPane {
 			player1.setDisable(true);
 			player1.setText("Computer");
 		} else {
-
 			player1.setPromptText("Player 1");
 		}
 

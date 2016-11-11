@@ -1,7 +1,8 @@
 package view;
 
+import functionality.AIComputerPlayer;
 import functionality.Board;
-import functionality.ComputerPlayer;
+import functionality.BasicComputerPlayer;
 import functionality.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,9 +38,9 @@ public class WelcomeView extends BorderPane {
 				Stage stage = new Stage();
 				stage.setTitle("Oware");
 
-				ComputerPlayer player1 = new ComputerPlayer();
+				BasicComputerPlayer player1 = new BasicComputerPlayer();
 				Player player2 = new Player("Player");
-				Board board = new Board(player1, player2, true); // isComputer
+				Board board = new Board(player1, player2); // isComputer
 
 				StackPane stack = new StackPane();
 				stack.getChildren().add(new Background());
@@ -54,6 +55,28 @@ public class WelcomeView extends BorderPane {
 		});
 
 		Button singePlayerAdvancedButton = new Button("Play single player (advanced)");
+		singePlayerAdvancedButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+
+				Stage stage = new Stage();
+				stage.setTitle("Oware");
+
+				AIComputerPlayer player1 = new AIComputerPlayer();
+				Player player2 = new Player("Player");
+				Board board = new Board(player1, player2); // isComputer
+
+				StackPane stack = new StackPane();
+				stack.getChildren().add(new Background());
+				stack.getChildren().add(new BoardView(board));
+
+				Scene scene = new Scene(stack, 800, 400);
+				stage.setScene(scene);
+				stage.show();
+
+				((Node) event.getSource()).getScene().getWindow().hide();
+			}
+		});
 
 		Button twoPlayerButton = new Button("Play two-player");
 		twoPlayerButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -17,7 +17,6 @@ public class Board {
 	private Player player1; // will be the computer
 	private Player player2;
 	private boolean isPlayingComputer;
-	private ComputerPlayer computerPlayer;
 	private boolean gameStarted;
 	private boolean gameOverNoMovesPossible;
 
@@ -36,24 +35,18 @@ public class Board {
 		setFirstTurn();
 
 		initialiseBoard();
-	}
 
-	public Board(Player player1, Player player2, boolean isComputer) {
-		board = new House[2][6];
-		this.player1 = player1;
-		this.player2 = player2;
-		this.isPlayingComputer = isComputer;
-		setFirstTurn();
-		initialiseBoard();
-		playingComputer();
-
+		if(player1 instanceof BasicComputerPlayer) {
+			playingComputer();
+		}
 	}
 
 	private void playingComputer() {
-		if (isPlayingComputer) {
-			computerPlayer = (ComputerPlayer) player1;
+		if (player1 instanceof BasicComputerPlayer) {
+			isPlayingComputer = true;
+			((BasicComputerPlayer) player1).setBoard(this);
 			if (getPlayerTurn() == 0) {
-				sow(0, computerPlayer.makeMove());
+				((BasicComputerPlayer) player1).makeMove();
 			}
 		}
 	}
@@ -114,7 +107,7 @@ public class Board {
 			for (int col = 0; col < 6; col++) {
 				if ((board[x][col].getCount() >= numHousesAway)) {
 					//if this house can give the opponent seeds increase the counter
-					numHousesCanGiveSeeds++;	
+					numHousesCanGiveSeeds++;
 				}
 				numHousesAway--;
 			}
@@ -261,14 +254,15 @@ public class Board {
 				player1.setIsPlayersTurn(!player1.getIsPlayersTurn());
 				player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
-				if (isPlayingComputer && getPlayerTurn() == 0) {
-					int computerMove = computerPlayer.makeMove();
+				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
+					int computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
+					// TODO: 11/11/2016 Add a while loop here
 					if (board[0][computerMove].getCount() == 0 || !canSow(0, computerMove)) {
-						computerMove = computerPlayer.makeMove();
+						computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
 						//*******************************************************************************
 						//could still potentially be a house where the count is 0 - or could be an invalid move
 					}
-					sow(0, computerMove);
+					((BasicComputerPlayer) player1).makeMove();
 				}
 			}
 		}
@@ -358,9 +352,13 @@ public class Board {
 		return 1;
 	}
 
-	// Get next house by checking which row. If first, we go backwards, if
-	// second we go forwards
-	private House getNextHouse(House house) {
+	/**
+	 * Get next house by checking which row. If first, we go backwards, if second we go forwards
+	 *
+	 * @param house to find next house of
+	 * @return next house
+	 */
+	public House getNextHouse(House house) {
 		int currentX = house.getXPos();
 		int currentY = house.getYPos();
 
@@ -382,7 +380,7 @@ public class Board {
 
 	// Get next house by checking which row. If first, we go backwards, if
 	// second we go forwards
-	private House getPreviousHouse(House house) {
+	public House getPreviousHouse(House house) {
 		int currentX = house.getXPos();
 		int currentY = house.getYPos();
 
