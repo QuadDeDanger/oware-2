@@ -257,7 +257,7 @@ public class Board {
 				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
 					int computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
 					// TODO: 11/11/2016 Add a while loop here
-					if (board[0][computerMove].getCount() == 0 || !canSow(0, computerMove)) {
+					if (board[0][computerMove].getCount() == 0 || !canSow(0, computerMove) || !checkMove(0, computerMove)) {
 						computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
 						//*******************************************************************************
 						//could still potentially be a house where the count is 0 - or could be an invalid move
