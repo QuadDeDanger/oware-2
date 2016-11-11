@@ -24,7 +24,8 @@ public class BasicComputerPlayer extends Player {
 	/**
 	 * Set the board that the computer player is playing on
 	 *
-	 * @param board that player is playing on
+	 * @param board
+	 *            that player is playing on
 	 */
 	public void setBoard(Board board) {
 		this.board = board;
@@ -41,6 +42,7 @@ public class BasicComputerPlayer extends Player {
 
 	/**
 	 * Generate and store the random integer position
+	 * 
 	 * @return
 	 */
 	public int generateAndStoreRandomPosition() {
@@ -50,13 +52,14 @@ public class BasicComputerPlayer extends Player {
 
 	/**
 	 * Makes move to sow at random position generated previously
+	 * 
 	 * @return the random house clicked on the first row
 	 */
 	public void makeMove() {
-        generateAndStoreRandomPosition();
-        while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !getBoard().canSow(0, randomPosition) || !getBoard().checkMove(0, randomPosition)) {
-            generateAndStoreRandomPosition();
-        }
+		generateAndStoreRandomPosition();
+		while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !getBoard().canSow(0, randomPosition)) {
+			generateAndStoreRandomPosition();
+		}
 
 		// Assuming the computer will always be row 0
 		board.sow(0, randomPosition);
