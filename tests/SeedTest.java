@@ -6,6 +6,12 @@ import org.junit.Test;
 
 import functionality.*;
 
+/**
+ * This class contains unit tests for the Seed class.
+ * @author Aqib Rashid
+ *
+ */ 
+
 public class SeedTest {
 
 	@Test
