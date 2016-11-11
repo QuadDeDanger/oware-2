@@ -36,7 +36,7 @@ public class Board {
 
 		initialiseBoard();
 
-		if(player1 instanceof BasicComputerPlayer) {
+		if (player1 instanceof BasicComputerPlayer) {
 			playingComputer();
 		}
 	}
@@ -98,21 +98,26 @@ public class Board {
 			opponentRow = 0;
 		}
 
-		// checks the number of seeds on the opponents row		
+		// checks the number of seeds on the opponents row
 		if (getNumSeedsOnRow(opponentRow) > 0) {
 			return true;
 		} else {
-			int numHousesCanGiveSeeds = 0; //counts the number of houses that give the opponent seeds
-			int numHousesAway = 6; // keeps a count of the number of seeds the house must have
+			int numHousesCanGiveSeeds = 0; // counts the number of houses that
+											// give the opponent seeds
+			int numHousesAway = 6; // keeps a count of the number of seeds the
+									// house must have
 			for (int col = 0; col < 6; col++) {
 				if ((board[x][col].getCount() >= numHousesAway)) {
-					//if this house can give the opponent seeds increase the counter
+					// if this house can give the opponent seeds increase the
+					// counter
 					numHousesCanGiveSeeds++;
 				}
 				numHousesAway--;
 			}
 
-			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you need to check this specific move
+			if (numHousesCanGiveSeeds > 1) { // if the seeds can be given - you
+												// need to check this specific
+												// move
 				int numSeedsNeeded;
 				if (opponentRow == 1) {
 					// number of seeds needs to be +1 of column index
@@ -137,68 +142,22 @@ public class Board {
 		return false;
 
 	}
+
 	/**
 	 * Method to return the number of seeds currently on a particular row.
-	 * @param row - takes the row as input - should be either 1 or 0
+	 * 
+	 * @param row
+	 *            - takes the row as input - should be either 1 or 0
 	 * @return the number of seeds on that row
 	 */
-	public int getNumSeedsOnRow(int row){
+	public int getNumSeedsOnRow(int row) {
 		int totalSeeds = 0;
 		if (row == 1 || row == 0) {
 			for (int col = 0; col < 6; col++) {
 				totalSeeds += board[row][col].getCount();
 			}
-		}		
+		}
 		return totalSeeds;
-	}
-	
-	/**
-	 * Method to check the players move to make sure it does not take all of...
-	 * ...their opponents seeds
-	 * @param row - the row the house is on 
-	 * @param col - the cell number of the house which was chosen
-	 * @return
-	 */
-	public boolean checkMove(int row, int col){
-		List<Seed> toSow = board[row][col].getSeeds();
-		House nextHouse = getNextHouse(board[row][col]);
-		//find which row is opponents
-		int opponentRow;
-		if (row == 0){
-			opponentRow = 1;
-		} else {
-			opponentRow = 0;
-		}
-		
-		//find the number of seeds you need to reach the opponent
-		int numSeedsToOpponent;
-		if (row == 0){
-			numSeedsToOpponent = (row + 1);
-		} else {
-			numSeedsToOpponent = (6 - row);
-		}
-		
-		int numSeedsCollected = 0;
-		if (numSeedsToOpponent <= toSow.size()){	//make sure you have enough seeds to get to the opponent
-			//check how many of opponents houses are effected
-			for (int i = 0; i < toSow.size(); i++){
-				int xCoord = nextHouse.getXPos();
-				if (xCoord != row){
-					//only check opponents row
-					if ((nextHouse.getCount() + 1) == 2 || (nextHouse.getCount() + 1) == 3){
-						numSeedsCollected = nextHouse.getCount() + 1;
-					}
-				}
-				nextHouse = getNextHouse(nextHouse);
-			}
-			if (numSeedsCollected == getNumSeedsOnRow(opponentRow)){
-				//cannot take all of opponents seeds
-				System.out.println("Cannot take all of opponents seeds");
-				return false;
-			}
-		}
-		//otherwise its a valid move
-		return true;
 	}
 
 	/**
@@ -225,8 +184,9 @@ public class Board {
 	public void sow(int i, int j) {
 		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0) {
-			//only allow the move if it gives the user seeds and doesnt remove all of their seeds
-			if (canSow(i, j) && checkMove(i, j)) {
+			// only allow the move if it gives the user seeds and doesnt remove
+			// all of their seeds
+			if (canSow(i, j)) {
 				gameStarted = true;
 
 				// Get list of seeds and clear house
@@ -255,7 +215,7 @@ public class Board {
 				player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
 				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
-					if(player1 instanceof  AIComputerPlayer) {
+					if (player1 instanceof AIComputerPlayer) {
 						((AIComputerPlayer) player1).makeMove();
 					} else {
 						((BasicComputerPlayer) player1).makeMove();
@@ -349,9 +309,11 @@ public class Board {
 	}
 
 	/**
-	 * Get next house by checking which row. If first, we go backwards, if second we go forwards
+	 * Get next house by checking which row. If first, we go backwards, if
+	 * second we go forwards
 	 *
-	 * @param house to find next house of
+	 * @param house
+	 *            to find next house of
 	 * @return next house
 	 */
 	public House getNextHouse(House house) {
