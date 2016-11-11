@@ -211,7 +211,7 @@ public class Board {
 
 				if (isPlayingComputer && getPlayerTurn() == 0) {
 					int computerMove = computerPlayer.makeMove();
-					if (board[0][computerMove].getCount() == 0 && canSow(0, computerMove)) {
+					if (board[0][computerMove].getCount() == 0 || !canSow(0, computerMove)) {
 						computerMove = computerPlayer.makeMove();
 					}
 					sow(0, computerMove);
