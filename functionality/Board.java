@@ -255,23 +255,14 @@ public class Board {
 				player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
 				if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
-					int computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
-					// TODO: 11/11/2016 Add a while loop here
-					
-					
-					
-					while (board[0][computerMove].getCount() == 0 || !canSow(0, computerMove) || !checkMove(0, computerMove)) {
-						computerMove = ((BasicComputerPlayer) player1).generateAndStoreRandomPosition();
-						
-						//*******************************************************************************
-						//could still potentially be a house where the count is 0 - or could be an invalid move
+					if(player1 instanceof  AIComputerPlayer) {
+						((AIComputerPlayer) player1).makeMove();
+					} else {
+						((BasicComputerPlayer) player1).makeMove();
 					}
-					System.out.println(board[0][computerMove] +  " is " + board[0][computerMove].getCount());
-					((BasicComputerPlayer) player1).makeMove();
 				}
 			}
 		}
-
 	}
 
 	public boolean isGameStarted() {

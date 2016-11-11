@@ -31,7 +31,6 @@ public class AIComputerPlayer extends BasicComputerPlayer {
         if(bestHouseToMakeMove != null) {
             getBoard().sow(bestHouseToMakeMove.getXPos(), bestHouseToMakeMove.getYPos());
         } else {
-            super.generateAndStoreRandomPosition();
             super.makeMove();
         }
 

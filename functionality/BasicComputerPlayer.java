@@ -53,6 +53,11 @@ public class BasicComputerPlayer extends Player {
 	 * @return the random house clicked on the first row
 	 */
 	public void makeMove() {
+        generateAndStoreRandomPosition();
+        while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !getBoard().canSow(0, randomPosition) || !getBoard().checkMove(0, randomPosition)) {
+            generateAndStoreRandomPosition();
+        }
+
 		// Assuming the computer will always be row 0
 		board.sow(0, randomPosition);
 	}
