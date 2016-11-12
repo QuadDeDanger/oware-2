@@ -94,7 +94,7 @@ public class Board {
 		if (getNumSeedsOnRow(opponentRow) > 0) {
 			return true;
 		} else {
-			System.out.println("choose another move");
+			System.out.println(i + " must choose another move ");
 			int numberToDistribute = board[i][j].getCount();
 			House targetHouse = board[i][j];
 			for (int index = 0; index < numberToDistribute; index++) {
@@ -103,7 +103,7 @@ public class Board {
 			if (targetHouse.getXPos() != i) {
 				return true;
 			}
-			gameOverNoMovesPossible = true;
+			
 			return false;
 
 		}
