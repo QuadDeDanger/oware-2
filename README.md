@@ -4,6 +4,7 @@
 
 | To do                | Met/done?           |
 | -------------------------- |:--------------:| 
+| Report | |
 | JUnit | AI/BCP left |
 | Commenting/javadoc ! | All view classes |
 | Change PLayer 2 to Player as def. name | |
