@@ -1,7 +1,5 @@
 package view;
 
-import java.util.Optional;
-
 import functionality.Board;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,27 +8,23 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.Optional;
+
 public class BoardView extends BorderPane {
 
+//Remove things not needed now
 	private VBox centerPane;
 	private GridPane housesGrid;
 	private Board board;
@@ -41,10 +35,12 @@ public class BoardView extends BorderPane {
 	private Button forceEnd;
 	private Label gameStatus;
 
+//affected
 	public BoardView(Board board) {
 		super();
 
-		setPadding(new Insets(20, 20, 20, 20));
+		setPadding(new Insets(0, 20, 0, 20));
+        setStyle("-fx-background-color: #363338");
 
 		setUpTop();
 		gameStatus = new Label();
@@ -54,22 +50,10 @@ public class BoardView extends BorderPane {
 		this.board = board;
 		housesGrid = new GridPane();
 
-		housesGrid.setPadding(new Insets(10, 10, 10, 10));
-		housesGrid.setHgap(2);
-		housesGrid.setVgap(100);
-
-		for (int row = 0; row < 2; row++) {
-			RowConstraints rowConstraints = new RowConstraints();
-			rowConstraints.setPercentHeight(100.0 / 2);
-			housesGrid.getRowConstraints().add(rowConstraints);
-		}
-		for (int col = 0; col < 6; col++) {
-			ColumnConstraints columnConstraints = new ColumnConstraints();
-			columnConstraints.setPercentWidth(100.0 / 6);
-			housesGrid.getColumnConstraints().add(columnConstraints);
-		}
-
+		housesGrid.setHgap(5);
+		housesGrid.setVgap(8);
 		housesGrid.setAlignment(Pos.CENTER);
+
 		makeGrid();
 		//
 		playerView1 = new PlayerView(0, board.getPlayer1Name(), board.getPlayerTurn());
@@ -84,16 +68,17 @@ public class BoardView extends BorderPane {
 		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
 
 		this.setCenter(centerPane);
-
 	}
+
+    private void formatButton(Button b){
+        b.setTextFill(Color.web("#ffffff"));
+        b.setStyle("-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
+    }
 
 	private void setUpTop() {
 		BorderPane borderTop = new BorderPane();
 
-		Label welcomeLabel = new Label("Oware");
-		welcomeLabel.setFont(new Font("Arial", 30));
-		welcomeLabel.setMaxWidth(Double.MAX_VALUE);
-		welcomeLabel.setAlignment(Pos.CENTER);
+        borderTop.setPadding(new Insets(20,0,0,0));
 
 		newGame = new Button("New Game");
 		newGame.setFocusTraversable(false);
@@ -108,6 +93,7 @@ public class BoardView extends BorderPane {
 			}
 		});
 		newGame.setDisable(true);
+        formatButton(newGame);
 
 		Button mainScreen = new Button("Main screen");
 		mainScreen.setFocusTraversable(false);
@@ -126,6 +112,7 @@ public class BoardView extends BorderPane {
 
 			}
 		});
+        formatButton(mainScreen);
 
 		forceEnd = new Button("Force end");
 		forceEnd.setFocusTraversable(false);
@@ -148,6 +135,7 @@ public class BoardView extends BorderPane {
 
 			}
 		});
+        formatButton(forceEnd);
 
 		Button endGame = new Button("Exit game");
 		endGame.setFocusTraversable(false);
@@ -160,6 +148,7 @@ public class BoardView extends BorderPane {
 				stage.close();
 			}
 		});
+        formatButton(endGame);
 
 		HBox leftHBox = new HBox(10);
 		leftHBox.getChildren().addAll(newGame, mainScreen);
@@ -168,7 +157,6 @@ public class BoardView extends BorderPane {
 		rightHBox.getChildren().addAll(forceEnd, endGame);
 
 		borderTop.setLeft(leftHBox);
-		borderTop.setCenter(welcomeLabel);
 		borderTop.setRight(rightHBox);
 
 		this.setTop(borderTop);
@@ -178,22 +166,22 @@ public class BoardView extends BorderPane {
 		houses = new HouseView[2][6];
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				houses[i][j] = new HouseView();
-				houses[i][j].setSeeds(board.getHouseCount(i, j));
-				int x = i;
-				int y = j;
+				houses[i][j] = new HouseView(55*(j+(6*i))+5, 55+(105*i),50);
+                if(i ==1) houses[i][j].setBottom();
+				houses[i][j].addSeeds(board.getHouseCount(i,j));
+                int x = i;
+                int y = j;
 				houses[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 					@Override
 					public void handle(MouseEvent arg0) {
 						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x) {
-							board.sow(x, y);
+							board.sow(x,y);
 							updateBoard();
 						}
 					}
 
 				});
-				housesGrid.add(houses[i][j], j, i);
+                housesGrid.add(houses[i][j], j, i);
 			}
 		}
 	}
@@ -206,7 +194,10 @@ public class BoardView extends BorderPane {
 		}
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
+                if(houses[i][j].getSize() != board.getHouseOnBoard(i, j).getCount()) {
+                    houses[i][j].clear();
+                    houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
+                }
 			}
 		}
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
@@ -216,7 +207,7 @@ public class BoardView extends BorderPane {
 			board.captureOwnSeeds();
 			for (int i = 0; i < 2; ++i) {
 				for (int j = 0; j < 6; ++j) {
-					houses[i][j].setSeeds(board.getHouseOnBoard(i, j).getCount());
+					houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
 				}
 			}
 			checkGameFinished();
@@ -225,6 +216,7 @@ public class BoardView extends BorderPane {
 
 	}
 
+	//Probably affected
 	private void nameDialogue() {
 		// Create the custom dialog.
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -235,6 +227,13 @@ public class BoardView extends BorderPane {
 		// Set the button types.
 		ButtonType okButton = new ButtonType("Ok", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+
+        //Set Style
+        dialog.getDialogPane().setStyle("-fx-background-color: #363338");
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setStyle("-fx-background-color: #eb505d;" +
+                " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
+        dialog.getDialogPane().lookupButton(okButton).setStyle("-fx-background-color: #eb505d;" +
+                " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
 
 		// Create the username and password labels and fields.
 		GridPane grid = new GridPane();
@@ -286,10 +285,12 @@ public class BoardView extends BorderPane {
 		}
 	}
 
+
 	private void updatePlayerNames() {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
 	}
+
 
 	private void checkGameFinished() {
 		if (board.gameWonCheck()) {
