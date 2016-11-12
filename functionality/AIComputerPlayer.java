@@ -26,7 +26,7 @@ public class AIComputerPlayer extends BasicComputerPlayer {
         for(int i = 0; i < 6; ++i) {
             House startHouse = getBoard().getHouseOnBoard(0, i);
             House lastHouse = checkSow(startHouse);
-            checkCapture(startHouse, lastHouse);
+            if(lastHouse.getXPos() != 0) checkCapture(startHouse, lastHouse);
         }
 
         if(bestHouseToMakeMove != null) {
@@ -95,7 +95,7 @@ public class AIComputerPlayer extends BasicComputerPlayer {
             int seedCount = 0;
             if (capturedSeedTotal != totalOnRow) { // if the opponent now has no more seeds, then forfeit capture
                 for (House house : toCapture) {
-                    List<Seed> toAddToScoreHouse = house.getSeedsAndEmptyHouse();
+                    List<Seed> toAddToScoreHouse = house.getSeeds();
                     for (Seed seed : toAddToScoreHouse) { // add each to the score house
                         ++seedCount;
                     }
