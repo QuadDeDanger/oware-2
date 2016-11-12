@@ -1,6 +1,8 @@
 package functionality;
 
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class represents a basic computer player in the single player mode.
@@ -57,12 +59,25 @@ public class BasicComputerPlayer extends Player {
 	 */
 	public void makeMove() {
 		generateAndStoreRandomPosition();
-		while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !getBoard().canSow(0, randomPosition)) {
+		Set<Integer> indicesTried = new TreeSet<>();
+		while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !board.willGiveOpponentSeeds(0, randomPosition)) {
 			generateAndStoreRandomPosition();
+			if(!indicesTried.contains(randomPosition)){
+				indicesTried.add(randomPosition);
+			}
+			System.out.println("here");
+			
 		}
 
 		// Assuming the computer will always be row 0
-		board.sow(0, randomPosition);
+		
+		if(indicesTried.size() == 6){
+			board.setGameIsOver(true);
+		}
+		else {
+			board.sow(0, randomPosition);
+		}
+		
 	}
 
 }

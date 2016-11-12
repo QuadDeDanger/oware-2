@@ -294,6 +294,7 @@ public class BoardView extends BorderPane {
 
 	private void checkGameFinished() {
 		if (board.gameWonCheck()) {
+			System.out.println("game over");
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
 				gameStatus.setText("Game won by " + board.getPlayer1Name());
 				this.setBottom(gameStatus);
