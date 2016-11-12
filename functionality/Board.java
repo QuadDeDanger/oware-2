@@ -103,11 +103,29 @@ public class Board {
 			if (targetHouse.getXPos() != i) {
 				return true;
 			}
-			
+			checkValidMoves(i);
 			return false;
 
 		}
 
+	}
+	
+	private boolean checkValidMoves(int i) {
+		for(int j=0; j<6; ++j) {
+			
+			int numberToDistribute = board[i][j].getCount();
+			House targetHouse = board[i][j];
+			
+			for (int index = 0; index < numberToDistribute; index++) {
+				targetHouse = getNextHouse(targetHouse);
+			}
+			if (targetHouse.getXPos() != i) {
+				return true;
+			}
+		}
+		captureOwnSeeds();
+		setGameIsOver(true);
+		return false;
 	}
 
 	public void setGameIsOver(boolean gameOver) {
