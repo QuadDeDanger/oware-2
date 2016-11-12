@@ -44,7 +44,12 @@ public class Board {
 			playingComputer();
 		}
 	}
-
+	
+	/*
+	 * Checks to see if player1 is the computer, and then sets the boolean variable to true if it is
+	 * If they are, set the board equal to the board the computer is playing on
+	 * If it is the computer players turn, make a move
+	 */
 	private void playingComputer() {
 		if (player1 instanceof BasicComputerPlayer) {
 			isPlayingComputer = true;
@@ -70,7 +75,7 @@ public class Board {
 		//random number generated either 0 or 1
 		int whichPlayer = rand.nextInt(2);
 
-		//player 1 starts
+		//sets the boolean variables for if its a players turn
 		if (whichPlayer == 0) {
 			player1.setIsPlayersTurn(true);
 			player2.setIsPlayersTurn(false);
@@ -108,7 +113,7 @@ public class Board {
 		if (getNumSeedsOnRow(opponentRow) > 0) {
 			return true;
 		} else {
-			//System.out.println(i + " must choose another move ");
+			//there are no seeds on the opponents row
 			int numberToDistribute = board[i][j].getCount();
 			House targetHouse = board[i][j];
 			//moves the house to the target house
@@ -119,6 +124,8 @@ public class Board {
 			if (targetHouse.getXPos() != i) {
 				return true;
 			}
+			//if the target house is on the players side you need to check to make...
+			//...sure the move gives the opponent seeds
 			checkValidMoves(i);
 			return false;
 		}
@@ -134,10 +141,14 @@ public class Board {
 			for (int index = 0; index < numberToDistribute; index++) {
 				targetHouse = getNextHouse(targetHouse);
 			}
+			//checks to see if the target house is on the opponents side
 			if (targetHouse.getXPos() != i) {
+				//if it is, it means the move will give the opponent seeds
 				return true;
 			}
 		}
+		//otherwise the game is over, so the players capture their own seeds
+		//the method returns false because there is no valid move
 		captureOwnSeeds();
 		setGameIsOver(true);
 		return false;
@@ -150,8 +161,7 @@ public class Board {
 	 * @param j the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-		//System.out.println("Last move by " + getPlayerTurn() + " was " + i + " " + j);
-		// System.out.println(i + " " + j);
+		//Only allows the move if it is valid
 		if (board[i][j].getCount() != 0 && willGiveOpponentSeeds(i, j)) {
 			gameStarted = true;
 
@@ -162,10 +172,10 @@ public class Board {
 			for (int index = 0; index < toSow.size(); ++index) {
 				currentHouse = getNextHouse(currentHouse); // get the next one
 				/* 12-seed rule: if sowing more than 12 seeds, we don't want
-				 * to replant in the starting house
+				 * to replant in the starting house, so it is skipped
 				 */
 				if (currentHouse.equals(board[i][j])) {
-					currentHouse = getNextHouse(currentHouse); // so we skip
+					currentHouse = getNextHouse(currentHouse); //skip house
 				}
 				currentHouse.addSeedInPot(toSow.get(index)); // sow a seed
 			}
@@ -178,7 +188,7 @@ public class Board {
 			player2.setIsPlayersTurn(!player2.getIsPlayersTurn());
 
 			if (player1 instanceof BasicComputerPlayer && getPlayerTurn() == 0) {
-				//if player 1 is an AI Computer Player call its make move method
+				//if player 1 is an AI Computer Player, call its make move method
 				if (player1 instanceof AIComputerPlayer) {
 					((AIComputerPlayer) player1).makeMove();
 				} else { //else it is basic computer player, calls its make move method
@@ -221,8 +231,10 @@ public class Board {
 	public boolean isGameStarted() {
 		return gameStarted;
 	}
-
-	// Start from the last house and work backwards/forwards depending on row
+	
+	/*
+	 * Captures the opponents seeds starting from the last house a seed was sewn in.
+	 */
 	private void capture(int x, int y, int playerTurn) {
 		House currentHouse = board[x][y];
 
@@ -232,17 +244,15 @@ public class Board {
 			captureHelper(player1, currentHouse, 0);
 		}
 	}
-
+	
+	/*
+	 * Method to actually capture the seeds. The house is only captured if it contains 2 or 3 seeds.
+	 */
 	private void captureHelper(Player lastPlayer, House lastHouse, int playerNumber) {
 		List<House> toCapture = new ArrayList<>();
-		// capture only if 2 or 3
-
-		// System.out.println("lastHouse " + lastHouse.getXPos() + " lastPlayer
-		// " + playerNumber);
-
-		//if the house on the opponents side and it has 2 or 3 seeds
+		//checks to make sure the house is on the opponents side and it has 2 or 3 seeds
 		if (lastHouse.getXPos() != playerNumber && (lastHouse.getCount() == 2 || lastHouse.getCount() == 3)) {
-			// add house to list of houses for now
+			// add house to list of house
 			toCapture.add(lastHouse);
 
 			// get previous house
@@ -260,7 +270,7 @@ public class Board {
 			}
 
 		}
-
+		
 		// Only go through if we have something to capture (list not empty)
 		if (toCapture.size() > 0) {
 			//keeps track of how many seeds captured
@@ -377,12 +387,12 @@ public class Board {
 	}
 
 	/**
-	 * Check to see if game has won
+	 * Check to see if the game has been won.
 	 *
 	 * @return true if game has won
 	 */
 	public boolean gameWonCheck() {
-
+		//if a player has more than 24 seeds they have won
 		if (player1.getScore() > 24 || player2.getScore() > 24) {
 			return true;
 		}
@@ -390,11 +400,12 @@ public class Board {
 	}
 
 	/**
-	 * Check to see if the game was a draw
+	 * Check to see if the game ended in a draw
 	 *
 	 * @return true if the game was a draw
 	 */
 	public boolean gameDrawCheck() {
+		//the game is a draw in both players have 24 seeds
 		if (player1.getScore() == 24 && player2.getScore() == 24) {
 			return true;
 		}
@@ -432,8 +443,8 @@ public class Board {
 	/**
 	 * Gets the number of seeds that are stored in a particular house
 	 *
-	 * @param i coordinate
-	 * @param j coordinate
+	 * @param i - x coordinate
+	 * @param j - y coordinate
 	 * @return number of seeds in the house
 	 */
 	public int getHouseCount(int i, int j) {
@@ -459,7 +470,7 @@ public class Board {
 	}
 
 	/**
-	 * Sets the player 1's name
+	 * Sets player 1's name
 	 *
 	 * @param name of player
 	 */
@@ -468,7 +479,7 @@ public class Board {
 	}
 
 	/**
-	 * Sets the player 2's name
+	 * Sets player 2's name
 	 *
 	 * @param name of player
 	 */
@@ -504,7 +515,7 @@ public class Board {
 	}
 
 	/**
-	 * Sets the game over boolean
+	 * Sets the boolean variable which shows if the game is over
 	 * @param gameOver boolean to make the game over variable
 	 */
 	public void setGameIsOver(boolean gameOver) {
