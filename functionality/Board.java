@@ -10,6 +10,7 @@ import java.util.Random;
  * @author Haaris Memon
  * @author Aqib Rashid
  * @author Jaydene Green-Stevens
+ * @author Federico Midolo
  */
 public class Board {
 
@@ -107,7 +108,7 @@ public class Board {
 		if (getNumSeedsOnRow(opponentRow) > 0) {
 			return true;
 		} else {
-			System.out.println("choose another move");
+			//System.out.println(i + " must choose another move ");
 			int numberToDistribute = board[i][j].getCount();
 			House targetHouse = board[i][j];
 			//moves the house to the target house
@@ -118,9 +119,28 @@ public class Board {
 			if (targetHouse.getXPos() != i) {
 				return true;
 			}
-			setGameIsOver(true);
+			checkValidMoves(i);
 			return false;
 		}
+	}
+
+	//checks if the move is valid
+	private boolean checkValidMoves(int i) {
+		for(int j=0; j<6; ++j) {
+			//stores the number of seeds in the house
+			int numberToDistribute = board[i][j].getCount();
+			House targetHouse = board[i][j];
+			//keep moving to next house as there are seeds
+			for (int index = 0; index < numberToDistribute; index++) {
+				targetHouse = getNextHouse(targetHouse);
+			}
+			if (targetHouse.getXPos() != i) {
+				return true;
+			}
+		}
+		captureOwnSeeds();
+		setGameIsOver(true);
+		return false;
 	}
 
 	/**
@@ -130,9 +150,8 @@ public class Board {
 	 * @param j the y coordinate of the seed clicked on
 	 */
 	public void sow(int i, int j) {
-
-		System.out.println("Last move by " + getPlayerTurn() + " was " + i + " " + j);
-		//only allow the move if the house selected has seeds and the move still allows for opponent to have seeds on their side
+		//System.out.println("Last move by " + getPlayerTurn() + " was " + i + " " + j);
+		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0 && willGiveOpponentSeeds(i, j)) {
 			gameStarted = true;
 
