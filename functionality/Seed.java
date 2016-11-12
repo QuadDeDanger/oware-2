@@ -1,7 +1,7 @@
 package functionality;
 
 /**
- * This class represents a Seed
+ * This class represents a Seed which is used throughout the game.
  * @author Aqib Rashid
  *
  */
