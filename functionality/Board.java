@@ -272,7 +272,7 @@ public class Board {
 
 			//keeps track of how many seeds on the row
 			int totalOnRow = 0;
-			//for each house on the row and the seed count to the counter (to check if opponent still has seeds)
+			//for each house on the row add the seed count to the counter (to check if opponent still has seeds)
 			for (int j = 0; j < 6; j++) {
 				totalOnRow += board[lastHouse.getXPos()][j].getCount();
 			}
