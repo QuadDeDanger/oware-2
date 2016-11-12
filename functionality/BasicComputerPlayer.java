@@ -65,6 +65,7 @@ public class BasicComputerPlayer extends Player {
 			if(!indicesTried.contains(randomPosition)){
 				indicesTried.add(randomPosition);
 			}
+			System.out.println("here");
 			
 		}
 
