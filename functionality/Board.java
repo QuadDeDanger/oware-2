@@ -94,7 +94,7 @@ public class Board {
 		if (getNumSeedsOnRow(opponentRow) > 0) {
 			return true;
 		} else {
-			System.out.println(i + " must choose another move ");
+			//System.out.println(i + " must choose another move ");
 			int numberToDistribute = board[i][j].getCount();
 			House targetHouse = board[i][j];
 			for (int index = 0; index < numberToDistribute; index++) {
@@ -142,7 +142,7 @@ public class Board {
 	 */
 	public void sow(int i, int j) {
 
-		System.out.println("Last move by " + getPlayerTurn() + " was " + i + " " + j);
+		//System.out.println("Last move by " + getPlayerTurn() + " was " + i + " " + j);
 		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0 && willGiveOpponentSeeds(i, j)) {
 			// only allow the move if it gives the user seeds and doesnt remove
