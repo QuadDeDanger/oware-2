@@ -15,7 +15,7 @@ import java.util.Random;
 public class Board {
 
 	private House[][] board;
-	private Player player1; // will be the computer
+	private Player player1; // will be the computer for one player version
 	private Player player2;
 	private boolean isPlayingComputer;
 	private boolean gameStarted;
