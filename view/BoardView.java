@@ -244,7 +244,7 @@ public class BoardView extends BorderPane {
 		TextField player1 = new TextField();
 		if (board.isPlayingComputer()) {
 			player1.setDisable(true);
-			player1.setText("Computer");
+			player1.setText(board.getPlayer1Name());
 		} else {
 			player1.setPromptText("Player 1");
 		}

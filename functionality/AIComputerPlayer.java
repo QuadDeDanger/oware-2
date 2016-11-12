@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class AIComputerPlayer extends BasicComputerPlayer {
 
-    HashMap<House, Integer> houseSeedMap;
+    private HashMap<House, Integer> houseSeedMap;
     private int bestSeedsCaptured = 0;
     private House bestHouseToMakeMove;
 
