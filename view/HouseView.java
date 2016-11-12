@@ -1,43 +1,70 @@
 package view;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
-import java.util.ArrayList;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
-public class HouseView extends Group {
-	//Used to store seeds that exist in this house
+public class HouseView extends BorderPane {
 	private int count;
-	/*Location stored to for seeds that need to move to this house.
-	Location sent with getX and getY methods*/
 	private int x;
 	private int y;
+    private Group seeds;
+    private StackPane stackHouse;
+    private StackPane stackLabel;
+    private Label label;
 
-	/*
-	Creates house group that can store seeds inside
-	*/
-	public HouseView(int x, int y) {
+	/**
+	 * Creates a group that stores the
+	 * @param x
+	 * @param y
+	 */
+	public HouseView(int x, int y, int r) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.count = 0;
-	}
 
-	/*
-	Adds seed to the house group to make it easy to display
-	*/
-	public void addSeeds(SeedView s) {
-		getChildren().add(s);
+        stackHouse = new StackPane();
+        stackLabel = new StackPane();
+        seeds = new Group();
+        label = new Label("0");
+        Circle back = new Circle(x,y,r, Color.web("#eb505d"));
+        Rectangle rect = new Rectangle(14,30,Color.web("#1b1b1c"));
+
+        label.setTextFill(Color.web("#ffffff"));
+        label.setPadding(new Insets(0,0,10,0));
+
+        stackHouse.setAlignment(Pos.CENTER);
+        stackLabel.setAlignment(Pos.CENTER);
+
+        stackHouse.getChildren().add(back);
+        stackHouse.getChildren().add(seeds);
+        stackLabel.getChildren().add(rect);
+        stackLabel.getChildren().add(label);
+
+        setCenter(stackHouse);
+        setTop(stackLabel);
+        setAlignment(stackLabel,Pos.CENTER);
 	}
 
 	public void addSeeds(int s){
 		for(int i=0;i<s;i++){
 			SeedView seed = new SeedView((int) (x+(Math.random()*30)),(int) (y+(Math.random()*30)),10);
-            getChildren().add(seed);
+            seeds.getChildren().add(seed);
+            count++;
 		}
+		label.setText(String.valueOf(count));
 	}
 
-	//Removes seeds from the group
-	public void removeSeeds(SeedView s){
-		getChildren().remove(s);
+	public void removeSeeds(int s){
+		seeds.getChildren().remove(s);
+        count--;
 	}
 
 	public int getX(){
@@ -48,4 +75,22 @@ public class HouseView extends Group {
 		return y;
 	}
 
+	public int getSize(){
+        return count;
+    }
+
+	public void setBottom(){
+        setTop(null);
+        setBottom(stackLabel);
+        label.setPadding(new Insets(10,0,0,0));
+    }
+
+    public void setText(String s){
+        label.setText(s);
+    }
+
+	public void clear(){
+        seeds.getChildren().clear();
+        count=0;
+    }
 }
