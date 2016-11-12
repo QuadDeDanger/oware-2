@@ -119,7 +119,7 @@ public class Board {
 	 */
 	public void sow(int i, int j) {
 
-		System.out.println("Last move by " + getPlayerTurn());
+		System.out.println("Last move by " + getPlayerTurn() + " was " + i + " " + j);
 		// System.out.println(i + " " + j);
 		if (board[i][j].getCount() != 0 && willGiveOpponentSeeds(i, j)) {
 			// only allow the move if it gives the user seeds and doesnt remove
