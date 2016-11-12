@@ -1,8 +1,8 @@
 package view;
 
 import functionality.AIComputerPlayer;
-import functionality.Board;
 import functionality.BasicComputerPlayer;
+import functionality.Board;
 import functionality.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,15 +15,22 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class WelcomeView extends BorderPane {
 
 	public WelcomeView() {
-		setPadding(new Insets(20, 0, 20, 20));
+		setPadding(new Insets(20, 0, 20, 0));
+		setStyle("-fx-background-color: #363338");
 		setUp();
 	}
+
+	private void formatButton(Button b){
+        b.setTextFill(Color.web("#ffffff"));
+        b.setStyle("-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
+    }
 
 	private void setUp() {
 		VBox vbButtons = new VBox();
@@ -43,10 +50,9 @@ public class WelcomeView extends BorderPane {
 				Board board = new Board(player1, player2); // isComputer
 
 				StackPane stack = new StackPane();
-				stack.getChildren().add(new Background());
 				stack.getChildren().add(new BoardView(board));
 
-				Scene scene = new Scene(stack, 800, 400);
+				Scene scene = new Scene(stack, 800, 420);
 				stage.setScene(scene);
 				stage.show();
 
@@ -67,10 +73,9 @@ public class WelcomeView extends BorderPane {
 				Board board = new Board(player1, player2); // isComputer
 
 				StackPane stack = new StackPane();
-				stack.getChildren().add(new Background());
-				stack.getChildren().add(new BoardView(board));
+				stack.getChildren().add(new view.BoardView(board));
 
-				Scene scene = new Scene(stack, 800, 400);
+				Scene scene = new Scene(stack, 800, 420);
 				stage.setScene(scene);
 				stage.show();
 
@@ -90,10 +95,9 @@ public class WelcomeView extends BorderPane {
 				Board board = new Board(player1, player2);
 
 				StackPane stack = new StackPane();
-				stack.getChildren().add(new Background());
-				stack.getChildren().add(new BoardView(board));
+				stack.getChildren().add(new view.BoardView(board));
 
-				Scene scene = new Scene(stack, 800, 400);
+				Scene scene = new Scene(stack, 800, 420);
 				stage.setScene(scene);
 				stage.show();
 
@@ -110,15 +114,19 @@ public class WelcomeView extends BorderPane {
 		twoPlayerButton.setMaxWidth(Double.MAX_VALUE);
 		twoPlayerButton.setPadding(new Insets(15, 0, 15, 0));
 
+        formatButton(singlePlayerButton);
+        formatButton(singePlayerAdvancedButton);
+        formatButton(twoPlayerButton);
+
 		vbButtons.getChildren().addAll(singlePlayerButton, singePlayerAdvancedButton, twoPlayerButton);
 
 		Label welcomeLabel = new Label("Oware");
 		welcomeLabel.setFont(new Font("Arial", 30));
-		welcomeLabel.setMaxWidth(Double.MAX_VALUE);
-		welcomeLabel.setAlignment(Pos.CENTER);
-		welcomeLabel.setPadding(new Insets(20, 0, 20, 20));
+        welcomeLabel.setTextFill(Color.web("#ffffff"));
+		welcomeLabel.setPadding(new Insets(20, 0, 20, 0));
 
 		setTop(welcomeLabel);
 		setCenter(vbButtons);
+        setAlignment(welcomeLabel,Pos.CENTER);
 	}
 }
