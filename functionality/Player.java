@@ -46,7 +46,7 @@ public class Player {
 	 *
 	 * @return Score House that player has
 	 */
-	public ScoreHouse getHouse() {
+	public ScoreHouse getScoreHouse() {
 		return scoreHouse;
 	}
 
@@ -66,7 +66,7 @@ public class Player {
 	 * @param seed
 	 *            to be inserted into player's score house
 	 */
-	public void addSeedToHouse(Seed seed) {
+	public void addSeedToScoreHouse(Seed seed) {
 		scoreHouse.addSeed(seed);
 	}
 

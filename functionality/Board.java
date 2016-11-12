@@ -285,7 +285,7 @@ public class Board {
 					// add each seed to the players score house
 					for (Seed seed : toAddToScoreHouse) {
 						seed.setIsCaptured(true);
-						lastPlayer.addSeedToHouse(seed);
+						lastPlayer.addSeedToScoreHouse(seed);
 					}
 				}
 			}
@@ -415,7 +415,7 @@ public class Board {
 				//each seed is captured
 				seed.setIsCaptured(true);
 				//each seed is added to the the player 1 score house
-				player1.addSeedToHouse(seed);
+				player1.addSeedToScoreHouse(seed);
 			}
 
 			//list of seeds for the house (that is emptied) on player 2 side
@@ -424,7 +424,7 @@ public class Board {
 				//each seed is captured
 				seed.setIsCaptured(true);
 				//each seed is added to the the player 2 score house
-				player2.addSeedToHouse(seed);
+				player2.addSeedToScoreHouse(seed);
 			}
 		}
 	}

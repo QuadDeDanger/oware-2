@@ -46,18 +46,18 @@ public class PlayerTest {
 	public void playerScoreHouseMatchesPlayerScore() {
 		Player player = new Player("Aqib");
 		for (int i = 0; i < 20; i++) {
-			player.addSeedToHouse(new Seed());
+			player.addSeedToScoreHouse(new Seed());
 		}
-		assertEquals("Player score is 20 ", player.getHouse().getCount(), player.getScore());
-		player.addSeedToHouse(new Seed());
-		assertEquals("Player score is 21 ", player.getHouse().getCount(), player.getScore());
+		assertEquals("Player score is 20 ", player.getScoreHouse().getCount(), player.getScore());
+		player.addSeedToScoreHouse(new Seed());
+		assertEquals("Player score is 21 ", player.getScoreHouse().getCount(), player.getScore());
 	}
 
 	@Test
 	public void afterClearingScoreHouseScoreIsZero() {
 		Player player = new Player("Aqib");
 		for (int i = 0; i < 20; i++) {
-			player.addSeedToHouse(new Seed());
+			player.addSeedToScoreHouse(new Seed());
 		}
 		player.clearScoreHouse();
 		assertEquals("Player score is reset ", 0, player.getScore());
