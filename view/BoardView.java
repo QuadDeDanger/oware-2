@@ -296,9 +296,11 @@ public class BoardView extends BorderPane {
 		if (board.gameWonCheck()) {
 			System.out.println("game over, disable UI");
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
+				System.out.println("Game won by " + board.getPlayer1Name());
 				gameStatus.setText("Game won by " + board.getPlayer1Name());
 				this.setBottom(gameStatus);
 			} else {
+				System.out.println("Game won by " + board.getPlayer2Name());
 				gameStatus.setText("Game won by " + board.getPlayer2Name());
 				this.setBottom(gameStatus);
 			}
