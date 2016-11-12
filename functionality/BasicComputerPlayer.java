@@ -60,24 +60,21 @@ public class BasicComputerPlayer extends Player {
 	public void makeMove() {
 		generateAndStoreRandomPosition();
 		Set<Integer> indicesTried = new TreeSet<>();
-		while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !board.willGiveOpponentSeeds(0, randomPosition)) {
+		while ((getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0
+				|| !board.willGiveOpponentSeeds(0, randomPosition)) && !indicesTried.contains(randomPosition)) {
 			generateAndStoreRandomPosition();
-			if(!indicesTried.contains(randomPosition)){
-				indicesTried.add(randomPosition);
-			}
-			System.out.println("here");
-			
+			indicesTried.add(randomPosition);
+
 		}
 
 		// Assuming the computer will always be row 0
-		
-		if(indicesTried.size() == 6){
+
+		if (indicesTried.size() == 6) {
 			board.setGameIsOver(true);
-		}
-		else {
+		} else {
 			board.sow(0, randomPosition);
 		}
-		
+
 	}
 
 }
