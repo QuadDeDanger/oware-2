@@ -14,7 +14,6 @@ import java.util.TreeSet;
 public class BasicComputerPlayer extends Player {
 
 	private Board board;
-	private int randomPosition;
 
 	/**
 	 * Creates a new Player with name Computer
@@ -47,9 +46,15 @@ public class BasicComputerPlayer extends Player {
 	 * 
 	 * @return
 	 */
-	public int generateAndStoreRandomPosition() {
-		randomPosition = new Random().nextInt(6);
-		return randomPosition;
+	private int generateRandomPosition() {
+		return new Random().nextInt(6);
+	}
+
+	private boolean isSuitableMove(int position) {
+		if ((getBoard().getHouseCount(0, position) == 0 || !board.willGiveOpponentSeeds(0, position))) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -58,26 +63,31 @@ public class BasicComputerPlayer extends Player {
 	 * @return the random house clicked on the first row
 	 */
 	public void makeMove() {
-		generateAndStoreRandomPosition();
+		int computerMove = generateRandomPosition();
 		Set<Integer> indicesTried = new TreeSet<>();
-		while (getBoard().getHouseOnBoard(0, randomPosition).getCount() == 0 || !board.willGiveOpponentSeeds(0, randomPosition)) {
-			generateAndStoreRandomPosition();
-			if(!indicesTried.contains(randomPosition)){
-				indicesTried.add(randomPosition);
+		indicesTried.add(computerMove);
+		
+		boolean moveFound = isSuitableMove(computerMove);
+		
+		while (!moveFound) {
+			computerMove = generateRandomPosition();
+			indicesTried.add(computerMove);
+			moveFound = isSuitableMove(computerMove);
+			if (indicesTried.size() == 6) {
+				break;
 			}
-			System.out.println("here");
-			
 		}
 
-		// Assuming the computer will always be row 0
-		
-		if(indicesTried.size() == 6){
+
+		System.out.println(
+				"Computer chose " + computerMove + " which is size  " + getBoard().getHouseCount(0, computerMove));
+
+		if (!moveFound) {
 			board.setGameIsOver(true);
+		} else {
+			board.sow(0, computerMove);
 		}
-		else {
-			board.sow(0, randomPosition);
-		}
-		
+
 	}
 
 }

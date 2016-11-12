@@ -86,10 +86,15 @@ public class Board {
 	 * @return
 	 */
 	public boolean willGiveOpponentSeeds(int i, int j) {
-		if (getNumSeedsOnRow(i) > 0) {
+		int opponentRow = 0;
+		if(i == 0){
+			opponentRow = 1;
+		}
+		
+		if (getNumSeedsOnRow(opponentRow) > 0) {
 			return true;
 		} else {
-
+			System.out.println("choose another move");
 			int numberToDistribute = board[i][j].getCount();
 			House targetHouse = board[i][j];
 			for (int index = 0; index < numberToDistribute; index++) {
