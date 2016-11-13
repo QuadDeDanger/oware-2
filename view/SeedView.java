@@ -4,9 +4,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class SeedView extends Circle {
+	/**
+	 * This class is used in the design of a Seed on the Board. 
+	 * Comments by Jaydene Green-Stevens
+	 * 
+	 * @author Ajeya Jog
+	 */
 
 	/**
-	 * Creates a circle with position, size, and colour to represent the Seed object
+	 * Method to creates a circle with position, size, and colour to represent the Seed object
 	 * 
 	 * @param x - x coordinate of the seeds position in the house
 	 * @param y	- y coordinate of the seeds position in the house
