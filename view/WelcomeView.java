@@ -53,7 +53,9 @@ public class WelcomeView extends BorderPane {
 					StackPane stack = new StackPane();
 					stack.getChildren().add(new BoardView(board));
 
-					Scene scene = new Scene(stack, 800, 420);
+					Scene scene = new Scene(stack, 800, 450);
+					stage.setMinWidth(800);
+					stage.setMinHeight(500);
 					stage.setScene(scene);
 					stage.show();
 
@@ -80,7 +82,9 @@ public class WelcomeView extends BorderPane {
 					StackPane stack = new StackPane();
 					stack.getChildren().add(new view.BoardView(board));
 
-					Scene scene = new Scene(stack, 800, 420);
+					Scene scene = new Scene(stack, 800, 450);
+					stage.setMinWidth(800);
+					stage.setMinHeight(500);
 					stage.setScene(scene);
 					stage.show();
 
@@ -106,7 +110,9 @@ public class WelcomeView extends BorderPane {
 					StackPane stack = new StackPane();
 					stack.getChildren().add(new view.BoardView(board));
 
-					Scene scene = new Scene(stack, 800, 420);
+					Scene scene = new Scene(stack, 800, 450);
+					stage.setMinWidth(800);
+					stage.setMinHeight(500);
 					stage.setScene(scene);
 					stage.show();
 
