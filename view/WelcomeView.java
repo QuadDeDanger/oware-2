@@ -27,10 +27,11 @@ public class WelcomeView extends BorderPane {
 		setUp();
 	}
 
-	private void formatButton(Button b){
-        b.setTextFill(Color.web("#ffffff"));
-        b.setStyle("-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
-    }
+	private void formatButton(Button b) {
+		b.setTextFill(Color.web("#ffffff"));
+		b.setStyle(
+				"-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
+	}
 
 	private void setUp() {
 		VBox vbButtons = new VBox();
@@ -54,12 +55,15 @@ public class WelcomeView extends BorderPane {
 					stack.getChildren().add(new BoardView(board));
 
 					Scene scene = new Scene(stack, 800, 420);
+					stage.setMinWidth(800);
+					stage.setMinHeight(500);
 					stage.setScene(scene);
 					stage.show();
 
 					((Node) event.getSource()).getScene().getWindow().hide();
-				}catch (NullPointerException e){
-					//Continue as user cancelled opening window so nothing needs to be done
+				} catch (NullPointerException e) {
+					// Continue as user cancelled opening window so nothing
+					// needs to be done
 				}
 			}
 		});
@@ -81,12 +85,15 @@ public class WelcomeView extends BorderPane {
 					stack.getChildren().add(new view.BoardView(board));
 
 					Scene scene = new Scene(stack, 800, 420);
+					stage.setMinWidth(800);
+					stage.setMinHeight(500);
 					stage.setScene(scene);
 					stage.show();
 
 					((Node) event.getSource()).getScene().getWindow().hide();
-				}catch (NullPointerException e){
-					//Continue as user cancelled opening window so nothing needs to be done
+				} catch (NullPointerException e) {
+					// Continue as user cancelled opening window so nothing
+					// needs to be done
 				}
 			}
 		});
@@ -107,12 +114,16 @@ public class WelcomeView extends BorderPane {
 					stack.getChildren().add(new view.BoardView(board));
 
 					Scene scene = new Scene(stack, 800, 420);
+
+					stage.setMinWidth(800);
+					stage.setMinHeight(500);
 					stage.setScene(scene);
 					stage.show();
 
 					((Node) event.getSource()).getScene().getWindow().hide();
-				}catch (NullPointerException e){
-					//Continue as user cancelled opening window so nothing needs to be done
+				} catch (NullPointerException e) {
+					// Continue as user cancelled opening window so nothing
+					// needs to be done
 				}
 			}
 		});
@@ -122,23 +133,23 @@ public class WelcomeView extends BorderPane {
 
 		singePlayerAdvancedButton.setMaxWidth(Double.MAX_VALUE);
 		singePlayerAdvancedButton.setPadding(new Insets(15, 0, 15, 0));
-		
+
 		twoPlayerButton.setMaxWidth(Double.MAX_VALUE);
 		twoPlayerButton.setPadding(new Insets(15, 0, 15, 0));
 
-        formatButton(singlePlayerButton);
-        formatButton(singePlayerAdvancedButton);
-        formatButton(twoPlayerButton);
+		formatButton(singlePlayerButton);
+		formatButton(singePlayerAdvancedButton);
+		formatButton(twoPlayerButton);
 
 		vbButtons.getChildren().addAll(singlePlayerButton, singePlayerAdvancedButton, twoPlayerButton);
 
 		Label welcomeLabel = new Label("Oware");
 		welcomeLabel.setFont(new Font("Arial", 30));
-        welcomeLabel.setTextFill(Color.web("#ffffff"));
+		welcomeLabel.setTextFill(Color.web("#ffffff"));
 		welcomeLabel.setPadding(new Insets(20, 0, 20, 0));
 
 		setTop(welcomeLabel);
 		setCenter(vbButtons);
-        setAlignment(welcomeLabel,Pos.CENTER);
+		setAlignment(welcomeLabel, Pos.CENTER);
 	}
 }
