@@ -4,17 +4,18 @@
 
 | To do                | Met/done?           |
 | -------------------------- |:--------------:| 
-| JUnit | |
-| Commenting/javadoc ! | |
-| Code cleanup | | 
-| Package cleanup (images | |
-| Computer choosing 0 bug | Aqib will fix  |
-| Player turn GUI | |
-| Set maximum sizes of frames | |
+| JUnit | AI/BCP left |
+| Commenting/javadoc ! | All view classes |
+| Change PLayer 2 to Player as def. name | |
+| Code cleanup | Comment out printlns | 
+| Package cleanup (images) | Remove seed.gif |
+| Player turn GUI | Ajeya working on it|
+| Set minimum sizes of frames | |
 |The application should include animations visualising the process of redistribution. Be careful if you decide to attempt this as developing animations can potentially be very time consuming if you are not experienced with this. Also note that this would not affect your mark much.| |
 |The application should include a graphical user interface that visualises the board, perhaps using sprites or other visual representations of the board. | In progress |
 | Design (houses, seeds, player won/lost) | In progress |
-|The application may include an AI player, using a basic search algorithm that explores all combinations of possible future moves up to a very limited number of moves, and identifies the best possible move for the AI player assuming the opponent also makes optimal moves for the opponent. It is extremely challenging to add this to the project in a single week and it does not affect your mark by much.| In progress |
+|The application may include an AI player, using a basic search algorithm that explores all combinations of possible future moves up to a very limited number of moves, and identifies the best possible move for the AI player assuming the opponent also makes optimal moves for the opponent. It is extremely challenging to add this to the project in a single week and it does not affect your mark by much.| Yes |
+| Computer choosing 0 bug | Yes  |
 | Force end | Yes |
 | In two player mode, the game selects a random player to make the first move.  | Yes |
 | The application must be able to display the initial board. | Yes |

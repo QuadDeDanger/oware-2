@@ -1,7 +1,5 @@
 package view;
 
-import javafx.animation.FillTransition;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -16,7 +14,7 @@ public class PlayerView extends BorderPane {
 	/**
 	 * This class groups the labels on the board containing information
 	 * regarding human and computer players, their score and their turn.
-	 * 
+	 *
 	 * @author Ajeya Jog
 	 * @author Federico Midolo
 	 */
@@ -65,6 +63,7 @@ public class PlayerView extends BorderPane {
         return stack;
     }
 
+
 	private void makeLabels(int turnPlayer, String playerName) {
 		nameLabel = new Label(playerName);
 		scoreLabel = new Label("Captured seeds: 0");
@@ -90,7 +89,7 @@ public class PlayerView extends BorderPane {
 	/*
 	 * if(turnPlayer == playerNumber && playerNumber == 0) { playerTurn.setText(
 	 * "Your Turn"); setBottom(playerTurn);
-	 * 
+	 *
 	 * } else if(turnPlayer == playerNumber && playerNumber == 1) {
 	 * playerTurn.setText("Your Turn"); setTop(playerTurn); } else {
 	 * playerTurn.setText(""); setBottom(playerTurn); }

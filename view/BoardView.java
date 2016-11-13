@@ -332,6 +332,7 @@ public class BoardView extends BorderPane {
 
 		if (board.gameWonCheck()) {
             fadeHide(centerPane);
+			System.out.println("game over, disable UI");
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
                 this.setCenter(gameStatus);
                 setAlignment(gameStatus,Pos.CENTER);
@@ -339,7 +340,13 @@ public class BoardView extends BorderPane {
                 gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);" +
                         "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
                 fadeShow(gameStatus);
+				System.out.println("Game won by " + board.getPlayer1Name());
+				gameStatus.setText("Game won by " + board.getPlayer1Name());
+				this.setBottom(gameStatus);
 			} else {
+				System.out.println("Game won by " + board.getPlayer2Name());
+				gameStatus.setText("Game won by " + board.getPlayer2Name());
+				this.setBottom(gameStatus);
                 this.setCenter(gameStatus);
                 setAlignment(gameStatus,Pos.CENTER);
                 gameStatus.setText(board.getPlayer2Name() +" wins!");
@@ -350,6 +357,9 @@ public class BoardView extends BorderPane {
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
 		} else if (board.gameDrawCheck()) {
+			System.out.println("game drawn, disable UI");
+			gameStatus.setText("Game drawn");
+			this.setBottom(gameStatus);
             fadeHide(centerPane);
             this.setCenter(gameStatus);
             setAlignment(gameStatus,Pos.CENTER);
@@ -361,4 +371,5 @@ public class BoardView extends BorderPane {
 			forceEnd.setDisable(true);
 		}
 	}
+
 }
