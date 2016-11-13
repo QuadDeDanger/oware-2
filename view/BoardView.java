@@ -24,6 +24,15 @@ import javafx.util.Pair;
 
 import java.util.Optional;
 
+/**
+ * This class represents the main pane grouping all components part of the
+ * interface the user will interact with during a game of Oware.
+ *
+ * @author Ajeya Jog
+ * @author Federico Midolo
+ * @author Aqib Rashid
+ */
+
 public class BoardView extends BorderPane {
 
 	private VBox centerPane;
@@ -36,6 +45,14 @@ public class BoardView extends BorderPane {
 	private Button forceEnd;
 	private Label gameStatus;
 
+	/**
+	 * Constructs the boardView by adding and initialising components either
+	 * directly or indirectly, by calling private methods such as setUpTop
+	 * makeGrid and nameDialogue.
+	 * 
+	 * @param board
+	 *            a reference to the Board class belonging to the model
+	 */
 	public BoardView(Board board) {
 		super();
 
@@ -46,7 +63,7 @@ public class BoardView extends BorderPane {
 		gameStatus = new Label();
 		centerPane = new VBox(20);
 		centerPane.setPadding(new Insets(20, 0, 0, 0));
-		//
+
 		this.board = board;
 		housesGrid = new GridPane();
 
@@ -55,7 +72,7 @@ public class BoardView extends BorderPane {
 		housesGrid.setAlignment(Pos.CENTER);
 
 		makeGrid();
-		//
+
 		playerView1 = new PlayerView(0, board.getPlayer1Name(), board.getPlayerTurn());
 		playerView2 = new PlayerView(1, board.getPlayer2Name(), board.getPlayerTurn());
 
@@ -64,18 +81,16 @@ public class BoardView extends BorderPane {
 		if (board.isPlayingComputer()) {
 			updateBoard();
 		}
-		//
+
 		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
 
 		this.setCenter(centerPane);
 	}
 
-	private void formatButton(Button b) {
-		b.setTextFill(Color.web("#ffffff"));
-		b.setStyle(
-				"-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
-	}
-
+	/*
+	 * Handles the instantiation and adding of components relative to the upper
+	 * part of the main pane.
+	 */
 	private void setUpTop() {
 		BorderPane borderTop = new BorderPane();
 
@@ -83,6 +98,10 @@ public class BoardView extends BorderPane {
 
 		newGame = new Button("New Game");
 		newGame.setFocusTraversable(false);
+
+		// provides the to the newGame button the functionality to start a new
+		// game with the current players
+
 		newGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -100,6 +119,10 @@ public class BoardView extends BorderPane {
 
 		Button mainScreen = new Button("Main screen");
 		mainScreen.setFocusTraversable(false);
+
+		// provides the mainScreen button with the functionality to leave the
+		// current game session and go back to the game mode selection
+
 		mainScreen.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -121,6 +144,10 @@ public class BoardView extends BorderPane {
 
 		forceEnd = new Button("Force end");
 		forceEnd.setFocusTraversable(false);
+
+		// provides the forceEnd button with the functionality to end the
+		// current game session, by adding each player's score, with the amount
+		// of seeds present in their side of the board
 
 		forceEnd.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -145,6 +172,9 @@ public class BoardView extends BorderPane {
 		Button endGame = new Button("Exit game");
 		endGame.setFocusTraversable(false);
 
+		// provides the endGame button with the functionality to close the
+		// program altogether
+
 		endGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -154,6 +184,8 @@ public class BoardView extends BorderPane {
 			}
 		});
 		formatButton(endGame);
+
+		// groups button into HBoxes and adds them to the panes
 
 		HBox leftHBox = new HBox(10);
 		leftHBox.getChildren().addAll(newGame, mainScreen);
@@ -167,6 +199,20 @@ public class BoardView extends BorderPane {
 		this.setTop(borderTop);
 	}
 
+	/*
+	 * Provides a method for changing the look of a given button to suit the
+	 * style adopted for the rest of the program.
+	 */
+	private void formatButton(Button b) {
+		b.setTextFill(Color.web("#ffffff"));
+		b.setStyle(
+				"-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
+	}
+
+	/*
+	 * Instantiates and adds the components relative to the centre of the main
+	 * pane.
+	 */
 	private void makeGrid() {
 		houses = new HouseView[2][6];
 		for (int i = 0; i < 2; ++i) {
@@ -177,6 +223,10 @@ public class BoardView extends BorderPane {
 				houses[i][j].addSeeds(board.getHouseCount(i, j));
 				int x = i;
 				int y = j;
+
+				// Enables the clicking of HouseViews and assigns the
+				// functionality provided by the board class from the model
+
 				houses[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent arg0) {
@@ -192,12 +242,23 @@ public class BoardView extends BorderPane {
 		}
 	}
 
+	/*
+	 * Provides a method for updating the view after each turn. This includes
+	 * changing the number of seeds in each house, the score of each player and
+	 * checking whether the game can be considered over.
+	 */
 	private void updateBoard() {
+		// enables the clicking of the newGame button, only if at least a move
+		// has been made
 		if (board.isGameStarted()) {
 			newGame.setDisable(false);
 		} else {
 			newGame.setDisable(true);
 		}
+
+		// updates the amount of seeds displayed in each house, using the data
+		// received from the model
+
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
 				if ((houses[i][j].getSize() + 1) == board.getHouseOnBoard(i, j).getCount()) {
@@ -208,10 +269,17 @@ public class BoardView extends BorderPane {
 				}
 			}
 		}
+
+		// calls methods contained in PlayerView, which will update the
+		// players'scores, if necessary, and update the turn indicator
+
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
 		playerView2.update(board.getPlayer2Score(), board.getPlayerTurn());
+
+		// checks whether or not the game can be considered over
+
 		checkGameFinished();
-		if (board.gameOverNoMovesPossible()) { // required for Jay's part
+		if (board.gameOverNoMovesPossible()) {
 			board.captureOwnSeeds();
 			for (int i = 0; i < 2; ++i) {
 				for (int j = 0; j < 6; ++j) {
@@ -222,33 +290,41 @@ public class BoardView extends BorderPane {
 		}
 	}
 
+	/*
+	 * Provides a method for terminating the current game window.
+	 */
 	private void killWindow() {
 		this.getScene().getWindow().hide();
 	}
 
+	/*
+	 * Provides a method for the instantiation of a dialog window where users
+	 * are given the option to give their player a customised name.
+	 */
 	private void nameDialogue() {
-		// Create the custom dialog.
+		// create the custom dialog
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Oware - Set player names (optional)");
 
-		// Set the icon (must be included in the project).
-
-		// Set the button types.
+		// set the button types.
 		ButtonType okButton = new ButtonType("Ok", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
 
-		// Set Style
+		// set the style to fit the rest of the program
 		dialog.getDialogPane().setStyle("-fx-background-color: #363338");
 		dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setStyle("-fx-background-color: #eb505d;"
 				+ " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
 		dialog.getDialogPane().lookupButton(okButton).setStyle("-fx-background-color: #eb505d;"
 				+ " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
 
-		// Create the username and password labels and fields.
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		// instantiates the text field for inserting customised player names and
+		// disables the option to change the name of player 1, in the case where
+		// it is a computer player
 
 		TextField player1 = new TextField();
 		TextField player2 = new TextField();
@@ -282,6 +358,7 @@ public class BoardView extends BorderPane {
 
 		Optional<Pair<String, String>> result = dialog.showAndWait();
 
+		// deals with the scenario where users have chosen to assign names to players 
 		if (result.isPresent()) {
 
 			if (result.get().getKey().length() > 0) {
@@ -296,11 +373,17 @@ public class BoardView extends BorderPane {
 		}
 	}
 
+	/*
+	 * Provides a method for updating players' names.
+	 */
 	private void updatePlayerNames() {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
 	}
 
+	/*
+	 * Provides a method for hiding a Node object using a transition animation.
+	 */
 	private void fadeHide(Node node) {
 		FadeTransition fadeNode = new FadeTransition(Duration.millis(500), node);
 		fadeNode.setFromValue(1);
@@ -308,6 +391,10 @@ public class BoardView extends BorderPane {
 		fadeNode.play();
 	}
 
+	/*
+	 * Provides a method for displaying a Node object using a transition
+	 * animation.
+	 */
 	private void fadeShow(Node node) {
 		FadeTransition fadeNode = new FadeTransition(Duration.millis(500), node);
 		fadeNode.setFromValue(0);
@@ -315,11 +402,17 @@ public class BoardView extends BorderPane {
 		fadeNode.play();
 	}
 
+	/*
+	 * Provides a method for checking whether or not the game session can be
+	 * considered over.
+	 */
 	private void checkGameFinished() {
 
+		// deals with the scenario in which the game ends due to one of the
+		// players (or a computer) winning and displays the final scores
 		if (board.gameWonCheck()) {
 			fadeHide(centerPane);
-			System.out.println("game over, disable UI");
+			// System.out.println("game over, disable UI");
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
 				this.setCenter(gameStatus);
 				setAlignment(gameStatus, Pos.CENTER);
@@ -346,6 +439,9 @@ public class BoardView extends BorderPane {
 			}
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
+
+			// deals with the scenario in which the game ends as a result of a
+			// draw and displays the final scores.
 		} else if (board.gameDrawCheck()) {
 			// System.out.println("game drawn, disable UI");
 
