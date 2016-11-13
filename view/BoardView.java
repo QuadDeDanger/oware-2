@@ -110,6 +110,8 @@ public class BoardView extends BorderPane {
 				stage.setTitle("Oware");
 
 				Scene scene = new Scene(new WelcomeView(), 500, 300);
+				stage.setMinWidth(500);
+				stage.setMinHeight(350);
 				stage.setScene(scene);
 				stage.show();
 
@@ -267,8 +269,6 @@ public class BoardView extends BorderPane {
 			player2.setPromptText("Player 2");
 		}
 
-		
-
 		grid.add(new Label("Player 1"), 0, 0);
 		grid.add(player1, 1, 0);
 		grid.add(new Label("Player 2"), 0, 1);
@@ -336,7 +336,7 @@ public class BoardView extends BorderPane {
 								+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 				fadeShow(gameStatus);
 				gameStatus.setText("Game won by " + board.getPlayer1Name() + "\n(Player 1 score: "
-						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer1Score() + ")");
+						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer2Score() + ")");
 				// System.out.println("Game won by " + board.getPlayer1Name());
 				// this.setBottom(gameStatus);
 			} else {
@@ -347,7 +347,7 @@ public class BoardView extends BorderPane {
 								+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 				fadeShow(gameStatus);
 				gameStatus.setText("Game won by " + board.getPlayer2Name() + "\n(Player 1 score: "
-						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer1Score() + ")");
+						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer2Score() + ")");
 				// System.out.println("Game won by " + board.getPlayer2Name());
 			}
 			newGame.setDisable(false);
@@ -362,7 +362,7 @@ public class BoardView extends BorderPane {
 							+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 			fadeShow(gameStatus);
 			gameStatus.setText("Game drawn\n(Player 1 score: " + board.getPlayer1Score() + ", Player 2 score: "
-					+ board.getPlayer1Score() + ")");
+					+ board.getPlayer2Score() + ")");
 			// this.setBottom(gameStatus);
 
 			newGame.setDisable(false);
