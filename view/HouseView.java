@@ -145,5 +145,6 @@ public class HouseView extends BorderPane {
 	public void clear(){
         seeds.getChildren().clear();
         count=0;
+        updateLabel();
     }
 }
