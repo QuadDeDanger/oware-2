@@ -329,43 +329,40 @@ public class BoardView extends BorderPane {
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
 				this.setCenter(gameStatus);
 				setAlignment(gameStatus, Pos.CENTER);
-				gameStatus.setText(board.getPlayer1Name() + " wins!");
 				gameStatus.setStyle(
 						"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
-								+ "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+								+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 				fadeShow(gameStatus);
-				gameStatus.setText("Game won by " + board.getPlayer1Name());
-				System.out.println("Game won by " + board.getPlayer1Name());
+				gameStatus.setText("Game won by " + board.getPlayer1Name() + "\n(Player 1 score: "
+						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer1Score() + ")");
+				// System.out.println("Game won by " + board.getPlayer1Name());
 				// this.setBottom(gameStatus);
 			} else {
 				this.setCenter(gameStatus);
 				setAlignment(gameStatus, Pos.CENTER);
-				gameStatus.setText(board.getPlayer2Name() + " wins!");
 				gameStatus.setStyle(
 						"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
-								+ "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+								+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 				fadeShow(gameStatus);
-				gameStatus.setText("Game won by " + board.getPlayer2Name());
-				System.out.println("Game won by " + board.getPlayer2Name());
+				gameStatus.setText("Game won by " + board.getPlayer2Name() + "\n(Player 1 score: "
+						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer1Score() + ")");
+				// System.out.println("Game won by " + board.getPlayer2Name());
 			}
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
 		} else if (board.gameDrawCheck()) {
-			System.out.println("game drawn, disable UI");
-			
+			// System.out.println("game drawn, disable UI");
 
-			
 			this.setCenter(gameStatus);
 			setAlignment(gameStatus, Pos.CENTER);
-			gameStatus.setText(board.getPlayer1Name() + " wins!");
 			gameStatus.setStyle(
 					"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
-							+ "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+							+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 			fadeShow(gameStatus);
-			gameStatus.setText("Game drawn");
+			gameStatus.setText("Game drawn\n(Player 1 score: " + board.getPlayer1Score() + ", Player 2 score: "
+					+ board.getPlayer1Score() + ")");
 			// this.setBottom(gameStatus);
-			
-			
+
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
 		}
