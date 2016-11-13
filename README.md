@@ -7,12 +7,12 @@
 |Report |	A bit left/Will wait for view|
 |Set minimum sizes of frames | Will wait for view|
 |Code cleanup | Comment out printlns in View|
-|Package cleanup (images) | Remove seed.gif/Will wait for view|
+|Package cleanup (images) | Yes |
 |Commenting/javadoc ! | All view classes/Will wait for view|
-|Change PLayer 2 to Player as default name | Ajeya working on it |
+|Change PLayer 2 to Player as default name | Yes |
 |Player turn GUI	| Ajeya working on it |
-|Animations | Ajeya working on it |
-|Design (houses, seeds, player won/lost)	| Ajeya working on it |
+|Animations | Yes |
+|Design (houses, seeds, player won/lost)	| Yes |
 |JUnit	| Yes |
 |The application may include an AI player, using a basic search algorithm that explores all combinations of possible future moves up to a very limited number of moves, and identifies the best possible move for the AI player assuming the opponent also makes optimal moves for the opponent. It is extremely challenging to add this to the project in a single week and it does not affect your mark by much.| Yes |
 | Computer choosing 0 bug | Yes  |
