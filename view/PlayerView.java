@@ -1,6 +1,7 @@
 package view;
 
-import javafx.scene.Group;
+import javafx.animation.FillTransition;
+import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
