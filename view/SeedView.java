@@ -15,7 +15,9 @@ public class SeedView extends Circle {
 	public SeedView(int x, int y, int r) {
 		super(x,y,r, Color.web("#ffffff"));
 		setStroke(Color.web("#2a282d"));
-		setStrokeWidth(2);					//defines the line width
-		setSmooth(true);					//applies rendering hints to the circle
+		//defines the line width
+		setStrokeWidth(2);				
+		//applies rendering hints to the circle
+		setSmooth(true);					
 	}
 }
