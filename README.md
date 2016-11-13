@@ -4,11 +4,11 @@
 
 | To do                | Met/done?           |
 | -------------------------- |:--------------:| 
-|Player turn GUI	| TO DO |
 |Turn bug	| Haaris working on it |
 |Code cleanup | TO DO |
 |Commenting/javadoc for the view | TO DO |
 |Report | TO FINISH |
+|Player turn GUI	| Yes |
 |Change PLayer 2 to Player as default name | Yes |
 |Animations | Yes |
 |Design (houses, seeds, player won/lost)	| Yes |
