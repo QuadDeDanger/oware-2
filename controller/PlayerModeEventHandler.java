@@ -21,10 +21,18 @@ public class PlayerModeEventHandler implements EventHandler<ActionEvent> {
 
     private String playerString;
 
+    /**
+     * Contructs the Event Handler and stores the mode type
+     * @param playerString
+     */
     public PlayerModeEventHandler(String playerString) {
         this.playerString = playerString;
     }
 
+    /**
+     * Creates players and board, and sets up the board view depending on which game mode.
+     * @param event of the button click
+     */
     @Override
     public void handle(ActionEvent event) {
         Stage stage = new Stage();
