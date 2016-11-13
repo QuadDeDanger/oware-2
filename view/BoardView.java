@@ -257,15 +257,17 @@ public class BoardView extends BorderPane {
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		TextField player1 = new TextField();
+		TextField player2 = new TextField();
 		if (board.isPlayingComputer()) {
 			player1.setDisable(true);
 			player1.setText(board.getPlayer1Name());
+			player2.setPromptText("Player");
 		} else {
 			player1.setPromptText("Player 1");
+			player2.setPromptText("Player 2");
 		}
 
-		TextField player2 = new TextField();
-		player2.setPromptText("Player 2");
+		
 
 		grid.add(new Label("Player 1"), 0, 0);
 		grid.add(player1, 1, 0);
