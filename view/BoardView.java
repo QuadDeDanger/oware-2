@@ -333,10 +333,11 @@ public class BoardView extends BorderPane {
 				setAlignment(gameStatus, Pos.CENTER);
 				gameStatus.setStyle(
 						"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
-								+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+								+ "-fx-font-size: 25pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 				fadeShow(gameStatus);
-				gameStatus.setText("Game won by " + board.getPlayer1Name() + "\n(Player 1 score: "
-						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer2Score() + ")");
+				gameStatus.setText("Game won by " + board.getPlayer1Name() + "\n(" + board.getPlayer1Name()
+						+ "'s score: " + board.getPlayer1Score() + ", " + board.getPlayer2Name() + "'s score: "
+						+ board.getPlayer2Score() + ")");
 				// System.out.println("Game won by " + board.getPlayer1Name());
 				// this.setBottom(gameStatus);
 			} else {
@@ -344,10 +345,11 @@ public class BoardView extends BorderPane {
 				setAlignment(gameStatus, Pos.CENTER);
 				gameStatus.setStyle(
 						"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
-								+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+								+ "-fx-font-size: 25pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 				fadeShow(gameStatus);
-				gameStatus.setText("Game won by " + board.getPlayer2Name() + "\n(Player 1 score: "
-						+ board.getPlayer1Score() + ", Player 2 score: " + board.getPlayer2Score() + ")");
+				gameStatus.setText("Game won by " + board.getPlayer2Name() + "\n(" + board.getPlayer1Name()
+						+ "'s score: " + board.getPlayer1Score() + ", " + board.getPlayer2Name() + "'s score: "
+						+ board.getPlayer2Score() + ")");
 				// System.out.println("Game won by " + board.getPlayer2Name());
 			}
 			newGame.setDisable(false);
@@ -359,10 +361,10 @@ public class BoardView extends BorderPane {
 			setAlignment(gameStatus, Pos.CENTER);
 			gameStatus.setStyle(
 					"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
-							+ "-fx-font-size: 30pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+							+ "-fx-font-size: 25pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
 			fadeShow(gameStatus);
-			gameStatus.setText("Game drawn\n(Player 1 score: " + board.getPlayer1Score() + ", Player 2 score: "
-					+ board.getPlayer2Score() + ")");
+			gameStatus.setText("Game drawn\n(" + board.getPlayer1Name() + "'s score: " + board.getPlayer1Score() + ", "
+					+ board.getPlayer2Name() + "'s score: " + board.getPlayer2Score() + ")");
 			// this.setBottom(gameStatus);
 
 			newGame.setDisable(false);
