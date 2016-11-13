@@ -1,8 +1,8 @@
 package tests;
 
-import functionality.BasicComputerPlayer;
-import functionality.Board;
-import functionality.Player;
+import model.BasicComputerPlayer;
+import model.Board;
+import model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

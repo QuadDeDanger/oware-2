@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import functionality.*;
+import model.*;
 
 /**
  * This class contains unit tests for the Seed class.

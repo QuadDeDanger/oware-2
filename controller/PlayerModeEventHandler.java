@@ -1,9 +1,9 @@
 package controller;
 
-import functionality.AIComputerPlayer;
-import functionality.BasicComputerPlayer;
-import functionality.Board;
-import functionality.Player;
+import model.AIComputerPlayer;
+import model.BasicComputerPlayer;
+import model.Board;
+import model.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;

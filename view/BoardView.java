@@ -1,6 +1,6 @@
 package view;
 
-import functionality.Board;
+import model.Board;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

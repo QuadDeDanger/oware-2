@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import functionality.*;
+import model.*;
 
 /**
  * This class contains unit tests for the Board class.
