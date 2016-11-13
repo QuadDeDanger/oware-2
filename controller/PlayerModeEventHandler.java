@@ -38,19 +38,22 @@ public class PlayerModeEventHandler implements EventHandler<ActionEvent> {
         Stage stage = new Stage();
 
         Player player1 = null;
+        Player player2 = null;
 
         if(playerString.equals("player")) {
-            player1 = new Player("Player1");
+            player1 = new Player("Player 1");
+            player2 = new Player("Player 2");
             stage.setTitle("Oware Two-Player");
         } else if(playerString.equals("basic")) {
             player1 = new BasicComputerPlayer();
+            player2 = new Player("Player");
             stage.setTitle("Oware Single Player");
         } else if(playerString.equals("advanced")) {
             player1 = new AIComputerPlayer();
+            player2 = new Player("Player");
             stage.setTitle("Oware Single Player (Advanced)");
         }
 
-        Player player2 = new Player("Player");
         Board board = new Board(player1, player2);
 
         try {

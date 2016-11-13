@@ -130,7 +130,7 @@ public class PlayerView extends BorderPane {
 		if (turnPlayer == playerNumber) { // if this player needs to make next
 											// move
 			f.play();
-			System.out.println("Turn of player" + playerNumber);
+//			System.out.println("Turn of player" + playerNumber);
 
 		} else if (turnPlayer != playerNumber) { // if opponent needs to make
 													// next move

@@ -12,6 +12,9 @@ import javafx.scene.text.Font;
 
 /**
  * This class represents the welcome view which creates the board view according to the game mode selected by user.
+ *
+ * @author Aqib Rashid
+ * @author Haaris Memon
  */
 public class WelcomeView extends BorderPane {
 
