@@ -4,10 +4,10 @@
 
 | To do                | Met/done?           |
 | -------------------------- |:--------------:| 
-|Move bug	| Ajeya removing the disableEvents check |
-|Code cleanup | TO DO |
 |Commenting/javadoc for the view | TO DO |
 |Report | TO FINISH |
+|Code cleanup | Yes |
+|Move bug	| Yes |
 |Player turn GUI	| Yes |
 |Change PLayer 2 to Player as default name | Yes |
 |Animations | Yes |
