@@ -26,7 +26,6 @@ import java.util.Optional;
 
 public class BoardView extends BorderPane {
 
-
 	private VBox centerPane;
 	private GridPane housesGrid;
 	private Board board;
@@ -36,15 +35,14 @@ public class BoardView extends BorderPane {
 	private Button newGame;
 	private Button forceEnd;
 	private Label gameStatus;
-    private boolean disableEvents;
-
+	private boolean disableEvents;
 
 	public BoardView(Board board) {
 		super();
-        disableEvents = false;
+		disableEvents = false;
 
 		setPadding(new Insets(0, 20, 0, 20));
-        setStyle("-fx-background-color: #363338");
+		setStyle("-fx-background-color: #363338");
 
 		setUpTop();
 		gameStatus = new Label();
@@ -74,24 +72,25 @@ public class BoardView extends BorderPane {
 		this.setCenter(centerPane);
 	}
 
-    private void formatButton(Button b){
-        b.setTextFill(Color.web("#ffffff"));
-        b.setStyle("-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
-    }
+	private void formatButton(Button b) {
+		b.setTextFill(Color.web("#ffffff"));
+		b.setStyle(
+				"-fx-background-color: #eb505d; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0)");
+	}
 
 	private void setUpTop() {
 		BorderPane borderTop = new BorderPane();
 
-        borderTop.setPadding(new Insets(20,0,0,0));
+		borderTop.setPadding(new Insets(20, 0, 0, 0));
 
 		newGame = new Button("New Game");
 		newGame.setFocusTraversable(false);
 		newGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-                fadeHide(gameStatus);
-                setCenter(centerPane);
-                fadeShow(centerPane);
+				fadeHide(gameStatus);
+				setCenter(centerPane);
+				fadeShow(centerPane);
 				forceEnd.setDisable(false);
 				board.resetBoard();
 				updateBoard();
@@ -99,7 +98,7 @@ public class BoardView extends BorderPane {
 			}
 		});
 		newGame.setDisable(true);
-        formatButton(newGame);
+		formatButton(newGame);
 
 		Button mainScreen = new Button("Main screen");
 		mainScreen.setFocusTraversable(false);
@@ -118,7 +117,7 @@ public class BoardView extends BorderPane {
 
 			}
 		});
-        formatButton(mainScreen);
+		formatButton(mainScreen);
 
 		forceEnd = new Button("Force end");
 		forceEnd.setFocusTraversable(false);
@@ -141,7 +140,7 @@ public class BoardView extends BorderPane {
 
 			}
 		});
-        formatButton(forceEnd);
+		formatButton(forceEnd);
 
 		Button endGame = new Button("Exit game");
 		endGame.setFocusTraversable(false);
@@ -154,7 +153,7 @@ public class BoardView extends BorderPane {
 				stage.close();
 			}
 		});
-        formatButton(endGame);
+		formatButton(endGame);
 
 		HBox leftHBox = new HBox(10);
 		leftHBox.getChildren().addAll(newGame, mainScreen);
@@ -172,29 +171,30 @@ public class BoardView extends BorderPane {
 		houses = new HouseView[2][6];
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				houses[i][j] = new HouseView(55*(j+(6*i))+5, 55+(105*i),50,this);
-                if(i ==1) houses[i][j].setBottom();
-				houses[i][j].addSeeds(board.getHouseCount(i,j));
-                int x = i;
-                int y = j;
+				houses[i][j] = new HouseView(55 * (j + (6 * i)) + 5, 55 + (105 * i), 50, this);
+				if (i == 1)
+					houses[i][j].setBottom();
+				houses[i][j].addSeeds(board.getHouseCount(i, j));
+				int x = i;
+				int y = j;
 				houses[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent arg0) {
 						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x && !disableEvents) {
-							board.sow(x,y);
+							board.sow(x, y);
 							updateBoard();
 						}
 					}
 
 				});
-                housesGrid.add(houses[i][j], j, i);
+				housesGrid.add(houses[i][j], j, i);
 			}
 		}
 	}
 
-	public void setDisableEvents(boolean value){
-        disableEvents = value;
-    }
+	public void setDisableEvents(boolean value) {
+		disableEvents = value;
+	}
 
 	private void updateBoard() {
 		if (board.isGameStarted()) {
@@ -204,14 +204,14 @@ public class BoardView extends BorderPane {
 		}
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-                if((houses[i][j].getSize()+1) == board.getHouseOnBoard(i, j).getCount() ){
-                    disableEvents = true;
-                    houses[i][j].addOneSeed();
-                }else if(houses[i][j].getSize() != board.getHouseOnBoard(i, j).getCount()) {
-                    disableEvents = true;
-                    houses[i][j].clear();
-                    houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
-                }
+				if ((houses[i][j].getSize() + 1) == board.getHouseOnBoard(i, j).getCount()) {
+					disableEvents = true;
+					houses[i][j].addOneSeed();
+				} else if (houses[i][j].getSize() != board.getHouseOnBoard(i, j).getCount()) {
+					disableEvents = true;
+					houses[i][j].clear();
+					houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
+				}
 			}
 		}
 		playerView1.update(board.getPlayer1Score(), board.getPlayerTurn());
@@ -228,9 +228,9 @@ public class BoardView extends BorderPane {
 		}
 	}
 
-	private void killWindow(){
-        this.getScene().getWindow().hide();
-    }
+	private void killWindow() {
+		this.getScene().getWindow().hide();
+	}
 
 	private void nameDialogue() {
 		// Create the custom dialog.
@@ -243,12 +243,12 @@ public class BoardView extends BorderPane {
 		ButtonType okButton = new ButtonType("Ok", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
 
-        //Set Style
-        dialog.getDialogPane().setStyle("-fx-background-color: #363338");
-        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setStyle("-fx-background-color: #eb505d;" +
-                " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
-        dialog.getDialogPane().lookupButton(okButton).setStyle("-fx-background-color: #eb505d;" +
-                " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
+		// Set Style
+		dialog.getDialogPane().setStyle("-fx-background-color: #363338");
+		dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setStyle("-fx-background-color: #eb505d;"
+				+ " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
+		dialog.getDialogPane().lookupButton(okButton).setStyle("-fx-background-color: #eb505d;"
+				+ " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);-fx-text-fill: #fff");
 
 		// Create the username and password labels and fields.
 		GridPane grid = new GridPane();
@@ -297,70 +297,75 @@ public class BoardView extends BorderPane {
 				board.setPlayer2Name(result.get().getValue());
 			}
 			updatePlayerNames();
-		}else{
-            killWindow();
-        }
+		} else {
+			killWindow();
+		}
 	}
-
 
 	private void updatePlayerNames() {
 		playerView1.updatePlayerName(board.getPlayer1Name());
 		playerView2.updatePlayerName(board.getPlayer2Name());
 	}
 
-	private void fadeHide(Node node){
-        FadeTransition fadeNode = new FadeTransition(Duration.millis(500),node);
-        fadeNode.setFromValue(1);
-        fadeNode.setToValue(0);
-        fadeNode.play();
-    }
+	private void fadeHide(Node node) {
+		FadeTransition fadeNode = new FadeTransition(Duration.millis(500), node);
+		fadeNode.setFromValue(1);
+		fadeNode.setToValue(0);
+		fadeNode.play();
+	}
 
-    private void fadeShow(Node node){
-        FadeTransition fadeNode = new FadeTransition(Duration.millis(500),node);
-        fadeNode.setFromValue(0);
-        fadeNode.setToValue(1);
-        fadeNode.play();
-    }
+	private void fadeShow(Node node) {
+		FadeTransition fadeNode = new FadeTransition(Duration.millis(500), node);
+		fadeNode.setFromValue(0);
+		fadeNode.setToValue(1);
+		fadeNode.play();
+	}
 
 	private void checkGameFinished() {
 
 		if (board.gameWonCheck()) {
-            fadeHide(centerPane);
+			fadeHide(centerPane);
 			System.out.println("game over, disable UI");
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
-                this.setCenter(gameStatus);
-                setAlignment(gameStatus,Pos.CENTER);
-                gameStatus.setText(board.getPlayer1Name() +" wins!");
-                gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);" +
-                        "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
-                fadeShow(gameStatus);
-				System.out.println("Game won by " + board.getPlayer1Name());
+				this.setCenter(gameStatus);
+				setAlignment(gameStatus, Pos.CENTER);
+				gameStatus.setText(board.getPlayer1Name() + " wins!");
+				gameStatus.setStyle(
+						"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
+								+ "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+				fadeShow(gameStatus);
 				gameStatus.setText("Game won by " + board.getPlayer1Name());
-				this.setBottom(gameStatus);
+				System.out.println("Game won by " + board.getPlayer1Name());
+				// this.setBottom(gameStatus);
 			} else {
-				System.out.println("Game won by " + board.getPlayer2Name());
+				this.setCenter(gameStatus);
+				setAlignment(gameStatus, Pos.CENTER);
+				gameStatus.setText(board.getPlayer2Name() + " wins!");
+				gameStatus.setStyle(
+						"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
+								+ "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+				fadeShow(gameStatus);
 				gameStatus.setText("Game won by " + board.getPlayer2Name());
-				this.setBottom(gameStatus);
-                this.setCenter(gameStatus);
-                setAlignment(gameStatus,Pos.CENTER);
-                gameStatus.setText(board.getPlayer2Name() +" wins!");
-                gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"  +
-                        "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
-                fadeShow(gameStatus);
+				System.out.println("Game won by " + board.getPlayer2Name());
 			}
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
 		} else if (board.gameDrawCheck()) {
 			System.out.println("game drawn, disable UI");
+			
+
+			
+			this.setCenter(gameStatus);
+			setAlignment(gameStatus, Pos.CENTER);
+			gameStatus.setText(board.getPlayer1Name() + " wins!");
+			gameStatus.setStyle(
+					"-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"
+							+ "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+			fadeShow(gameStatus);
 			gameStatus.setText("Game drawn");
-			this.setBottom(gameStatus);
-            fadeHide(centerPane);
-            this.setCenter(gameStatus);
-            setAlignment(gameStatus,Pos.CENTER);
-            gameStatus.setText(board.getPlayer1Name() +" wins!");
-            gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);" +
-                    "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
-            fadeShow(gameStatus);
+			// this.setBottom(gameStatus);
+			
+			
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
 		}
