@@ -1,5 +1,10 @@
 package view;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.FillTransition;
+import javafx.animation.SequentialTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -9,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class HouseView extends BorderPane {
 	private int count;
@@ -18,17 +24,14 @@ public class HouseView extends BorderPane {
     private StackPane stackHouse;
     private StackPane stackLabel;
     private Label label;
+    private BoardView board;
 
-	/**
-	 * Creates a group that stores the
-	 * @param x
-	 * @param y
-	 */
-	public HouseView(int x, int y, int r) {
+	public HouseView(int x, int y, int r, BoardView b) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.count = 0;
+        this.board = b;
 
         stackHouse = new StackPane();
         stackLabel = new StackPane();
@@ -53,18 +56,72 @@ public class HouseView extends BorderPane {
         setAlignment(stackLabel,Pos.CENTER);
 	}
 
+	private void updateLabel(){
+        label.setText(String.valueOf(count));
+    }
+
+	private void seedFadeOut(){
+        FadeTransition ft = new FadeTransition(Duration.millis(500),seeds);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.play();
+        ft.setOnFinished(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                seeds.getChildren().clear();
+                board.setDisableEvents(false);
+            }
+        });
+    }
+
+    private void seedFadeIn(SeedView s){
+        FadeTransition ft = new FadeTransition(Duration.millis(500),s);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        FillTransition fillT = new FillTransition();
+        fillT.setShape(s);
+        fillT.setDuration(Duration.millis(300));
+        fillT.setToValue(Color.web("#2a282d"));
+        FillTransition reverseFillT = new FillTransition();
+        reverseFillT.setShape(s);
+        reverseFillT.setDuration(Duration.millis(300));
+        reverseFillT.setToValue(Color.WHITE);
+        SequentialTransition sq = new SequentialTransition();
+        sq.getChildren().addAll(ft,fillT,reverseFillT);
+        sq.play();
+        sq.setOnFinished(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                board.setDisableEvents(false);
+            }
+        });
+    }
+
 	public void addSeeds(int s){
 		for(int i=0;i<s;i++){
+            board.setDisableEvents(true);
 			SeedView seed = new SeedView((int) (x+(Math.random()*30)),(int) (y+(Math.random()*30)),10);
+            seed.setOpacity(0);
             seeds.getChildren().add(seed);
             count++;
+            updateLabel();
+            seedFadeIn(seed);
 		}
-		label.setText(String.valueOf(count));
 	}
 
-	public void removeSeeds(int s){
-		seeds.getChildren().remove(s);
-        count--;
+	public void addOneSeed(){
+        board.setDisableEvents(true);
+        SeedView seed = new SeedView((int) (x+(Math.random()*30)),(int) (y+(Math.random()*30)),10);
+        seed.setOpacity(0);
+        seeds.getChildren().add(seed);
+        count++;
+        updateLabel();
+        seedFadeIn(seed);
+    }
+
+	public void removeSeeds(){
+        board.setDisableEvents(true);
+        count=0;
+        updateLabel();
+		seedFadeOut();
 	}
 
 	public int getX(){
@@ -83,10 +140,6 @@ public class HouseView extends BorderPane {
         setTop(null);
         setBottom(stackLabel);
         label.setPadding(new Insets(10,0,0,0));
-    }
-
-    public void setText(String s){
-        label.setText(s);
     }
 
 	public void clear(){

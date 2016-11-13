@@ -49,14 +49,18 @@ public class WelcomeView extends BorderPane {
 				Player player2 = new Player("Player");
 				Board board = new Board(player1, player2); // isComputer
 
-				StackPane stack = new StackPane();
-				stack.getChildren().add(new BoardView(board));
+				try {
+					StackPane stack = new StackPane();
+					stack.getChildren().add(new BoardView(board));
 
-				Scene scene = new Scene(stack, 800, 420);
-				stage.setScene(scene);
-				stage.show();
+					Scene scene = new Scene(stack, 800, 420);
+					stage.setScene(scene);
+					stage.show();
 
-				((Node) event.getSource()).getScene().getWindow().hide();
+					((Node) event.getSource()).getScene().getWindow().hide();
+				}catch (NullPointerException e){
+					//Continue as user cancelled opening window so nothing needs to be done
+				}
 			}
 		});
 
@@ -72,14 +76,18 @@ public class WelcomeView extends BorderPane {
 				Player player2 = new Player("Player");
 				Board board = new Board(player1, player2); // isComputer
 
-				StackPane stack = new StackPane();
-				stack.getChildren().add(new view.BoardView(board));
+				try {
+					StackPane stack = new StackPane();
+					stack.getChildren().add(new view.BoardView(board));
 
-				Scene scene = new Scene(stack, 800, 420);
-				stage.setScene(scene);
-				stage.show();
+					Scene scene = new Scene(stack, 800, 420);
+					stage.setScene(scene);
+					stage.show();
 
-				((Node) event.getSource()).getScene().getWindow().hide();
+					((Node) event.getSource()).getScene().getWindow().hide();
+				}catch (NullPointerException e){
+					//Continue as user cancelled opening window so nothing needs to be done
+				}
 			}
 		});
 
@@ -94,14 +102,18 @@ public class WelcomeView extends BorderPane {
 				Player player2 = new Player("Player 2");
 				Board board = new Board(player1, player2);
 
-				StackPane stack = new StackPane();
-				stack.getChildren().add(new view.BoardView(board));
+				try {
+					StackPane stack = new StackPane();
+					stack.getChildren().add(new view.BoardView(board));
 
-				Scene scene = new Scene(stack, 800, 420);
-				stage.setScene(scene);
-				stage.show();
+					Scene scene = new Scene(stack, 800, 420);
+					stage.setScene(scene);
+					stage.show();
 
-				((Node) event.getSource()).getScene().getWindow().hide();
+					((Node) event.getSource()).getScene().getWindow().hide();
+				}catch (NullPointerException e){
+					//Continue as user cancelled opening window so nothing needs to be done
+				}
 			}
 		});
 

@@ -1,6 +1,9 @@
 package view;
 
 import functionality.Board;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,14 +20,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.util.Optional;
 
 public class BoardView extends BorderPane {
 
-//Remove things not needed now
+
 	private VBox centerPane;
 	private GridPane housesGrid;
 	private Board board;
@@ -34,10 +42,12 @@ public class BoardView extends BorderPane {
 	private Button newGame;
 	private Button forceEnd;
 	private Label gameStatus;
+    private boolean disableEvents;
 
-//affected
+
 	public BoardView(Board board) {
 		super();
+        disableEvents = false;
 
 		setPadding(new Insets(0, 20, 0, 20));
         setStyle("-fx-background-color: #363338");
@@ -85,7 +95,9 @@ public class BoardView extends BorderPane {
 		newGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				gameStatus.setText("");
+                fadeHide(gameStatus);
+                setCenter(centerPane);
+                fadeShow(centerPane);
 				forceEnd.setDisable(false);
 				board.resetBoard();
 				updateBoard();
@@ -166,7 +178,7 @@ public class BoardView extends BorderPane {
 		houses = new HouseView[2][6];
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				houses[i][j] = new HouseView(55*(j+(6*i))+5, 55+(105*i),50);
+				houses[i][j] = new HouseView(55*(j+(6*i))+5, 55+(105*i),50,this);
                 if(i ==1) houses[i][j].setBottom();
 				houses[i][j].addSeeds(board.getHouseCount(i,j));
                 int x = i;
@@ -174,7 +186,7 @@ public class BoardView extends BorderPane {
 				houses[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent arg0) {
-						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x) {
+						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x && !disableEvents) {
 							board.sow(x,y);
 							updateBoard();
 						}
@@ -186,6 +198,10 @@ public class BoardView extends BorderPane {
 		}
 	}
 
+	public void setDisableEvents(boolean value){
+        disableEvents = value;
+    }
+
 	private void updateBoard() {
 		if (board.isGameStarted()) {
 			newGame.setDisable(false);
@@ -194,7 +210,11 @@ public class BoardView extends BorderPane {
 		}
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
-                if(houses[i][j].getSize() != board.getHouseOnBoard(i, j).getCount()) {
+                if((houses[i][j].getSize()+1) == board.getHouseOnBoard(i, j).getCount() ){
+                    disableEvents = true;
+                    houses[i][j].addOneSeed();
+                }else if(houses[i][j].getSize() != board.getHouseOnBoard(i, j).getCount()) {
+                    disableEvents = true;
                     houses[i][j].clear();
                     houses[i][j].addSeeds(board.getHouseOnBoard(i, j).getCount());
                 }
@@ -211,12 +231,13 @@ public class BoardView extends BorderPane {
 				}
 			}
 			checkGameFinished();
-
 		}
-
 	}
 
-	//Probably affected
+	private void killWindow(){
+        this.getScene().getWindow().hide();
+    }
+
 	private void nameDialogue() {
 		// Create the custom dialog.
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -282,7 +303,9 @@ public class BoardView extends BorderPane {
 				board.setPlayer2Name(result.get().getValue());
 			}
 			updatePlayerNames();
-		}
+		}else{
+            killWindow();
+        }
 	}
 
 
@@ -291,11 +314,32 @@ public class BoardView extends BorderPane {
 		playerView2.updatePlayerName(board.getPlayer2Name());
 	}
 
+	private void fadeHide(Node node){
+        FadeTransition fadeNode = new FadeTransition(Duration.millis(500),node);
+        fadeNode.setFromValue(1);
+        fadeNode.setToValue(0);
+        fadeNode.play();
+    }
+
+    private void fadeShow(Node node){
+        FadeTransition fadeNode = new FadeTransition(Duration.millis(500),node);
+        fadeNode.setFromValue(0);
+        fadeNode.setToValue(1);
+        fadeNode.play();
+    }
 
 	private void checkGameFinished() {
+
 		if (board.gameWonCheck()) {
+            fadeHide(centerPane);
 			System.out.println("game over, disable UI");
 			if (board.getPlayer1Score() > board.getPlayer2Score()) {
+                this.setCenter(gameStatus);
+                setAlignment(gameStatus,Pos.CENTER);
+                gameStatus.setText(board.getPlayer1Name() +" wins!");
+                gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);" +
+                        "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+                fadeShow(gameStatus);
 				System.out.println("Game won by " + board.getPlayer1Name());
 				gameStatus.setText("Game won by " + board.getPlayer1Name());
 				this.setBottom(gameStatus);
@@ -303,6 +347,12 @@ public class BoardView extends BorderPane {
 				System.out.println("Game won by " + board.getPlayer2Name());
 				gameStatus.setText("Game won by " + board.getPlayer2Name());
 				this.setBottom(gameStatus);
+                this.setCenter(gameStatus);
+                setAlignment(gameStatus,Pos.CENTER);
+                gameStatus.setText(board.getPlayer2Name() +" wins!");
+                gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);"  +
+                        "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+                fadeShow(gameStatus);
 			}
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
@@ -310,6 +360,13 @@ public class BoardView extends BorderPane {
 			System.out.println("game drawn, disable UI");
 			gameStatus.setText("Game drawn");
 			this.setBottom(gameStatus);
+            fadeHide(centerPane);
+            this.setCenter(gameStatus);
+            setAlignment(gameStatus,Pos.CENTER);
+            gameStatus.setText(board.getPlayer1Name() +" wins!");
+            gameStatus.setStyle("-fx-text-fill: #fff; -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 10, 0, 0, 0);" +
+                    "-fx-font-size: 45pt; -fx-opacity: 0;-fx-font-smoothing-type: gray;");
+            fadeShow(gameStatus);
 			newGame.setDisable(false);
 			forceEnd.setDisable(true);
 		}
