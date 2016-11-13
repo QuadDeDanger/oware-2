@@ -9,15 +9,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class PlayerView extends BorderPane {
+/**
+ * This class groups the components on the board containing information
+ * regarding human and computer players, their score and their turn.
+ *
+ * @author Ajeya Jog
+ * @author Federico Midolo
+ */
 
-	/**
-	 * This class groups the components on the board containing information
-	 * regarding human and computer players, their score and their turn.
-	 *
-	 * @author Ajeya Jog
-	 * @author Federico Midolo
-	 */
+public class PlayerView extends BorderPane {
 
 	private Label nameLabel;
 	private Label scoreLabel;
@@ -127,11 +127,13 @@ public class PlayerView extends BorderPane {
 	 */
 	private void updatePlayerTurn(int turnPlayer) {
 
-		if (turnPlayer == playerNumber) {	// if this player needs to make next move
+		if (turnPlayer == playerNumber) { // if this player needs to make next
+											// move
 			f.play();
 			System.out.println("Turn of player" + playerNumber);
 
-		} else if (turnPlayer != playerNumber) {	// if opponent needs to make next move
+		} else if (turnPlayer != playerNumber) { // if opponent needs to make
+													// next move
 			f.jumpTo(Duration.ZERO); // restarts animation before stopping it
 			f.stop();
 		}
