@@ -4,7 +4,7 @@
 
 | To do                | Met/done?           |
 | -------------------------- |:--------------:| 
-|Turn bug	| Haaris working on it |
+|Move bug	| Ajeya removing the disableEvents check |
 |Code cleanup | TO DO |
 |Commenting/javadoc for the view | TO DO |
 |Report | TO FINISH |
