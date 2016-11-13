@@ -23,6 +23,7 @@ public class PlayerView extends BorderPane {
 	private Label nameLabel;
 	private Label scoreLabel;
 	private Rectangle playerTurn;
+	private FillTransition f;
 
 	private int playerNumber;
 
@@ -33,15 +34,13 @@ public class PlayerView extends BorderPane {
 		makeLabels(turnPlayer, playerName);
 	}
 
-	//Will be turned on once the view can control turns
 	private void toggleTurnIndicator(){
-        FillTransition f = new FillTransition();
+        f = new FillTransition();
         f.setShape(playerTurn);
         f.setDuration(Duration.millis(1000));
         f.setCycleCount(Timeline.INDEFINITE);
         f.setToValue(Color.web("#eb505d"));
         f.setAutoReverse(true);
-        f.play();
     }
 
     private StackPane nameRectangle(){
@@ -78,28 +77,29 @@ public class PlayerView extends BorderPane {
 		playerTurn.setStroke(Color.web("#2a282d"));
         playerTurn.setStrokeWidth(3);
 		playerTurn.setTranslateX(50/2.0);
-        //toggleTurnIndicator();
-		// updatePlayerTurn(turnPlayer);
+		toggleTurnIndicator();
+		updatePlayerTurn(turnPlayer);
 	}
 
 	private void updateScore(int newScore) {
 		scoreLabel.setText("Captured seeds: " + newScore);
 	}
 
-	// private void updatePlayerTurn(int turnPlayer) {
-	/*
-	 * if(turnPlayer == playerNumber && playerNumber == 0) { playerTurn.setText(
-	 * "Your Turn"); setBottom(playerTurn);
-	 *
-	 * } else if(turnPlayer == playerNumber && playerNumber == 1) {
-	 * playerTurn.setText("Your Turn"); setTop(playerTurn); } else {
-	 * playerTurn.setText(""); setBottom(playerTurn); }
-	 */
-	// }
+	private void updatePlayerTurn(int turnPlayer) {
+		
+		if(turnPlayer == playerNumber) { 
+			f.play();
+			System.out.println("Turn of player"+playerNumber);
+			
+		} else if(turnPlayer != playerNumber) {
+			f.jumpTo(Duration.ZERO);
+			f.stop(); 
+		}
+	}
 
 	public void update(int newScore, int turnPlayer) {
 		updateScore(newScore);
-		// updatePlayerTurn(turnPlayer);
+		updatePlayerTurn(turnPlayer);
 	}
 
 	public void updatePlayerName(String name) {
