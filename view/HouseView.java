@@ -24,14 +24,12 @@ public class HouseView extends BorderPane {
     private StackPane stackHouse;
     private StackPane stackLabel;
     private Label label;
-    private BoardView board;
 
-	public HouseView(int x, int y, int r, BoardView b) {
+	public HouseView(int x, int y, int r) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.count = 0;
-        this.board = b;
 
         stackHouse = new StackPane();
         stackLabel = new StackPane();
@@ -68,7 +66,6 @@ public class HouseView extends BorderPane {
         ft.setOnFinished(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 seeds.getChildren().clear();
-                board.setDisableEvents(false);
             }
         });
     }
@@ -88,16 +85,10 @@ public class HouseView extends BorderPane {
         SequentialTransition sq = new SequentialTransition();
         sq.getChildren().addAll(ft,fillT,reverseFillT);
         sq.play();
-        sq.setOnFinished(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                board.setDisableEvents(false);
-            }
-        });
     }
 
 	public void addSeeds(int s){
 		for(int i=0;i<s;i++){
-            board.setDisableEvents(true);
 			SeedView seed = new SeedView((int) (x+(Math.random()*30)),(int) (y+(Math.random()*30)),10);
             seed.setOpacity(0);
             seeds.getChildren().add(seed);
@@ -108,7 +99,6 @@ public class HouseView extends BorderPane {
 	}
 
 	public void addOneSeed(){
-        board.setDisableEvents(true);
         SeedView seed = new SeedView((int) (x+(Math.random()*30)),(int) (y+(Math.random()*30)),10);
         seed.setOpacity(0);
         seeds.getChildren().add(seed);
@@ -118,7 +108,6 @@ public class HouseView extends BorderPane {
     }
 
 	public void removeSeeds(){
-        board.setDisableEvents(true);
         count=0;
         updateLabel();
 		seedFadeOut();
