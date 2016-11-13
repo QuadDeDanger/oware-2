@@ -5,7 +5,7 @@
 | To do                | Met/done?           |
 | -------------------------- |:--------------:| 
 |Report |	A bit left/Will wait for view|
-|Set minimum sizes of frames | Will wait for view|
+|Set minimum sizes of frames | Yes |
 |Code cleanup | Comment out printlns in View|
 |Package cleanup (images) | Yes |
 |Commenting/javadoc ! | All view classes/Will wait for view|
