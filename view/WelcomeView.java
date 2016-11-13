@@ -1,5 +1,6 @@
 package view;
 
+import controller.PlayerModeEventHandler;
 import functionality.AIComputerPlayer;
 import functionality.BasicComputerPlayer;
 import functionality.Board;
@@ -38,90 +39,13 @@ public class WelcomeView extends BorderPane {
 		vbButtons.setPadding(new Insets(0, 20, 10, 20));
 
 		Button singlePlayerButton = new Button("Play single player");
-		singlePlayerButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-
-				Stage stage = new Stage();
-				stage.setTitle("Oware");
-
-				BasicComputerPlayer player1 = new BasicComputerPlayer();
-				Player player2 = new Player("Player");
-				Board board = new Board(player1, player2); // isComputer
-
-				try {
-					StackPane stack = new StackPane();
-					stack.getChildren().add(new BoardView(board));
-
-					Scene scene = new Scene(stack, 800, 450);
-					stage.setMinWidth(800);
-					stage.setMinHeight(500);
-					stage.setScene(scene);
-					stage.show();
-
-					((Node) event.getSource()).getScene().getWindow().hide();
-				}catch (NullPointerException e){
-					//Continue as user cancelled opening window so nothing needs to be done
-				}
-			}
-		});
+		singlePlayerButton.setOnAction(new PlayerModeEventHandler("basic"));
 
 		Button singePlayerAdvancedButton = new Button("Play single player (advanced)");
-		singePlayerAdvancedButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-
-				Stage stage = new Stage();
-				stage.setTitle("Oware");
-
-				AIComputerPlayer player1 = new AIComputerPlayer();
-				Player player2 = new Player("Player");
-				Board board = new Board(player1, player2); // isComputer
-
-				try {
-					StackPane stack = new StackPane();
-					stack.getChildren().add(new view.BoardView(board));
-
-					Scene scene = new Scene(stack, 800, 450);
-					stage.setMinWidth(800);
-					stage.setMinHeight(500);
-					stage.setScene(scene);
-					stage.show();
-
-					((Node) event.getSource()).getScene().getWindow().hide();
-				}catch (NullPointerException e){
-					//Continue as user cancelled opening window so nothing needs to be done
-				}
-			}
-		});
+		singePlayerAdvancedButton.setOnAction(new PlayerModeEventHandler("advanced"));
 
 		Button twoPlayerButton = new Button("Play two-player");
-		twoPlayerButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Stage stage = new Stage();
-				stage.setTitle("Oware");
-
-				Player player1 = new Player("Player 1");
-				Player player2 = new Player("Player 2");
-				Board board = new Board(player1, player2);
-
-				try {
-					StackPane stack = new StackPane();
-					stack.getChildren().add(new view.BoardView(board));
-
-					Scene scene = new Scene(stack, 800, 450);
-					stage.setMinWidth(800);
-					stage.setMinHeight(500);
-					stage.setScene(scene);
-					stage.show();
-
-					((Node) event.getSource()).getScene().getWindow().hide();
-				}catch (NullPointerException e){
-					//Continue as user cancelled opening window so nothing needs to be done
-				}
-			}
-		});
+		twoPlayerButton.setOnAction(new PlayerModeEventHandler("player"));
 
 		singlePlayerButton.setMaxWidth(Double.MAX_VALUE);
 		singlePlayerButton.setPadding(new Insets(15, 0, 15, 0));
