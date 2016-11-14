@@ -473,7 +473,7 @@ public class BoardView extends BorderPane {
 		if(board.checkSelectedHouse() != null) {
 			House house = board.checkSelectedHouse();
 			HouseView houseView = houses[house.getXPos()][house.getYPos()];
-			houseView.setColourOfCircle("#401eff");
+			houseView.setColourOfCircle("#9b040c");
 		}
 	}
 
