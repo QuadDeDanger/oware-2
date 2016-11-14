@@ -533,10 +533,15 @@ public class Board {
 		}
 		player1.clearScoreHouse();
 		player2.clearScoreHouse();
+		player1.setChosenMoveHouse(null);
 		gameStarted = false;
 		gameOverNoMovesPossible = false;
 		setFirstTurn();
 		playingComputer();
+	}
+
+	public House checkSelectedHouse() {
+		return player1.getChosenMoveHouse();
 	}
 
 }

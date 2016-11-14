@@ -44,6 +44,7 @@ public class AIComputerPlayer extends BasicComputerPlayer {
         //if the best house was found then sow
         if(bestHouseToMakeMove != null) {
             getBoard().sow(bestHouseToMakeMove.getXPos(), bestHouseToMakeMove.getYPos());
+            setChosenMoveHouse(getBoard().getHouseOnBoard(bestHouseToMakeMove.getXPos(), bestHouseToMakeMove.getYPos()));
         } else { //make random move
             super.makeMove();
         }

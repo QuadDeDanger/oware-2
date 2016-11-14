@@ -11,6 +11,16 @@ public class Player {
 	private ScoreHouse scoreHouse; // player's scorehouse
 	private boolean isPlayersTurn; // is true when it is player's turn
 
+	public House getChosenMoveHouse() {
+		return chosenMoveHouse;
+	}
+
+	public void setChosenMoveHouse(House chosenMoveHouse) {
+		this.chosenMoveHouse = chosenMoveHouse;
+	}
+
+	private House chosenMoveHouse;
+
 	/**
 	 * Create Player with a name and initialised (empty) score house
 	 *
@@ -20,6 +30,7 @@ public class Player {
 	public Player(String name) {
 		this.name = name;
 		scoreHouse = new ScoreHouse();
+		chosenMoveHouse = null;
 	}
 
 	/**
