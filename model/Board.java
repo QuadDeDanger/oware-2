@@ -540,6 +540,11 @@ public class Board {
 		playingComputer();
 	}
 
+	/**
+	 * Checks if the computer player has made a move, and which House.
+	 *
+	 * @return House that the computer chose to make move on
+	 */
 	public House checkSelectedHouse() {
 		return player1.getChosenMoveHouse();
 	}

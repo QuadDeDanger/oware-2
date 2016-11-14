@@ -22,6 +22,7 @@ import javafx.util.Duration;
  * 
  * @author Ajeya Jog
  * @author Federico Midolo
+ * @author Haaris Memon
  *
  */
 
@@ -211,6 +212,10 @@ public class HouseView extends BorderPane {
 		updateLabel();
 	}
 
+	/**
+	 * Set the colour of background of the house
+	 * @param colour of the background
+	 */
 	public void setColourOfCircle(String colour) {
 		back.setFill(Color.web(colour));
 	}
