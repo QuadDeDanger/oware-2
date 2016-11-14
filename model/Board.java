@@ -533,10 +533,20 @@ public class Board {
 		}
 		player1.clearScoreHouse();
 		player2.clearScoreHouse();
+		player1.setChosenMoveHouse(null);
 		gameStarted = false;
 		gameOverNoMovesPossible = false;
 		setFirstTurn();
 		playingComputer();
+	}
+
+	/**
+	 * Checks if the computer player has made a move, and which House.
+	 *
+	 * @return House that the computer chose to make move on
+	 */
+	public House checkSelectedHouse() {
+		return player1.getChosenMoveHouse();
 	}
 
 }

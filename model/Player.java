@@ -10,6 +10,7 @@ public class Player {
 	private String name; // player's name
 	private ScoreHouse scoreHouse; // player's scorehouse
 	private boolean isPlayersTurn; // is true when it is player's turn
+	private House chosenMoveHouse; //the house that the player makes (only used in computer players)
 
 	/**
 	 * Create Player with a name and initialised (empty) score house
@@ -20,6 +21,7 @@ public class Player {
 	public Player(String name) {
 		this.name = name;
 		scoreHouse = new ScoreHouse();
+		chosenMoveHouse = null;
 	}
 
 	/**
@@ -87,6 +89,22 @@ public class Player {
 	 */
 	public void setIsPlayersTurn(boolean isTurn) {
 		isPlayersTurn = isTurn;
+	}
+
+	/**
+	 * Get the chosen house the computer has made move on
+	 * @return House that computer makes move on
+	 */
+	public House getChosenMoveHouse() {
+		return chosenMoveHouse;
+	}
+
+	/**
+	 * Sets the chosen house the computer has made move on
+	 * @param chosenMoveHouse - House that computer makes move on
+	 */
+	public void setChosenMoveHouse(House chosenMoveHouse) {
+		this.chosenMoveHouse = chosenMoveHouse;
 	}
 
 	/**

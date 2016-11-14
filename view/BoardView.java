@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import model.House;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ import java.util.Optional;
  * @author Ajeya Jog
  * @author Federico Midolo
  * @author Aqib Rashid
+ * @author Haaris Memon
  */
 
 public class BoardView extends BorderPane {
@@ -80,6 +82,8 @@ public class BoardView extends BorderPane {
 
 		if (board.isPlayingComputer()) {
 			updateBoard();
+			//sets the colour of the house that the computer has chosen in its turn
+			showComputerMoveOnBoard();
 		}
 
 		centerPane.getChildren().addAll(playerView1, housesGrid, playerView2);
@@ -111,7 +115,8 @@ public class BoardView extends BorderPane {
 				forceEnd.setDisable(false);
 				board.resetBoard();
 				updateBoard();
-
+				//sets the colour of the house that the computer has chosen in its turn in a new game
+				showComputerMoveOnBoard();
 			}
 		});
 		newGame.setDisable(true);
@@ -233,6 +238,8 @@ public class BoardView extends BorderPane {
 						if (!board.gameOverNoMovesPossible() && board.getPlayerTurn() == x) {
 							board.sow(x, y);
 							updateBoard();
+							//sets the colour of the house that the computer has chosen in its turn
+							showComputerMoveOnBoard();
 						}
 					}
 
@@ -261,6 +268,7 @@ public class BoardView extends BorderPane {
 
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < 6; ++j) {
+				houses[i][j].setColourOfCircle("#eb505d");
 				if ((houses[i][j].getSize() + 1) == board.getHouseOnBoard(i, j).getCount()) {
 					houses[i][j].addOneSeed();
 				} else if (houses[i][j].getSize() != board.getHouseOnBoard(i, j).getCount()) {
@@ -459,5 +467,15 @@ public class BoardView extends BorderPane {
 			forceEnd.setDisable(true);
 		}
 	}
+
+	//sets the colour of the house that the computer has chosen in its turn
+	private void showComputerMoveOnBoard() {
+		if(board.checkSelectedHouse() != null) {
+			House house = board.checkSelectedHouse();
+			HouseView houseView = houses[house.getXPos()][house.getYPos()];
+			houseView.setColourOfCircle("#9b040c");
+		}
+	}
+
 
 }

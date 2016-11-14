@@ -22,6 +22,7 @@ import javafx.util.Duration;
  * 
  * @author Ajeya Jog
  * @author Federico Midolo
+ * @author Haaris Memon
  *
  */
 
@@ -33,6 +34,7 @@ public class HouseView extends BorderPane {
 	private StackPane stackHouse;
 	private StackPane stackLabel;
 	private Label label;
+	private Circle back;
 
 	/**
 	 * Creates a new HouseView object. It stores the relevant information like x
@@ -58,7 +60,7 @@ public class HouseView extends BorderPane {
 		label = new Label("0");
 
 		// create a new circle at pos x, y of radius r
-		Circle back = new Circle(x, y, r, Color.web("#eb505d"));
+		back = new Circle(x, y, r, Color.web("#eb505d"));
 		Rectangle rect = new Rectangle(14, 30, Color.web("#1b1b1c"));
 
 		label.setTextFill(Color.web("#ffffff"));
@@ -208,5 +210,13 @@ public class HouseView extends BorderPane {
 		seeds.getChildren().clear();
 		count = 0;
 		updateLabel();
+	}
+
+	/**
+	 * Set the colour of background of the house
+	 * @param colour of the background
+	 */
+	public void setColourOfCircle(String colour) {
+		back.setFill(Color.web(colour));
 	}
 }

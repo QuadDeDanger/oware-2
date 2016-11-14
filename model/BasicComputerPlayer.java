@@ -93,8 +93,12 @@ public class BasicComputerPlayer extends Player {
 			board.setGameIsOver(true);
 		} else { // otherwise sow
 			board.sow(0, computerMove);
+			//stores the house that the computer has chosen
+			setChosenMoveHouse(board.getHouseOnBoard(0, computerMove));
 		}
 
 	}
+
+
 
 }
